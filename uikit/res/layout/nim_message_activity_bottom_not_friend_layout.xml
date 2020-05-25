@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/messageActivityBottomNotFriendLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="@drawable/nim_message_view_bottom"
+    android:paddingBottom="@dimen/bottom_component_margin_vertical"
+    android:paddingTop="@dimen/bottom_component_margin_vertical"
+    android:orientation="vertical">
+    <TextView
+        android:textSize="16sp"
+        android:background="@drawable/nim_message_input_edittext_box"
+        android:text="当前不是好友，请添加好友"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

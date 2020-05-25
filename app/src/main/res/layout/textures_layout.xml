@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/textures_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="67dp"
+    android:visibility="gone"
+    tools:showIn="@layout/short_video_edit_activity">
+    <HorizontalScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/empty_layout"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/empty_view"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/empty" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/texturesLayout1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+            <ImageView
+                android:id="@+id/textures_iv1"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@mipmap/biaoqing_01" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv2"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_02" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv3"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_03" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv4"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_04" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv5"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_05" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout6"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv6"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_06" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout7"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv7"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_07" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/texturesLayout8"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="#1affffff"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/textures_iv8"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@mipmap/biaoqing_08" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <!-- 显示时间的layout -->
+    <include layout="@layout/showtime_layout" />
+
+</RelativeLayout>

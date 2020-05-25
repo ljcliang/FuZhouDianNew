@@ -1,0 +1,107 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.yiwo.fuzhoudian"
+        minSdkVersion 17
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        signingConfigs {
+            release {
+                storeFile file('D:/project/FuZhouDian/fzd_key.jks')
+                storePassword "123456"
+                keyAlias "key0"
+                keyPassword "123456"
+            }
+            debug {
+                keyAlias 'key0'
+                storeFile file('D:/project/FuZhouDian/fzd_key.jks')
+                keyPassword '123456'
+                storePassword '123456'
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {exclude 'META-INF/rxjava.properties'}
+    sourceSets {
+        main { jniLibs.srcDirs = ['libs'] }
+        main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] }
+    }
+    configurations.all {
+
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+
+            def requested = details.requested
+
+            if (requested.group == 'com.android.support') {
+
+                if (!requested.name.startsWith("multidex")) {
+
+                    details.useVersion '28.0.0' //这里改为你项目使用的版本即可
+
+                }
+
+            }
+
+        }
+
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.jph.takephoto:takephoto_library:4.0.3'
+    implementation 'com.github.donkingliang:ImageSelector:1.6.8'
+    implementation 'top.zibin:Luban:1.1.8'
+    implementation 'com.vise.xiaoyaoyou:xsnow:2.1.9'
+    implementation 'me.yatoooon:screenadaptation:1.1.1'
+    implementation 'com.contrarywind:Android-PickerView:4.1.8'
+    implementation project(path: ':uikit')
+    implementation files('libs/NELivePlayer-1.3.0.jar')
+    implementation files('libs/VideoEffect-3.1.2.jar')
+    implementation files('libs/vcloudUpload.jar')
+    implementation files('libs/Livestreaming_v2.1.0.jar')
+    implementation files('libs/Transcode-2.5.5.jar')
+    implementation files('libs/MiPush_SDK_Client_3_6_12.jar')
+
+    // 小米、华为、魅族、fcm 推送
+    implementation 'com.netease.nimlib:push:5.5.0'
+    implementation 'com.github.Jay-Goo:RangeSeekBar:v1.0.7'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.huawei.android.hms:push:2.6.3.301'
+    implementation 'com.huawei.agconnect:agconnect-core:1.0.0.300'
+    //okhttp + 拦截器
+    api 'com.squareup.okhttp3:okhttp:3.4.1'
+    api 'com.github.bumptech.glide:okhttp3-integration:4.3.1'
+    implementation 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
+    implementation 'com.tencent.sonic:sdk:3.1.0'
+}

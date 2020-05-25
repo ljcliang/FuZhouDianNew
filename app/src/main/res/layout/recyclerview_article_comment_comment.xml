@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/btn_delete"
+        android:textSize="28px"
+        android:textColor="@color/colorPrimary"
+        android:text="删除"
+        android:layout_width="100px"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:background="#E5E5E5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="10px"
+            android:padding="2px"
+            android:id="@+id/activity_article_comment_rv_rv_tv"
+            android:textSize="28px"
+            android:textColor="@color/color_101010"
+            android:text="：互访互访互访互访"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

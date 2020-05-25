@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".pages.ShangPinServiceEditActivity">
+    <RelativeLayout
+        style="@style/TopBarStyle">
+        <TextView
+            style="@style/TopBarStyle_TvTitle"
+            android:text="添加服务" />
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textColor="@color/color_white_ffffff"
+                android:textSize="16sp"
+                android:text="取消"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_save"
+            android:layout_width="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textColor="@color/color_white_ffffff"
+                android:textSize="16sp"
+                android:text="保存"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+       android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/iv_checked"
+        android:id="@+id/ll_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="服务名称："
+                android:textSize="14sp"
+                android:textColor="@color/color_101010"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:maxLength="6"
+                android:background="@null"
+                android:hint="在这里输入名称(6字以内)"
+                android:id="@+id/edt_name"
+                android:textSize="14sp"
+                android:textColor="@color/color_101010"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#d8d8d8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="14sp"
+                android:textColor="@color/color_101010"
+                android:text="服务说明："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:gravity="start"
+                android:background="@null"
+                android:hint="在这里输入说明(200字以内)"
+                android:maxLength="200"
+                android:id="@+id/edt_info"
+                android:textSize="14sp"
+                android:textColor="@color/color_101010"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"/>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#d8d8d8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  AppBar 背景色  --> <!--  app主色调  -->
+    <color name="colorPrimary">#4E94A0</color>
+    <!--  状态栏颜色  -->
+    <color name="colorPrimaryDark">#4E94A0</color>
+    <!--  各个控件被选中时的颜色-->
+    <color name="colorAccent">#4E94A0</color>
+
+    <color name="color_f8f8f8">#f8f8f8</color>
+    <color name="color_d8d8d8">#d8d8d8</color>
+    <color name="color_white_ffffff">#ffffff</color>
+    <color name="color_101010">#101010</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_C69E76">#C69E76</color>
+    <color name="color_f0f0f0">#f0f0f0</color>
+    <color name="color_f3f3f3">#f3f3f3</color>
+    <color name="color_d84c37">#d84c37</color>
+    <color name="color_000000000">#00000000</color>
+<!--    ———————————————————————————————————————— -->
+    <color name="mix_audio_bg">#80000000</color>
+    <color name="color_upload_normal">#999999</color>
+    <color name="color_upload_fail">#f05b60</color>
+    <color name="color_black_CC000000">#CC000000</color>
+    <color name="color_blue_FF2084FF">#FF2084FF</color>
+    <color name="color_black_cc000000">#cc000000</color>
+    <color name="color_white_66ffffff">#66ffffff</color>
+    <color name="color_grey_1affffff">#1AFFFFFF</color>
+    <color name="color_gray_73ffffff">#73ffffff</color>
+    <color name="color_gray_1affffff">#1AFFFFFF</color>
+    <color name="color_chat_text">#ffffff</color>
+    <color name="color_chat_text_name">#d84c37</color>
+    <color name="list_divider">#534f4d</color>
+    <color name="list_select">#238efa</color>
+</resources>

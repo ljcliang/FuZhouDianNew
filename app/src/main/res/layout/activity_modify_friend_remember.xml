@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yiwo.fuzhoudian.pages.ModifyFriendRememberActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_create_friend_remember_rl_top"
+        style="@style/rl_top_bar">
+
+        <TextView
+            style="@style/tv_top_title"
+            android:text="修改友记" />
+
+        <RelativeLayout
+            android:id="@+id/activity_create_friend_remember_rl_back"
+            android:layout_width="100px"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:textColor="@color/color_white_ffffff"
+                android:textSize="30px"
+                android:text="取消"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_create_friend_remember_rl_complete"
+            android:layout_alignParentRight="true"
+            android:layout_width="100px"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:textColor="@color/color_white_ffffff"
+                android:textSize="30px"
+                android:text="保存"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/activity_create_friend_remember_rl_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:id="@+id/activity_create_friend_remember_rl_edit_content"
+                android:layout_width="match_parent"
+                android:layout_height="250px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40px"
+                    android:layout_marginTop="24px"
+                    android:text="具体内容"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/activity_create_friend_remember_tv_content_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="40px"
+                    android:layout_marginTop="24px"
+                    android:text="0/2000"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+
+                <EditText
+                    android:maxLength="2000"
+                    android:gravity="start"
+                    android:background="@null"
+                    android:hint="请输入具体内容"
+                    android:id="@+id/activity_create_friend_remember_tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="170px"
+                    android:layout_below="@+id/activity_create_friend_remember_tv_content_num"
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="40px"
+                    android:layout_marginTop="8px"
+                    android:ellipsize="end"
+                    android:lines="4"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_marginTop="30px"
+                android:layout_marginBottom="18px"
+                android:id="@+id/activity_create_intercalation_rv"
+                android:layout_marginRight="40px"
+                android:layout_marginLeft="40px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12px"
+                android:background="@color/line" />
+            <RelativeLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:id="@+id/activity_create_friend_remember_rl_edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_marginTop="20px"
+                    android:layout_marginBottom="20px"
+                    android:maxLength="300"
+                    android:gravity="start"
+                    android:background="@null"
+                    android:id="@+id/activity_create_friend_remember_tv_title"
+                    android:layout_width="490px"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:ellipsize="end"
+                    android:lines="9"
+                    android:hint="请输入内容"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:layout_alignTop="@+id/activity_create_friend_remember_tv_title"
+                    android:id="@+id/activity_create_friend_remember_tv_title_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="40px"
+                    android:text="0/300"
+                    android:textColor="#9d9d9d"
+                    android:textSize="28px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12px"
+                android:background="@color/line" />
+            <RelativeLayout
+                android:id="@+id/activity_create_friend_remember_rl_activity_city"
+                android:layout_width="match_parent"
+                android:layout_height="88px">
+
+                <ImageView
+                    android:id="@+id/activity_create_friend_remember_iv_activity_city"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:src="@mipmap/createyouji_didian" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12px"
+                    android:layout_toRightOf="@+id/activity_create_friend_remember_iv_activity_city"
+                    android:text="地点"
+                    android:textColor="@color/color_666666"
+                    android:textSize="28px" />
+
+
+                <EditText
+                    android:layout_toLeftOf="@+id/rl_choose_address"
+                    android:layout_alignParentRight="true"
+                    android:hint="请输入或选择地点"
+                    android:gravity="end"
+                    android:background="@null"
+                    android:id="@+id/activity_create_friend_remember_tv_activity_city"
+                    android:layout_width="260px"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="64px"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+                <RelativeLayout
+                    android:id="@+id/rl_choose_address"
+                    android:paddingRight="40px"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/activity_create_friend_remember_iv_city_right"
+                        android:layout_width="14px"
+                        android:layout_height="24px"
+                        android:src="@mipmap/right" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12px"
+                android:background="@color/line" />
+            <RelativeLayout
+                android:id="@+id/activity_create_friend_remember_rl_active_title"
+                android:layout_width="match_parent"
+                android:layout_height="88px">
+
+                <ImageView
+                    android:id="@+id/activity_create_friend_remember_iv_active_title"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:src="@mipmap/createyouji_guanlian" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12px"
+                    android:layout_toRightOf="@+id/activity_create_friend_remember_iv_active_title"
+                    android:text="关联商品"
+                    android:textColor="@color/color_666666"
+                    android:textSize="28px" />
+
+                <ImageView
+                    android:id="@+id/activity_create_friend_remember_iv_active_title_right"
+                    android:layout_width="14px"
+                    android:layout_height="24px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:src="@mipmap/right" />
+
+                <TextView
+                    android:id="@+id/activity_create_friend_remember_tv_active_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10px"
+                    android:layout_toLeftOf="@+id/activity_create_friend_remember_iv_active_title_right"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12px"
+                android:background="@color/line" />
+
+            <RelativeLayout
+                android:id="@+id/activity_create_friend_remember_rl_label"
+                android:layout_width="match_parent"
+                android:layout_height="88px">
+
+                <ImageView
+                    android:id="@+id/activity_create_friend_remember_iv_label"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:src="@mipmap/createyouji_biaoqian" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12px"
+                    android:layout_toRightOf="@+id/activity_create_friend_remember_iv_label"
+                    android:text="标签"
+                    android:textColor="@color/color_666666"
+                    android:textSize="28px" />
+
+                <ImageView
+                    android:id="@+id/activity_create_friend_remember_iv_label_right"
+                    android:layout_width="14px"
+                    android:layout_height="24px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:src="@mipmap/right" />
+
+                <TextView
+                    android:gravity="end"
+                    android:id="@+id/activity_create_friend_remember_tv_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10px"
+                    android:layout_toLeftOf="@+id/activity_create_friend_remember_iv_label_right"
+                    android:hint="选择活动标签"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="28px" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

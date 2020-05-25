@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_white_8dp"
+    android:orientation="vertical"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_title"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/color_101010"
+        android:layout_marginTop="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_below="@+id/tv_title"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_message"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:textSize="13sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/color_101010"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:paddingTop="1dp"
+            android:background="@drawable/bg_d1d1d1_8dp_bottom"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/btn_disagree"
+                android:background="@drawable/bg_white_8dp_left"
+                android:layout_marginRight="0.5dp"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <TextView
+                android:id="@+id/btn_agree"
+                android:background="@drawable/bg_white_8dp_right"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="0.5dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

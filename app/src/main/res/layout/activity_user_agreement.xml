@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yiwo.fuzhoudian.pages.UserAgreementActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_user_agreement_rl_top"
+        style="@style/TopBarStyle">
+
+        <TextView
+            android:id="@+id/ctivity_user_agreement_tv_title"
+            style="@style/TopBarStyle_TvTitle" />
+
+        <RelativeLayout
+            android:id="@+id/activity_user_agreement_rl_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+
+            <ImageView style="@style/TopBarStyle_IvBackWhite" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/activity_user_agreement_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

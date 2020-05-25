@@ -1,0 +1,2 @@
+rootProject.name='FuZhouDian'
+include ':app', ':uikit'
