@@ -13,7 +13,8 @@ public class NetConfig {
     public static String BaseUrl = "https://fzd.91yiwo.com/index.php/";
 //    public static String BaseUrl = "http://www.youlaiyouyue.com/";
 //    public static String BaseUrl = "http://47.92.136.19/index.php/";
-    public static String ShopHomeUrl = "https://fzd.91yiwo.com/action/ac_goods/goodsList?uid="; //后面加 店铺的id
+    public static String ShopHomeUrl = BaseUrl+"action/ac_goods/goodsList?uid="; //后面加 店铺的id
+    public static String GuanLiGoodsUrl = BaseUrl+"action/ac_goods/myGoods?uid="; //后面加 用户id
     //检测版本号 返回 an_version 安卓版本号  an_download下载地址
     public static String checkVersion = "action/ac_public/check_version";
     //登录

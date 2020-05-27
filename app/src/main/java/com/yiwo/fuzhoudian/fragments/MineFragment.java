@@ -24,6 +24,7 @@ import com.yiwo.fuzhoudian.model.UserModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.AllRememberActivity;
 import com.yiwo.fuzhoudian.pages.FaBu_XiuGaiShangPinActivity;
+import com.yiwo.fuzhoudian.pages.GuanZhuActivity;
 import com.yiwo.fuzhoudian.pages.LoginActivity;
 import com.yiwo.fuzhoudian.pages.MessageActivity;
 import com.yiwo.fuzhoudian.pages.MyCommentActivity;
@@ -31,7 +32,10 @@ import com.yiwo.fuzhoudian.pages.MyContactActivity;
 import com.yiwo.fuzhoudian.pages.MyInformationActivity;
 import com.yiwo.fuzhoudian.pages.MyPicturesActivity;
 import com.yiwo.fuzhoudian.pages.MyVideosActivity;
+import com.yiwo.fuzhoudian.pages.PeiSongSettingActivity;
 import com.yiwo.fuzhoudian.pages.SetActivity;
+import com.yiwo.fuzhoudian.pages.ShopLocationActivity;
+import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.wangyiyunshipin.VideoUpLoadListActivity;
 
@@ -52,14 +56,8 @@ public class MineFragment extends BaseFragment {
     CircleImageView mIvHead;
     @BindView(R.id.tv_level)
     TextView mTvLevel;
-    @BindView(R.id.rl_xiaoxi)
-    RelativeLayout mRlXiaoxi;
-    @BindView(R.id.rl_dongtai)
-    RelativeLayout mRlDongtai;
     @BindView(R.id.rl_shangpin)
     RelativeLayout mRlShangpin;
-    @BindView(R.id.rl_guanzhu)
-    RelativeLayout mRlGuanzhu;
     @BindView(R.id.ll_daichuli)
     LinearLayout mLlDaichuli;
     @BindView(R.id.ll_yichuli)
@@ -70,8 +68,6 @@ public class MineFragment extends BaseFragment {
     LinearLayout mLlTuikuan;
     @BindView(R.id.rl_bottom_1)
     RelativeLayout mRlBottom1;
-    @BindView(R.id.rl_bottom_2)
-    RelativeLayout mRlBottom2;
     @BindView(R.id.rl_bottom_3)
     RelativeLayout mRlBottom3;
     @BindView(R.id.rl_bottom_4)
@@ -108,9 +104,9 @@ public class MineFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_xiaoxi, R.id.rl_dongtai, R.id.rl_shangpin, R.id.rl_guanzhu,
+    @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,
             R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan,
-            R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7, R.id.rl_bottom_8})
+            R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7})
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
@@ -127,16 +123,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.tv_level:
                 break;
-            case R.id.rl_xiaoxi:
-                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    intent.setClass(getContext(), MessageActivity.class);
-                    startActivity(intent);
-                } else {
-                    intent.setClass(getContext(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.rl_dongtai:
+            case R.id.rl_wenzhang:
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), AllRememberActivity.class);
                     startActivity(intent);
@@ -145,11 +132,26 @@ public class MineFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
-            case R.id.rl_shangpin:
-                intent.setClass(getContext(), FaBu_XiuGaiShangPinActivity.class);
-                startActivity(intent);
+            case R.id.rl_ShiPin:
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    intent.setClass(getContext(), MyVideosActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
-            case R.id.rl_guanzhu:
+            case R.id.rl_shangpin:
+                GuanLiGoodsWebActivity.start(getContext(),NetConfig.GuanLiGoodsUrl+spImp.getUID());
+                break;
+            case R.id.rl_kehu:
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    intent.setClass(getContext(), GuanZhuActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ll_daichuli:
                 break;
@@ -159,32 +161,25 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ll_tuikuan:
                 break;
-            case R.id.rl_bottom_1://我的相册
+            case R.id.rl_bottom_1://配送设置
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    intent.setClass(getContext(), MyPicturesActivity.class);
+                    intent.setClass(getContext(), PeiSongSettingActivity.class);
                     startActivity(intent);
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case R.id.rl_bottom_2://我的视频
+            case R.id.rl_bottom_2://店铺地址
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    intent.setClass(getContext(), MyVideosActivity.class);
+                    intent.setClass(getContext(), ShopLocationActivity.class);
                     startActivity(intent);
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case R.id.rl_bottom_3://通讯录
-                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    intent.setClass(getContext(), MyContactActivity.class);
-                    startActivity(intent);
-                } else {
-                    intent.setClass(getContext(), LoginActivity.class);
-                    startActivity(intent);
-                }
+            case R.id.rl_bottom_3://销售明细
                 break;
             case R.id.rl_bottom_4://我的评论
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
@@ -195,10 +190,10 @@ public class MineFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
-            case R.id.rl_bottom_5://浏览历史
+            case R.id.rl_bottom_5://店铺相册
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-//                    intent.setClass(getContext(), LookHistoryActivity.class);
-//                    startActivity(intent);
+                    intent.setClass(getContext(), MyPicturesActivity.class);
+                    startActivity(intent);
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -213,15 +208,6 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.rl_bottom_7://设置
-                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    intent.setClass(getContext(), SetActivity.class);
-                    startActivity(intent);
-                } else {
-                    intent.setClass(getContext(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.rl_bottom_8://配送设置
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), SetActivity.class);
                     startActivity(intent);

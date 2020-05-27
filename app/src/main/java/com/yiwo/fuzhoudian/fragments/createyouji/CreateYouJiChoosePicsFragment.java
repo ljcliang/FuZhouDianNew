@@ -30,6 +30,7 @@ import com.yiwo.fuzhoudian.base.BaseFragment;
 import com.yiwo.fuzhoudian.create_friendremember.PicBean;
 import com.yiwo.fuzhoudian.create_friendremember.PicMuluModel;
 import com.yiwo.fuzhoudian.create_friendremember.PicsMuLuAdapter;
+import com.yiwo.fuzhoudian.pages.MyClipImageActivity;
 import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiActivity;
 import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiAddInfoActivity;
 
@@ -114,7 +115,7 @@ public class CreateYouJiChoosePicsFragment extends BaseFragment {
                 }
                 Intent intent = new Intent();
                 intent.putStringArrayListExtra("paths",list);
-                intent.setClass(context, CreateYouJiAddInfoActivity.class);
+                intent.setClass(context, MyClipImageActivity.class);
                 context.startActivity(intent);
                 getActivity().finish();
                 break;
@@ -325,52 +326,63 @@ public class CreateYouJiChoosePicsFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     helper.itemView.callOnClick();
-                    if (item.getChoose_num()<0){
-                        if (choose_num<9){
-                            choose_num ++;
-                            item.setChoose_num(choose_num);
-                            tv_num.setBackgroundResource(R.drawable.bg_oval_red);
-                            tv_num.setText(item.getChoose_num()+"");
-                            map_choose_postion.put(helper.getLayoutPosition(),item.getPath());
-                        }else {
-                            toToast(context,"最多选择9张图片");
-                        }
-                    }else {
-                        if (choose_num>=0){
-                            int last_num = item.getChoose_num();
-                            item.setChoose_num(-1);
-                            tv_num.setBackgroundResource(R.drawable.bg_oval_round_white);
-                            tv_num.setText("");
-                            map_choose_postion.remove(helper.getLayoutPosition());
-                            for (Map.Entry<Integer, String> entry : map_choose_postion.entrySet()) {
-                                int num = data_pic.get(entry.getKey()).getChoose_num();
-                                if (num>=last_num){
-                                    data_pic.get(entry.getKey()).setChoose_num(num-1);
-                                    notifyItemChanged(entry.getKey());
-                                }
-                            }
-                            choose_num --;
-                        }
-                    }
+//                    if (item.getChoose_num()<0){
+//                        if (choose_num<1){
+//                            choose_num ++;
+//                            item.setChoose_num(choose_num);
+//                            tv_num.setBackgroundResource(R.drawable.bg_oval_red);
+//                            tv_num.setText(item.getChoose_num()+"");
+//                            map_choose_postion.put(helper.getLayoutPosition(),item.getPath());
+//                        }else {
+//                            toToast(context,"最多选择1张首图");
+//                        }
+//                    }else {
+//                        if (choose_num>=0){
+//                            int last_num = item.getChoose_num();
+//                            item.setChoose_num(-1);
+//                            tv_num.setBackgroundResource(R.drawable.bg_oval_round_white);
+//                            tv_num.setText("");
+//                            map_choose_postion.remove(helper.getLayoutPosition());
+//                            for (Map.Entry<Integer, String> entry : map_choose_postion.entrySet()) {
+//                                int num = data_pic.get(entry.getKey()).getChoose_num();
+//                                if (num>=last_num){
+//                                    data_pic.get(entry.getKey()).setChoose_num(num-1);
+//                                    notifyItemChanged(entry.getKey());
+//                                }
+//                            }
+//                            choose_num --;
+//                        }
+//                    }
                 }
             });
             helper.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Log.d("ssss",item.getPath());
-//                    mMCropImageView.setImagePath(item.getPath());
-                    if (item.getSelected()){
-//                        item.setSelected(false);
-//                        rl.setBackground(null);
-                    }else {
-                        item.setSelected(true);
-                        notifyItemChanged(helper.getLayoutPosition());
-                        if (last_postion>=0){
-                            data_pic.get(last_postion).setSelected(false);
-                            notifyItemChanged(last_postion);
-                        }
-                        last_postion = helper.getLayoutPosition();
+////                    Log.d("ssss",item.getPath());
+////                    mMCropImageView.setImagePath(item.getPath());
+//                    if (item.getSelected()){
+////                        item.setSelected(false);
+////                        rl.setBackground(null);
+//                    }else {
+//                        item.setSelected(true);
+//                        notifyItemChanged(helper.getLayoutPosition());
+//                        if (last_postion>=0){
+//                            data_pic.get(last_postion).setSelected(false);
+//                            notifyItemChanged(last_postion);
+//                        }
+//                        last_postion = helper.getLayoutPosition();
+//                    }
+                    if (last_postion>=0 && last_postion!=helper.getLayoutPosition()){
+                        data_pic.get(last_postion).setSelected(false);
+                        data_pic.get(last_postion).setChoose_num(-1);
+                        notifyItemChanged(last_postion);
                     }
+                    last_postion = helper.getLayoutPosition();
+                    item.setChoose_num(1);
+                    map_choose_postion.clear();//只选择一张
+                    map_choose_postion.put(helper.getLayoutPosition(),item.getPath());
+                    item.setSelected(true);
+                    notifyItemChanged(helper.getLayoutPosition());
                 }
             });
         }

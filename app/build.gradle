@@ -36,9 +36,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {exclude 'META-INF/rxjava.properties'}
+    packagingOptions { exclude 'META-INF/rxjava.properties' }
     sourceSets {
-        main { jniLibs.srcDirs = ['libs'] }
+        main {
+            jniLibs.srcDirs = ['libs']
+            jni.srcDirs = []    //disable automatic ndk-build
+        }
         main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] }
     }
     configurations.all {
@@ -92,7 +95,6 @@ dependencies {
     implementation files('libs/Livestreaming_v2.1.0.jar')
     implementation files('libs/Transcode-2.5.5.jar')
     implementation files('libs/MiPush_SDK_Client_3_6_12.jar')
-
     // 小米、华为、魅族、fcm 推送
     implementation 'com.netease.nimlib:push:5.5.0'
     implementation 'com.github.Jay-Goo:RangeSeekBar:v1.0.7'
@@ -104,4 +106,10 @@ dependencies {
     api 'com.github.bumptech.glide:okhttp3-integration:4.3.1'
     implementation 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
     implementation 'com.tencent.sonic:sdk:3.1.0'
+    implementation files('libs/BaiduLBS_Android.jar')
+    //百度地图
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }

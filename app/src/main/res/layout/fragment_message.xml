@@ -12,9 +12,10 @@
         >
         <TextView
             style="@style/TopBarStyle_TvTitle"
-            android:text="聊天"
+            android:text="消息"
             />
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_my_friend"
             android:layout_marginRight="5dp"
             android:layout_alignParentRight="true"
@@ -32,6 +33,7 @@
         </RelativeLayout>
     </RelativeLayout>
     <FrameLayout
+        android:background="@color/color_f8f8f8"
         android:id="@+id/fragment_contacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>

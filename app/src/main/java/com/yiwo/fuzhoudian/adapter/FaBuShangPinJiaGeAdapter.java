@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +95,19 @@ public class FaBuShangPinJiaGeAdapter extends RecyclerView.Adapter<FaBuShangPinJ
             @Override
             public void afterTextChanged(Editable s) {
                 data.get(position).setSpec(s.toString());
+            }
+        });
+        holder.edt_guige.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                EditText et=(EditText)view;
+                if (!b) {// 失去焦点
+                    et.setHint(et.getTag().toString());
+                } else {
+                    String hint=et.getHint().toString();
+                    et.setTag(hint);//保存预设字
+                    et.setHint(null);
+                }
             }
         });
         holder.edt_jiage.addTextChangedListener(new TextWatcher() {

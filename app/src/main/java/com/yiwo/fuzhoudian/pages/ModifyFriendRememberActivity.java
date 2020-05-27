@@ -37,9 +37,11 @@ import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.model.CityModel;
 import com.yiwo.fuzhoudian.model.JsonBean;
 import com.yiwo.fuzhoudian.model.ModifyFriendRememberModel;
+import com.yiwo.fuzhoudian.model.NewUserIntercalationPicModel;
 import com.yiwo.fuzhoudian.model.UserLabelModel;
 import com.yiwo.fuzhoudian.network.ActivityConfig;
 import com.yiwo.fuzhoudian.network.NetConfig;
+import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiAddInfoActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.TokenUtils;
 
@@ -98,8 +100,6 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
     private LabelChooseOneAdapter labelAdapter;
     private PopupWindow popupWindow;
 
-    private static final int REQUEST_CODE = 0x00000011;
-
     private String[] itemId;
     private String[] itemName;
     private String yourChoiceId = "";
@@ -135,7 +135,9 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
     private NewIntercalationAdapter adapter;
     private List<ModifyFriendRememberModel.ObjBean.FmpicBean> mList;
     private List<ModifyFriendRememberModel.ObjBean.FmpicBean> mOldList;
+    private static final int REQUEST_CODE = 0x00000011;
     private static final int REQUEST_CODE1 = 0x00000012;
+    private static final int REQUEST_CODE2 = 0x00000013;//更换首图
     private static final int REQUEST_CODE_GET_CITY = 1;
     private static final int REQUEST_CODE_SUO_SHU_HUO_DONG = 2;
     private String deleteid = "";
@@ -229,11 +231,23 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
                                 }, new NewIntercalationAdapter.OnDeleteImgListener() {
                                     @Override
                                     public void onDeleteImg(int i) {
-                                        ModifyFriendRememberModel.ObjBean.FmpicBean bean = mList.remove(i);
-                                        if (!TextUtils.isEmpty(bean.getId())) {
-                                            deleteid = deleteid + bean.getId() + ",";
+                                        if (i == 0){//更换首图
+                                            //限数量的多选(比喻最多9张)
+                                            ImageSelector.builder()
+                                                    .useCamera(true) // 设置是否使用拍照
+                                                    .setSingle(false)  //设置是否单选
+                                                    .setCrop(true) //如果为首图则设置剪切正方形，设置为true 只可选择一张图片
+                                                    .setMaxSelectCount(1) // 图片的最大选择数量，小于等于0时，不限数量。
+//                        .setSelected(selected) // 把已选的图片传入默认选中。
+                                                    .start(ModifyFriendRememberActivity.this, REQUEST_CODE2); // 打开相册
+
+                                        }else {
+                                            ModifyFriendRememberModel.ObjBean.FmpicBean bean = mList.remove(i);
+                                            if (!TextUtils.isEmpty(bean.getId())) {
+                                                deleteid = deleteid + bean.getId() + ",";
+                                            }
+                                            adapter.notifyDataSetChanged();
                                         }
-                                        adapter.notifyDataSetChanged();
                                     }
                                 }, new NewIntercalationAdapter.OnAddDescribeListener() {
                                     @Override
@@ -243,27 +257,27 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
                                 }, new NewIntercalationAdapter.OnSetFirstPicListienner() {
                                     @Override
                                     public void onSetFirst(final int postion) {
-                                        final AlertDialog.Builder builder = new AlertDialog.Builder(ModifyFriendRememberActivity.this);
-                                        builder.setMessage("设置为首图？")
-                                                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        for (int i = 0; i<mList.size();i++){
-                                                            if (i == postion){
-                                                                mList.get(i).setType("1");
-                                                            }else {
-                                                                mList.get(i).setType("0");
-                                                            }
-                                                        }
-                                                        adapter.notifyDataSetChanged();
-                                                    }
-                                                })
-                                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
+//                                        final AlertDialog.Builder builder = new AlertDialog.Builder(ModifyFriendRememberActivity.this);
+//                                        builder.setMessage("设置为首图？")
+//                                                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        for (int i = 0; i<mList.size();i++){
+//                                                            if (i == postion){
+//                                                                mList.get(i).setType("1");
+//                                                            }else {
+//                                                                mList.get(i).setType("0");
+//                                                            }
+//                                                        }
+//                                                        adapter.notifyDataSetChanged();
+//                                                    }
+//                                                })
+//                                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        dialog.dismiss();
+//                                                    }
+//                                                }).show();
                                     }
                                 });
 
@@ -333,6 +347,22 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
             }
             adapter.notifyDataSetChanged();
         }
+        if (requestCode == REQUEST_CODE2 && data != null) {
+            //获取选择器返回的数据
+            List<String> pic = data.getStringArrayListExtra(ImageSelector.SELECT_RESULT);
+            Log.i("444", pic.get(0));
+            ModifyFriendRememberModel.ObjBean.FmpicBean bean = mList.remove(0);
+            if (!TextUtils.isEmpty(bean.getId())) {
+                deleteid = deleteid + bean.getId() + ",";
+            }
+            mList.add(0,new ModifyFriendRememberModel.ObjBean.FmpicBean("","",pic.get(0)));
+            if ((!etTitle.getText().toString().equals(""))&&mList.size()>0){
+                rlComplete.setVisibility(View.VISIBLE);
+            }else {
+                rlComplete.setVisibility(View.GONE);
+            }
+            adapter.notifyDataSetChanged();
+        }
         if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
 //            GetFriendActiveListModel.ObjBean bean = (GetFriendActiveListModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
 //            yourChoiceActiveName = bean.getPftitle();
@@ -372,9 +402,10 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
             case R.id.activity_create_friend_remember_rl_complete:
                 if(TextUtils.isEmpty(etTitle.getText().toString())){
                     Toast.makeText(ModifyFriendRememberActivity.this, "请填写标题", Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(tvLabel.getText().toString())){
-                    Toast.makeText(ModifyFriendRememberActivity.this, "请选择标签", Toast.LENGTH_SHORT).show();
                 }
+//                else if (TextUtils.isEmpty(tvLabel.getText().toString())){
+//                    Toast.makeText(ModifyFriendRememberActivity.this, "请选择标签", Toast.LENGTH_SHORT).show();
+//                }
                 //20190225 限制友记上传图片数量 1
                 else if(mList.size()<1){
                     Toast.makeText(ModifyFriendRememberActivity.this, "请至少上传1张照片", Toast.LENGTH_SHORT).show();

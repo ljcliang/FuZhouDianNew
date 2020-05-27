@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pages.webpages.GuanLiGoodsWebActivity">
+    <RelativeLayout style="@style/TopBarStyle">
+
+        <RelativeLayout
+            android:id="@+id/rl_return"
+            style="@style/TopBarStyle_RlBack">
+
+            <ImageView style="@style/TopBarStyle_IvBackWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/titleTv"
+            style="@style/TopBarStyle_TvTitle"
+            android:text="管理商品" />
+        <RelativeLayout
+            android:id="@+id/rl_fabu"
+            style="@style/TopBarStyle_RlRight">
+            <TextView
+                style="@style/TopBarStyle_TVRight"
+                android:text="添加"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+</LinearLayout>

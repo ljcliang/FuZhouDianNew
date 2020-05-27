@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
+            android:lines="1"
             android:paddingRight="2dp"
             android:paddingLeft="2dp"
             android:id="@+id/edt_jiage"
@@ -44,48 +45,24 @@
         <TextView
             android:layout_gravity="center_vertical"
             android:textSize="15sp"
-            android:text="元/ 规格"
+            android:text="元/"
             android:textColor="@color/color_black_333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
+            android:maxLines="1"
             android:paddingRight="2dp"
             android:paddingLeft="2dp"
             android:id="@+id/edt_guige"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:hint=""
+            android:hint="在这输入属性规格"
             android:textColor="@color/color_101010"
             android:textColorHint="@color/color_101010"
-            android:layout_gravity="right"
             android:background="@drawable/bg_d8d8d8_0px"
             android:textSize="15sp"
-            android:gravity="right"
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="center_vertical"
-            android:textSize="15sp"
-            android:text="库存"
-            android:textColor="@color/color_black_333333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:paddingRight="2dp"
-            android:paddingLeft="2dp"
-            android:id="@+id/edt_kucun"
-            android:layout_width="57dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-
-            android:background="@drawable/bg_d8d8d8_0px"
-            android:gravity="right"
-            android:inputType="number"
-            android:textColor="@color/color_101010"
-            android:textSize="15sp" />
     </LinearLayout>
     <RelativeLayout
         android:layout_marginTop="8dp"
@@ -104,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
+                android:lines="1"
                 android:paddingRight="2dp"
                 android:paddingLeft="2dp"
                 android:id="@+id/edt_yuan_jiage"
@@ -124,6 +102,30 @@
                 android:textColor="@color/color_black_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="15sp"
+                android:text="库存"
+                android:textColor="@color/color_black_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:lines="1"
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
+                android:id="@+id/edt_kucun"
+                android:layout_width="57dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+
+                android:background="@drawable/bg_d8d8d8_0px"
+                android:gravity="right"
+                android:inputType="number"
+                android:textColor="@color/color_101010"
+                android:textSize="15sp" />
         </LinearLayout>
         <ImageView
             android:layout_alignParentRight="true"

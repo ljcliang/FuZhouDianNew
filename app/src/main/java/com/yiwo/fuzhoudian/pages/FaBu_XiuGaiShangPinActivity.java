@@ -30,6 +30,7 @@ import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.custom.TitleMessageOkDialog;
 import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
+import com.yiwo.fuzhoudian.model.ModifyFriendRememberModel;
 import com.yiwo.fuzhoudian.model.UpLoadShangPinImgIntercalationPicModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.adapter.FabuShangpinIntercalationPicsAdapter;
@@ -113,7 +114,8 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
 
     private List<UpLoadShangPinImgIntercalationPicModel> mList;
     private FabuShangpinIntercalationPicsAdapter adapter;
-    private static final int REQUEST_CODE1 = 0x00000012;
+    private static final int REQUEST_CODE1 = 0x00000012;//添加图片
+    private static final int REQUEST_CODE2 = 0x00000013;//更换首图
     private static final int REQUEST_CODE_ADD_SERVICE = 2;
     private SpImp spImp;
     private Dialog dialog;
@@ -126,6 +128,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
     private String serviceTiShi = "";
     private String labelTiShi = "";
     private String guigeTiShi = "";
+    private List<UpLoadShangPinImgIntercalationPicModel> imagesFromNet = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -251,6 +254,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                 ImageSelector.builder()
                         .useCamera(true) // 设置是否使用拍照
                         .setSingle(false)  //设置是否单选
+                        .setCrop(mList.size() == 0) //如果为首图则设置剪切正方形，设置为true 只可选择一张图片
                         .setMaxSelectCount(9 - mList.size()) // 图片的最大选择数量，小于等于0时，不限数量。
 //                        .setSelected(selected) // 把已选的图片传入默认选中。
                         .start(FaBu_XiuGaiShangPinActivity.this, REQUEST_CODE1); // 打开相册
@@ -258,15 +262,27 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         }, new FabuShangpinIntercalationPicsAdapter.OnDeleteImgListener() {
             @Override
             public void onDeleteImg(int i) {
-                if (!mList.get(i).getPicId().equals("-1")){
-                    if (!TextUtils.isEmpty(delImgID)) {
-                        delImgID = delImgID +  "," + mList.get(i).getPicId();
-                    }else {
-                        delImgID = mList.get(i).getPicId();
+                if (i == 0){//更换首图
+                    //限数量的多选(比喻最多9张)
+                    ImageSelector.builder()
+                            .useCamera(true) // 设置是否使用拍照
+                            .setSingle(false)  //设置是否单选
+                            .setCrop(true) //如果为首图则设置剪切正方形，设置为true 只可选择一张图片
+                            .setMaxSelectCount(1) // 图片的最大选择数量，小于等于0时，不限数量。
+//                        .setSelected(selected) // 把已选的图片传入默认选中。
+                            .start(FaBu_XiuGaiShangPinActivity.this, REQUEST_CODE2); // 打开相册
+
+                }else {
+                    if (!mList.get(i).getPicId().equals("-1")){
+                        if (!TextUtils.isEmpty(delImgID)) {
+                            delImgID = delImgID +  "," + mList.get(i).getPicId();
+                        }else {
+                            delImgID = mList.get(i).getPicId();
+                        }
                     }
+                    mList.remove(i);
+                    adapter.notifyDataSetChanged();
                 }
-                mList.remove(i);
-                adapter.notifyDataSetChanged();
             }
         }, new FabuShangpinIntercalationPicsAdapter.OnAddDescribeListener() {
             @Override
@@ -277,29 +293,29 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         }, new FabuShangpinIntercalationPicsAdapter.OnSetFirstPicListienner() {
             @Override
             public void onSetFirst(final int postion) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(FaBu_XiuGaiShangPinActivity.this);
-                builder.setMessage("设置为首图？")
-                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (int i = 0; i<mList.size();i++){
-                                    if (i == postion){
-//                                       NewUserIntercalationPicModel model = mList.get(postion);
-//                                       model.setFirstPic(true);
-                                        mList.get(i).setFirstPic(true);
-                                    }else {
-                                        mList.get(i).setFirstPic(false);
-                                    }
-                                }
-                                adapter.notifyDataSetChanged();
-                            }
-                        })
-                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(FaBu_XiuGaiShangPinActivity.this);
+//                builder.setMessage("设置为首图？")
+//                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                for (int i = 0; i<mList.size();i++){
+//                                    if (i == postion){
+////                                       NewUserIntercalationPicModel model = mList.get(postion);
+////                                       model.setFirstPic(true);
+//                                        mList.get(i).setFirstPic(true);
+//                                    }else {
+//                                        mList.get(i).setFirstPic(false);
+//                                    }
+//                                }
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).show();
             }
         });
     }
@@ -567,6 +583,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         if (!isFaBu){//编辑情况下去除网络获取的图片
             for (int i = 0 ;i<mList.size();i++){
                 if (!mList.get(i).getPicId().equals("-1")){//本地选择的图片没有ID，有ID的remove
+                    imagesFromNet.add(mList.get(i));
                     mList.remove(i);
                 }
             }
@@ -700,10 +717,11 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
 
                                 @Override
                                 public void onFail(int errCode, String errMsg) {
-                                    Log.e("上传返回", errMsg);
                                     WeiboDialogUtils.closeDialog(dialog);
+                                    Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "上传失败:"+errMsg, Toast.LENGTH_SHORT).show();
                                 }
                             });
+                    mList.addAll(imagesFromNet);
                 }
             }
 
@@ -732,6 +750,21 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                 Log.i("333", pic.get(i));
                 mList.add(new UpLoadShangPinImgIntercalationPicModel(pic.get(i), ""));
             }
+            adapter.notifyDataSetChanged();
+        }
+        if (requestCode == REQUEST_CODE2 && data != null) {
+            //获取选择器返回的数据
+            List<String> pic = data.getStringArrayListExtra(ImageSelector.SELECT_RESULT);
+                Log.i("444", pic.get(0));
+            if (!mList.get(0).getPicId().equals("-1")){
+                if (!TextUtils.isEmpty(delImgID)) {
+                    delImgID = delImgID +  "," + mList.get(0).getPicId();
+                }else {
+                    delImgID = mList.get(0).getPicId();
+                }
+            }
+                mList.remove(0);
+                mList.add(0,new UpLoadShangPinImgIntercalationPicModel(pic.get(0), ""));
             adapter.notifyDataSetChanged();
         }
         if (requestCode == REQUEST_CODE_ADD_SERVICE && resultCode == ShangPinServiceEditActivity.ADD_SUCCESS_RESULT_CODE && data!=null){

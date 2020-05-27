@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:background="@color/color_white_ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="130px">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_icon_user"
+            android:src="@mipmap/my_head"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:layout_width="90px"
+            android:layout_height="90px" />
+
+        <RelativeLayout
+            android:layout_toRightOf="@+id/iv_icon_user"
+            android:layout_alignTop="@+id/iv_icon_user"
+            android:layout_width="match_parent"
+            android:layout_height="90px">
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20px"
+                android:id="@+id/tv_user_name"
+                android:textColor="@color/color_black_333333"
+                android:textSize="30px"
+                android:textStyle="bold"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="我是你们的学霸姐"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+    
+    <View
+        android:background="@color/color_f8f8f8"
+        android:layout_width="match_parent"
+        android:layout_height="10px"/>
+
+</LinearLayout>

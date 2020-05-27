@@ -137,7 +137,6 @@ public class AllOrderFragment extends BaseFragment {
                         .addParam("uid", uid)
                         .addParam("status", status)
                         .request(new ACallback<String>() {
-//                            啊啊所大所多
                             @Override
                             public void onSuccess(String data) {
                                 try {

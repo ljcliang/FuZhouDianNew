@@ -87,6 +87,8 @@ public class MyInformationActivity extends TakePhotoActivity {
     RelativeLayout rlSignTeam;
     @BindView(R.id.activity_my_information_et_username)
     EditText etUsername;
+    @BindView(R.id.activity_my_information_et_tel)
+    EditText etTel;
     @BindView(R.id.activity_my_information_et_sign)
     EditText etSign;
     @BindView(R.id.activity_my_information_tv_real_name)

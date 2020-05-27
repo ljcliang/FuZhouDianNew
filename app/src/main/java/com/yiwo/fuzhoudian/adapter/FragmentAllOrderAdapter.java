@@ -26,6 +26,7 @@ import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.fragments.webfragment.HomeDianPuGuanLiFragment;
 import com.yiwo.fuzhoudian.model.AllOrderFragmentModel;
 import com.yiwo.fuzhoudian.model.SellerOrderModel;
+import com.yiwo.fuzhoudian.pages.webpages.OrderInfoWebActivity;
 
 import java.util.List;
 
@@ -117,11 +118,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.rlDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(context, DetailsToBePaidActivity.class);
-//                intent.putExtra("order_id", data.get(position).getOID());
-//                context.startActivity(intent);
-//                activity.finish();
+                OrderInfoWebActivity.start(context,data.get(position).getOrderMes());
             }
         });
         holder.tv_btn_chudan.setOnClickListener(new View.OnClickListener() {
