@@ -2,14 +2,33 @@ package com.yiwo.fuzhoudian.pages;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.yiwo.fuzhoudian.R;
 
 import butterknife.BindView;
@@ -19,39 +38,58 @@ import butterknife.OnClick;
 public class ShopLocationActivity extends AppCompatActivity {
 
     public LocationClient mLocationClient = null;
-    @BindView(R.id.tv)
-    TextView mTv;
+    @BindView(R.id.edt_weizhi_info)
+    EditText edtWeiZhiInfo;
     @BindView(R.id.btn)
     Button mBtn;
+    @BindView(R.id.bmapView)
+    MapView mBmapView;
+    BaiduMap mBaiduMap;
+    @BindView(R.id.rl_set_return)
+    RelativeLayout mRlSetReturn;
+    @BindView(R.id.rl_save)
+    RelativeLayout mRlSave;
     private MyLocationListener myListener = new MyLocationListener();
     LocationClientOption option = new LocationClientOption();
     //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口
 //原有BDLocationListener接口暂时同步保留。具体介绍请参考后文第四步的说明
+    GeoCoder mCoder = GeoCoder.newInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_location);
         ButterKnife.bind(this);
-
+        mBaiduMap = mBmapView.getMap();
+//普通地图 ,mBaiduMap是地图控制器对象
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        mBaiduMap.setMyLocationEnabled(true);
+        mBaiduMap.setOnMapClickListener(listener);
         mLocationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
         //注册监听函数
         initOption();
+        mLocationClient.start();
     }
 
-    @OnClick(R.id.btn)
+    @OnClick({R.id.btn, R.id.rl_set_return, R.id.rl_save})
     public void onClick(View v) {
         switch (v.getId()) {
             default:
                 break;
             case R.id.btn:
-                mTv.setText("获取中。。。");
                 mLocationClient.start();
+                break;
+            case R.id.rl_set_return:
+                onBackPressed();
+                break;
+            case R.id.rl_save:
                 break;
         }
     }
-    private void initOption(){
+
+    private void initOption() {
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，设置定位模式，默认高精度
         //LocationMode.Hight_Accuracy：高精度；
@@ -84,7 +122,7 @@ public class ShopLocationActivity extends AppCompatActivity {
         option.SetIgnoreCacheException(false);
         //可选，设置是否收集Crash信息，默认收集，即参数为false
 
-        option.setWifiCacheTimeOut(5*60*1000);
+        option.setWifiCacheTimeOut(5 * 60 * 1000);
         //可选，V7.2版本新增能力
         //如果设置了该接口，首次启动定位时，会先判断当前Wi-Fi是否超出有效期，若超出有效期，会先重新扫描Wi-Fi，然后定位
 
@@ -105,6 +143,29 @@ public class ShopLocationActivity extends AppCompatActivity {
         //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
         //更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
     }
+
+    BaiduMap.OnMapClickListener listener = new BaiduMap.OnMapClickListener() {
+        /**
+         * 地图单击事件回调函数
+         *
+         * @param point 点击的地理坐标
+         */
+        @Override
+        public void onMapClick(LatLng point) {
+            handlePoint(point);
+        }
+
+        /**
+         * 地图内 Poi 单击事件回调函数
+         *
+         * @param mapPoi 点击的 poi 信息
+         */
+        @Override
+        public void onMapPoiClick(MapPoi mapPoi) {
+            handlePoint(mapPoi.getPosition());
+        }
+    };
+
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -123,16 +184,106 @@ public class ShopLocationActivity extends AppCompatActivity {
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
 
             String addr = location.getAddrStr();    //获取详细地址信息
-            String country  = location.getCountry();    //获取国家
+            String country = location.getCountry();    //获取国家
             String province = location.getProvince();    //获取省份
             String city = location.getCity();    //获取城市
             String district = location.getDistrict();    //获取区县
             String street = location.getStreet();    //获取街道信息
             String adcode = location.getAdCode();    //获取adcode
             String town = location.getTown();    //获取乡镇信息
-            mTv.setText("经度："+latitude+"\r\n纬度："+longitude+"\r\n定位精度:"+radius+"\r\n坐标类型:"+coorType+"\r\n位置描述："+location.getLocationDescribe()+
-                    "\r\n"+addr+"/"+country+"/"+province+"/"+city+"/"+district+"/"+street+"/"+adcode+"/"+town+"/");
+//            edtWeiZhiInfo.setText("经度：" + latitude + "\r\n纬度：" + longitude + "\r\n定位精度:" + radius + "\r\n坐标类型:" + coorType + "\r\n位置描述：" + location.getLocationDescribe() +
+//                    "\r\n" + addr + "/" + country + "/" + province + "/" + city + "/" + district + "/" + street + "/" + adcode + "/" + town + "/");
+            if (location == null || mBmapView == null) {
+                return;
+            }
+//            MyLocationData locData = new MyLocationData.Builder()
+//                    .accuracy(location.getRadius())
+//                    // 此处设置开发者获取到的方向信息，顺时针0-360
+//                    .direction(location.getDirection()).latitude(location.getLatitude())
+//                    .longitude(location.getLongitude()).build();
+//            mBaiduMap.setMyLocationData(locData);
+            LatLng cenpt = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+// 定义地图状态zoom表示缩放级别3-18
+            MapStatus mMapStatus = new MapStatus.Builder().target(cenpt)
+                    .zoom(18.0f).build();
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
+                    .newMapStatus(mMapStatus);
+//            MapStatus.Builder builder = new MapStatus.Builder();
+//            builder.zoom(18.0f);
+            mBaiduMap.setMapStatus(mMapStatusUpdate);
             mLocationClient.stop();
         }
+    }
+
+
+    /**
+     * 处理点击获取到的坐标点
+     *
+     * @param point
+     */
+    private void handlePoint(LatLng point) {
+        //定义Maker坐标点
+        //构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.dingwei_datouzhen);
+        //构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+//在地图上添加Marker，并显示
+        mBaiduMap.clear();
+        mBaiduMap.addOverlay(option);
+        mCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+                if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有找到检索结果
+                    return;
+                } else {
+                    //详细地址
+                    String address = reverseGeoCodeResult.getAddress();
+                    //行政区号
+                    int adCode = reverseGeoCodeResult.getCityCode();
+                    Log.d("infoinfo", reverseGeoCodeResult.getAddress() + "\r\n门牌号：" + reverseGeoCodeResult.getAddressDetail().streetNumber);
+                    if (reverseGeoCodeResult.getPoiRegionsInfoList() != null) {
+                        for (ReverseGeoCodeResult.PoiRegionsInfo info : reverseGeoCodeResult.getPoiRegionsInfoList()) {
+                            Log.d("infoinfo附近地址", info.regionName + "//" + info.directionDesc);
+                        }
+                    }
+                    edtWeiZhiInfo.setText(reverseGeoCodeResult.getAddress() + "");
+                    edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
+                }
+            }
+        });
+        mCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(point)
+                // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                .radius(500));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mBmapView.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBaiduMap.setMyLocationEnabled(false);
+        mBmapView.onDestroy();
+        mCoder.destroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mBmapView.onPause();
     }
 }

@@ -5,15 +5,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".pages.ShopLocationActivity">
-    <TextView
-        android:layout_centerInParent="true"
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_topbar"
+        style="@style/TopBarStyle">
+
+        <RelativeLayout
+            android:id="@+id/rl_set_return"
+            style="@style/TopBarStyle_RlBack">
+
+            <ImageView style="@style/TopBarStyle_IvBackWhite" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/titleTv"
+            style="@style/TopBarStyle_TvTitle"
+            android:text="选择店铺位置" />
+        <RelativeLayout
+            android:id="@+id/rl_save"
+            style="@style/TopBarStyle_RlRight">
+            <TextView
+                android:layout_centerInParent="true"
+                android:textColor="@color/color_white_ffffff"
+                android:text="保存"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
     <Button
         android:id="@+id/btn"
-        android:text="定位"
+        android:text="当前位置"
         android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/ll_weizhi_info"
+        android:background="@color/color_f8f8f8"
+        android:layout_below="@+id/rl_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:textSize="14sp"
+            android:textColor="@color/color_101010"
+            android:text="店铺位置:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:padding="2dp"
+            android:inputType="text"
+            android:id="@+id/edt_weizhi_info"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/bg_e8e8e8_border_3dp"
+            android:lines="1"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <com.baidu.mapapi.map.MapView
+        android:layout_below="@+id/ll_weizhi_info"
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true" />
 </RelativeLayout>
