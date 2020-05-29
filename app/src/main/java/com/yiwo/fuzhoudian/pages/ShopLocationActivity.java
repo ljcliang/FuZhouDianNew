@@ -1,7 +1,10 @@
 package com.yiwo.fuzhoudian.pages;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,13 +32,24 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.google.gson.Gson;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.R;
+import com.yiwo.fuzhoudian.base.BaseActivity;
+import com.yiwo.fuzhoudian.model.ShopLocationInfoModel;
+import com.yiwo.fuzhoudian.network.NetConfig;
+import com.yiwo.fuzhoudian.sp.SpImp;
+import com.yiwo.fuzhoudian.utils.TokenUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopLocationActivity extends AppCompatActivity {
+public class ShopLocationActivity extends BaseActivity {
 
     public LocationClient mLocationClient = null;
     @BindView(R.id.edt_weizhi_info)
@@ -55,11 +69,16 @@ public class ShopLocationActivity extends AppCompatActivity {
 //原有BDLocationListener接口暂时同步保留。具体介绍请参考后文第四步的说明
     GeoCoder mCoder = GeoCoder.newInstance();
 
+    String shopLat = "";
+    String shopLng = "";
+    String address = "";
+    SpImp spImp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_location);
         ButterKnife.bind(this);
+        spImp = new SpImp(this);
         mBaiduMap = mBmapView.getMap();
 //普通地图 ,mBaiduMap是地图控制器对象
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -71,6 +90,36 @@ public class ShopLocationActivity extends AppCompatActivity {
         //注册监听函数
         initOption();
         mLocationClient.start();
+        initData();
+    }
+
+    private void initData() {
+        ViseHttp.POST(NetConfig.getUserAddressLatLng)
+                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl+NetConfig.getUserAddressLatLng))
+                .addParam("uid",spImp.getUID())
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            Gson gson = new Gson();
+                            ShopLocationInfoModel model = gson.fromJson(data, ShopLocationInfoModel.class);
+                            shopLat = model.getObj().getShopLat();
+                            shopLng = model.getObj().getShopLng();
+                            address = model.getObj().getAddress();
+                            edtWeiZhiInfo.setText(address);
+                            edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
     }
 
     @OnClick({R.id.btn, R.id.rl_set_return, R.id.rl_save})
@@ -85,8 +134,49 @@ public class ShopLocationActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.rl_save:
+                save();
                 break;
         }
+    }
+
+    private void save() {
+        if (TextUtils.isEmpty(shopLat)||TextUtils.isEmpty(shopLng)||TextUtils.isEmpty(address)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("请在地图上选择店铺位置")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).show();
+            return;
+        }
+        ViseHttp.POST(NetConfig.userAddressLatLng)
+                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl+NetConfig.userAddressLatLng))
+                .addParam("uid",spImp.getUID())
+                .addParam("shopLat",shopLat)
+                .addParam("shopLng",shopLng)
+                .addParam("address",address)
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 200){
+                                toToast(ShopLocationActivity.this,"保存成功");
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            toToast(ShopLocationActivity.this,"保存失败");
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        toToast(ShopLocationActivity.this,"保存失败");
+                    }
+                });
     }
 
     private void initOption() {
@@ -222,7 +312,7 @@ public class ShopLocationActivity extends AppCompatActivity {
      *
      * @param point
      */
-    private void handlePoint(LatLng point) {
+    private void handlePoint(final LatLng point) {
         //定义Maker坐标点
         //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
@@ -259,6 +349,9 @@ public class ShopLocationActivity extends AppCompatActivity {
                     edtWeiZhiInfo.setText(reverseGeoCodeResult.getAddress() + "");
                     edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
                 }
+                shopLat = point.latitude+"";
+                shopLng = point.longitude+"";
+                address = edtWeiZhiInfo.getText().toString();
             }
         });
         mCoder.reverseGeoCode(new ReverseGeoCodeOption()

@@ -107,6 +107,15 @@ dependencies {
     implementation 'me.zhouzhuo.zzletterssidebar:zz-letters-sidebar:1.0.2'
     implementation 'com.tencent.sonic:sdk:3.1.0'
     implementation files('libs/BaiduLBS_Android.jar')
+    //必选，可兼容市面上绝大部分设备
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.7'
+    //可选，里面包含StandardVideoController的实现
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.7'
+    //可选，用于兼容一些其他的CPU架构
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv5:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-arm64:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.7'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86_64:2.5.7'
     //百度地图
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

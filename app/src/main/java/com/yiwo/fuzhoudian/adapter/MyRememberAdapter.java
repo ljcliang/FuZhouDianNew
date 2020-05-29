@@ -25,6 +25,7 @@ import com.yiwo.fuzhoudian.model.UserRememberModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 //import com.yiwo.fuzhoudian.pages.EditorFriendRememberActivity;
 import com.yiwo.fuzhoudian.pages.ModifyFriendRememberActivity;
+import com.yiwo.fuzhoudian.pages.webpages.DetailsOfFriendsWebActivity;
 //import com.yiwo.fuzhoudian.pages.TeamIntercalationActivity;
 //import com.yiwo.fuzhoudian.webpages.DetailsOfFriendsWebActivity;
 
@@ -70,10 +71,10 @@ public class MyRememberAdapter extends RecyclerView.Adapter<MyRememberAdapter.Vi
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setClass(context, DetailsOfFriendsWebActivity.class);
-//                intent.putExtra("fmid", data.get(position).getFmID());
-//                context.startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("fmid", data.get(position).getFmID());
+                intent.setClass(context, DetailsOfFriendsWebActivity.class);
+                context.startActivity(intent);
             }
         });
 
@@ -152,7 +153,7 @@ public class MyRememberAdapter extends RecyclerView.Adapter<MyRememberAdapter.Vi
         });
 
         holder.tvFaBuShiJian.setText("发表时间： "+data.get(position).getFmtime());
-        holder.tvGuanLianHuoDong.setText("关联活动： "+data.get(position).getPftitle());
+        holder.tvGuanLianHuoDong.setText("关联商品： "+data.get(position).getPftitle());
         holder.tvCanYuXieZuo.setText("团友共有"+data.get(position).getInNum()+"人参与写作");
     }
 

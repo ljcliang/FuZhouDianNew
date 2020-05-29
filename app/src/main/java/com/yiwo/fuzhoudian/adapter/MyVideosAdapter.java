@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.model.MyVideosModel;
+import com.yiwo.fuzhoudian.pages.VideoActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 
 import java.util.List;
@@ -61,12 +62,12 @@ public class MyVideosAdapter extends RecyclerView.Adapter<MyVideosAdapter.ViewHo
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent it = new Intent(context, VideoActivity.class);
-//                it.putExtra("videoUrl", data.get(position).getVurl());
-//                it.putExtra("title", data.get(position).getVname());
-//                it.putExtra("picUrl", data.get(position).getImg());
-//                it.putExtra("vid", data.get(position).getVID());
-//                context.startActivity(it);
+                Intent it = new Intent(context, VideoActivity.class);
+                it.putExtra("videoUrl", data.get(position).getVurl());
+                it.putExtra("title", data.get(position).getVname());
+                it.putExtra("picUrl", data.get(position).getImg());
+                it.putExtra("vid", data.get(position).getVID());
+                context.startActivity(it);
             }
         });
     }

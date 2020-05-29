@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:visibility="gone"
         android:background="@color/color_white_ffffff"
         android:id="@+id/ll_top"
         android:orientation="horizontal"
@@ -22,7 +23,7 @@
                 android:layout_centerInParent="true"
                 android:textSize="28px"
                 android:textColor="#D84C37"
-                android:text="我的友记"
+                android:text="我的文章"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

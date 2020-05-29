@@ -41,7 +41,7 @@ public class MessageFragment extends BaseFragment {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager. beginTransaction();
         transaction.replace(R.id.fragment_contacts, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
     @Override
     public void onHiddenChanged(boolean hidden) {

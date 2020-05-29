@@ -37,6 +37,7 @@ import com.yiwo.fuzhoudian.adapter.NewCreateFriendRemberIntercalationAdapter;
 import com.yiwo.fuzhoudian.custom.MyAlertDialog;
 import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.model.CityModel;
+import com.yiwo.fuzhoudian.model.GuanLianShangPinModel;
 import com.yiwo.fuzhoudian.model.NewUserIntercalationPicModel;
 import com.yiwo.fuzhoudian.model.UpLoadShangPinImgIntercalationPicModel;
 import com.yiwo.fuzhoudian.model.UserLabelModel;
@@ -44,6 +45,7 @@ import com.yiwo.fuzhoudian.network.ActivityConfig;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.CityActivity;
 import com.yiwo.fuzhoudian.pages.FaBu_XiuGaiShangPinActivity;
+import com.yiwo.fuzhoudian.pages.GuanLianShangPinActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.StringUtils;
 import com.yiwo.fuzhoudian.utils.TokenUtils;
@@ -333,8 +335,8 @@ public class CreateYouJiAddInfoActivity extends TakePhotoActivity {
                 break;
             case R.id.activity_create_friend_remember_rl_active_title:
                 //活动标题
-//                    Intent it_suoshu = new Intent(CreateYouJiAddInfoActivity.this, SuoShuHuoDongActivity.class);
-//                    startActivityForResult(it_suoshu, REQUEST_CODE_SUO_SHU_HUO_DONG);
+                    Intent it_suoshu = new Intent(CreateYouJiAddInfoActivity.this, GuanLianShangPinActivity.class);
+                    startActivityForResult(it_suoshu, REQUEST_CODE_SUO_SHU_HUO_DONG);
                 break;
             case R.id.btn_lijifabu:
                 fabu();
@@ -465,16 +467,16 @@ public class CreateYouJiAddInfoActivity extends TakePhotoActivity {
             tvCity.setText(model.getName());
         } else if (requestCode == REQUEST_CODE_GET_CITY && resultCode == 2) {//重置
             tvCity.setText("");
-            tvCity.setHint("请选择或输入活动地点");
+            tvCity.setHint("请选择或输入地点");
         } else if (requestCode == REQUEST_CODE_GET_CITY && resultCode == 3) {//国际城市
             String city = data.getStringExtra("city");
             tvCity.setText(city);
         }
         if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
-//            GetFriendActiveListModel.ObjBean bean = (GetFriendActiveListModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
-//            yourChoiceActiveName = bean.getPftitle();
-//            yourChoiceActiveId = bean.getPfID();
-//            tvActiveTitle.setText(yourChoiceActiveName);
+            GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
+            yourChoiceActiveName = bean.getGoodsName();
+            yourChoiceActiveId = bean.getGid();
+            tvActiveTitle.setText(yourChoiceActiveName);
         }
     }
     @Override
@@ -484,7 +486,7 @@ public class CreateYouJiAddInfoActivity extends TakePhotoActivity {
                 "保存在草稿箱可在草稿箱中继续编辑\n" + "不保存则内容将被清除", "保存", "不保存", new MyAlertDialog.DialogListener() {
             @Override
             public void agreeBtnListen() {
-//                next_tocaogao();
+                next_tocaogao();
             }
 
             @Override

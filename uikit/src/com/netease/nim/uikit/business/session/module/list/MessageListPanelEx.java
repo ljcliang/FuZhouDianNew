@@ -767,7 +767,7 @@ public class MessageListPanelEx {
         @Override
         public boolean onViewHolderLongClick(View clickView, View viewHolderView, IMMessage item) {
             if (container.proxy.isLongClickEnabled()) {
-                showLongClickAction(item);
+//                showLongClickAction(item);
             }
             return true;
         }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yiwo.fuzhoudian.pages.GuanLianShangPinActivity">
+    <RelativeLayout
+        style="@style/TopBarStyle">
+        <TextView
+            style="@style/TopBarStyle_TvTitle"
+            android:text="选择活动" />
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+
+            <ImageView style="@style/TopBarStyle_IvBackWhite" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:background="@drawable/bg_d8d8d8_border_20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_centerVertical="true"
+            android:hint="搜多关键词"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:textSize="14sp"
+            android:id="@+id/edt"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/color_black_333333"
+            android:background="@null"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@+id/tv_sousuo"
+            android:background="@color/color_666666"
+            android:layout_width="1dp"
+            android:layout_height="18dp"/>
+        <TextView
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_black_333333"
+            android:textSize="14sp"
+            android:text="搜索"
+            android:id="@+id/tv_sousuo"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</LinearLayout>

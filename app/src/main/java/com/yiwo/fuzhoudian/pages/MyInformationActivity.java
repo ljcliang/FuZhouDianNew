@@ -189,9 +189,10 @@ public class MyInformationActivity extends TakePhotoActivity {
 //                                }
                                 tvNickname.setText("昵称: " + userModel.getObj().getUsername());
                                 tvTopLevel.setText("LV" + userModel.getObj().getUsergrade());
-                                etUsername.setHint(userModel.getObj().getUsername());
+                                etUsername.setText(userModel.getObj().getUsername());
                                 tvLocation.setText(userModel.getObj().getUseraddress());
-                                etSign.setHint(userModel.getObj().getUserautograph());
+                                etSign.setText(userModel.getObj().getUserautograph());
+                                etTel.setText(userModel.getObj().getTel());
                                 tvRegister.setText(userModel.getObj().getUsertime());
                                 tvRealName.setText(userModel.getObj().getUsercodeok());
                                 tvLevel.setText("LV" + userModel.getObj().getUsergrade());
@@ -424,7 +425,10 @@ public class MyInformationActivity extends TakePhotoActivity {
      * 保存信息
      */
     private void onSave() {
-
+        if (TextUtils.isEmpty(etSign.getText().toString())){
+            Toast.makeText(this,"请输入主营项目",Toast.LENGTH_SHORT).show();
+            return;
+        }
         ViseHttp.POST(NetConfig.saveUserInformationUrl)
                 .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.saveUserInformationUrl))
                 .addParam("uid", uid)
@@ -432,6 +436,7 @@ public class MyInformationActivity extends TakePhotoActivity {
 //                .addParam("usersex", tvSex.getText().toString().equals("男") ? "0" : "1")
                 .addParam("useraddress", tvLocation.getText().toString())
                 .addParam("userautograph", TextUtils.isEmpty(etSign.getText().toString()) ? etSign.getHint().toString() : etSign.getText().toString())
+                .addParam("tel",etTel.getText().toString())
 //                .addParam("userbirthday", tvBirthday.getText().toString())
 ////                .addParam("usertime", tvRegister.getText().toString())
 //                .addParam("usermarry", tvSingle.getText().toString().equals("是") ? "1" : "2")

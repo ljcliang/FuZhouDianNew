@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/activity_details_of_friends_rl_top"
+        style="@style/rl_top_bar">
+
+        <TextView
+            android:id="@+id/activity_details_of_friends_tv_top_title"
+            style="@style/tv_top_title"
+            android:text="详情" />
+
+        <RelativeLayout
+            android:id="@+id/activity_details_of_friends_rl_back"
+            android:layout_width="100px"
+            android:layout_height="match_parent">
+
+            <ImageView style="@style/iv_return" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <WebView
+        android:layout_below="@+id/activity_details_of_friends_rl_top"
+        android:id="@+id/wv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+    <ProgressBar
+        android:id="@+id/progresss_bar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_below="@+id/activity_details_of_friends_rl_top"
+        android:progressDrawable="@drawable/web_progress_bg"
+        android:layout_width="match_parent"
+        android:layout_height="5px" />
+</RelativeLayout>

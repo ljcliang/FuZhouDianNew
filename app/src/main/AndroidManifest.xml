@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yiwo.fuzhoudian">
-
+    <!-- 自动安装权限！！ -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pages.ShopLocationActivity"></activity>
+        <activity android:name=".pages.ShangPinLabelEditActivity"></activity>
+        <activity android:name=".pages.ShopLocationActivity" />
         <activity android:name=".pages.MyClipImageActivity" />
         <activity android:name=".pages.webpages.GuanLiGoodsWebActivity" />
         <activity android:name=".pages.webpages.OrderInfoWebActivity" />
@@ -92,6 +93,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".pages.GuanLianShangPinActivity" />
+        <activity
+            android:name=".pages.webpages.DetailsOfFriendsWebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".pages.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="designwidth"
@@ -117,10 +128,10 @@
         <meta-data
             android:name="com.huawei.hms.client.appid"
             android:value="102231967" />
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="WAayfPYADUdqfCpN9iTFeMWrpPN1Nr2I"></meta-data>
+            android:value="WAayfPYADUdqfCpN9iTFeMWrpPN1Nr2I" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.yiwo.fuzhoudian.fileprovider"
@@ -130,12 +141,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
         <provider
             android:name="com.netease.nimlib.ipc.NIMContentProvider"
             android:authorities="com.yiwo.fuzhoudian.ipc.provider"
             android:exported="false"
             android:process=":core" />
+
         <receiver
             android:name="com.netease.nimlib.service.NimReceiver"
             android:exported="false"
@@ -211,6 +222,7 @@
                 <action android:name="com.huawei.intent.action.PUSH" />
             </intent-filter>
         </receiver>
+
         <service android:name=".services.UpdateService" /> <!-- 网易云直播 -->
         <service android:name=".wangyiyunshipin.upload.controller.UploadService" />
         <service android:name=".services.UpdateService" /> <!-- android:configChanges="orientation|keyboardHidden|screenSize" -->
@@ -249,29 +261,27 @@
             android:name="com.xiaomi.mipush.sdk.MessageHandleService"
             android:enabled="true" /> <!-- 百度地图 -->
         <service android:name=".wangyiyunshipin.upload.controller.UploadService" />
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
-    </application> <!-- 自动安装权限！！ -->
-    <permission
-        android:name="com.yiwo.fuzhoudian.permission.RECEIVE_MSG"
-        android:protectionLevel="signature" /> <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+            android:process=":remote" />
+    </application> <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
     <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
     <permission
+        android:name="com.yiwo.fuzhoudian.permission.RECEIVE_MSG"
+        android:protectionLevel="signature" /> <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <permission
         android:name="com.yiwo.fuzhoudian.permission.PROCESS_PUSH_MSG"
-        android:protectionLevel="signatureOrSystem" /> <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+        android:protectionLevel="signatureOrSystem" /> <!-- bugly -->
     <permission
         android:name="com.yiwo.fuzhoudian.permission.MIPUSH_RECEIVE"
-        android:protectionLevel="signature" /> <!-- bugly -->
-    <uses-feature android:name="android.hardware.camera" /> <!-- 小米推送 权限 -->
+        android:protectionLevel="signature" /> <!-- 小米推送 权限 -->
     <!-- 配置权限，已经配置过的条目则无须添加 -->
     <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
-    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- <uses-permission android:name="android.permission.VIBRATE"/> -->
+    <uses-feature android:name="android.hardware.camera" /> <!-- <uses-permission android:name="android.permission.VIBRATE"/> -->
     <!-- 华为推送权限 -->
     <!-- HMS-SDK引导升级HMS功能，访问OTA服务器需要网络权限 -->
     <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
@@ -286,21 +296,22 @@
     <!-- 如果是安卓8.0，应用编译配置的targetSdkVersion>=26，请务必添加以下权限 -->
     <!-- <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> -->
     <!-- 接收PUSH TOKEN的广播以及PUSH消息需要定义该权限 ${PACKAGE_NAME} 要替换上您应用的包名 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 接收PUSH TOKEN的广播以及PUSH消息需要定义该权限 ${PACKAGE_NAME} 要替换上您应用的包名 -->
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true" /> <!-- 接收PUSH TOKEN的广播以及PUSH消息需要定义该权限 ${PACKAGE_NAME} 要替换上您应用的包名 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 以下两处 {你的包名} 改开发者App的包名 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于申请调用A-GPS模块 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- 网易云短视频 -->
+        android:required="true" /> <!-- 以下两处 {你的包名} 改开发者App的包名 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 网易云短视频 -->
     <!-- 允许挂载和反挂载文件系统 -->
-    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 允许程序使用PowerManager WakeLocks以防止处理器休眠或者屏幕锁屏 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 声明程序使用camera和自动对焦功能 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- 允许程序使用PowerManager WakeLocks以防止处理器休眠或者屏幕锁屏 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 声明程序使用camera和自动对焦功能 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 声明程序使用OpenGL ES 2.0 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 声明程序使用OpenGL ES 2.0 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.yiwo.fuzhoudian.permission.RECEIVE_MSG" />
@@ -311,8 +322,8 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />

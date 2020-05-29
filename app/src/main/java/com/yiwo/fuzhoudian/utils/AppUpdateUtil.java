@@ -78,7 +78,7 @@ public class AppUpdateUtil {
 //                                                    DownloadManager downloadManager= (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 //                                                    //将下载任务加入下载队列，否则不会进行下载
 //                                                    downloadManager.enqueue(request);
-                                                    String app_name = "tongban_app";
+                                                    String app_name = "fzd_app";
                                                     Intent down = new Intent(context, UpdateService.class);
                                                     down.putExtra("down_url", versonModel.getObj().getAn_download());
                                                     down.putExtra("app_name", app_name);

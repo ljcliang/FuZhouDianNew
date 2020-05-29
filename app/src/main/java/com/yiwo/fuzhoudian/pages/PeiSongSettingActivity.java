@@ -109,12 +109,12 @@ public class PeiSongSettingActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.ll_daodianziti:
-                if (!daoodianziti){
-                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_true);
-                }else {
-                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_false);
-                }
-                daoodianziti = !daoodianziti;
+//                if (!daoodianziti){
+//                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_true);
+//                }else {
+//                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_false);
+//                }
+//                daoodianziti = !daoodianziti;
                 break;
             case R.id.ll_peisongdaojia:
                 if (!peisongdaojia){
@@ -145,7 +145,8 @@ public class PeiSongSettingActivity extends BaseActivity {
                 .addParam("money",edtPeisongfei.getText().toString())
                 .addParam("noMoney",edtGouman.getText().toString())
                 .addParam("canGet",edtPeisongfanwei.getText().toString())
-                .addParam("zt",daoodianziti ? "0" : "1")
+//                .addParam("zt",daoodianziti ? "0" : "1")
+                .addParam("zt","0")
                 .addParam("ps",peisongdaojia ? "0" : "1")
                 .request(new ACallback<String>() {
                     @Override

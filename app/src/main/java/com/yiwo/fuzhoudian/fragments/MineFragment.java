@@ -251,10 +251,10 @@ public class MineFragment extends BaseFragment {
                                     } else {
                                         mTvKinds.setText(userModel.getObj().getUserautograph());
                                     }
-                                    mTvNum1.setText(userModel.getObj().getNews() + "");
-                                    mTvNum2.setText(userModel.getObj().getFriendnote() + "");
-                                    mTvNum3.setText(userModel.getObj().getFocusonnews() + "");
-                                    mTvNum4.setText(userModel.getObj().getActivitymessage() + "");
+                                    mTvNum1.setText(userModel.getObj().getFm_num() + "");
+                                    mTvNum2.setText(userModel.getObj().getVideo_num() + "");
+                                    mTvNum3.setText(userModel.getObj().getGoods_num() + "");
+                                    mTvNum4.setText(userModel.getObj().getLike_num() + "");
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

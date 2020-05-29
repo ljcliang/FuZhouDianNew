@@ -31,7 +31,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_ck_daodian"
-            android:src="@mipmap/checkbox_black_false"
+            android:src="@mipmap/checkbox_black_true"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_width="20dp"

@@ -59,8 +59,14 @@ public class UserModel {
          * Focusonnews : 9
          * Activitymessage : 1
          * type  0未开启  1已开启
+         * video_num  视频数   fm_num文章数   goods_num商品数    like_num关注数
+         * tel  电话
          */
-
+        private String video_num;
+        private String fm_num;
+        private String goods_num;
+        private String like_num;
+        private String tel;
         private String headeimg;
         private String username;
         private String sex;
@@ -212,6 +218,46 @@ public class UserModel {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getVideo_num() {
+            return video_num;
+        }
+
+        public void setVideo_num(String video_num) {
+            this.video_num = video_num;
+        }
+
+        public String getFm_num() {
+            return fm_num;
+        }
+
+        public void setFm_num(String fm_num) {
+            this.fm_num = fm_num;
+        }
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
+
+        public String getLike_num() {
+            return like_num;
+        }
+
+        public void setLike_num(String like_num) {
+            this.like_num = like_num;
+        }
+
+        public String getTel() {
+            return tel;
+        }
+
+        public void setTel(String tel) {
+            this.tel = tel;
         }
     }
 }

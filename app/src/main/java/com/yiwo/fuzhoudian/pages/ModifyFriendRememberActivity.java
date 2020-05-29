@@ -35,6 +35,7 @@ import com.yiwo.fuzhoudian.adapter.LabelChooseOneAdapter;
 import com.yiwo.fuzhoudian.adapter.NewIntercalationAdapter;
 import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.model.CityModel;
+import com.yiwo.fuzhoudian.model.GuanLianShangPinModel;
 import com.yiwo.fuzhoudian.model.JsonBean;
 import com.yiwo.fuzhoudian.model.ModifyFriendRememberModel;
 import com.yiwo.fuzhoudian.model.NewUserIntercalationPicModel;
@@ -364,17 +365,17 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
             adapter.notifyDataSetChanged();
         }
         if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
-//            GetFriendActiveListModel.ObjBean bean = (GetFriendActiveListModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
-//            yourChoiceActiveName = bean.getPftitle();
-//            yourChoiceActiveId = bean.getPfID();
-//            tvActiveTitle.setText(yourChoiceActiveName);
+            GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
+            yourChoiceActiveName = bean.getGoodsName();
+            yourChoiceActiveId = bean.getGid();
+            tvActiveTitle.setText(yourChoiceActiveName);
         }
         if (requestCode == REQUEST_CODE_GET_CITY && data != null && resultCode == 1) {//选择城市
             CityModel model = (CityModel) data.getSerializableExtra(ActivityConfig.CITY);
             tvCity.setText(model.getName());
         } else if (requestCode == REQUEST_CODE_GET_CITY && resultCode == 2) {//重置
             tvCity.setText("");
-            tvCity.setHint("请选择或输入活动地点");
+            tvCity.setHint("请选择或输入地点");
         } else if (requestCode == REQUEST_CODE_GET_CITY && resultCode == 3) {//国际城市
             String city = data.getStringExtra("city");
             tvCity.setText(city);
@@ -424,8 +425,8 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
 
                 break;
             case R.id.activity_create_friend_remember_rl_active_title:
-//                Intent it_suoshu = new Intent(ModifyFriendRememberActivity.this, SuoShuHuoDongActivity.class);
-//                startActivityForResult(it_suoshu, REQUEST_CODE_SUO_SHU_HUO_DONG);
+                Intent it_suoshu = new Intent(ModifyFriendRememberActivity.this, GuanLianShangPinActivity.class);
+                startActivityForResult(it_suoshu, REQUEST_CODE_SUO_SHU_HUO_DONG);
                 break;
         }
     }

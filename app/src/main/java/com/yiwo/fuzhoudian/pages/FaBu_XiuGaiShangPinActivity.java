@@ -117,6 +117,8 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
     private static final int REQUEST_CODE1 = 0x00000012;//添加图片
     private static final int REQUEST_CODE2 = 0x00000013;//更换首图
     private static final int REQUEST_CODE_ADD_SERVICE = 2;
+    private static final int REQUEST_CODE_ADD_LABEL = 3;
+    private static final int REQUEST_CODE_EDIT_LABEL = 4;
     private SpImp spImp;
     private Dialog dialog;
     private List<File> files = new ArrayList<>();
@@ -143,8 +145,8 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
             tv_title.setText("发布商品");
             isFaBu = true;
         }else {
+            Log.d("adasd::",gId);
             gId = getIntent().getStringExtra(GID);
-            initChangeData();
             isFaBu = false;
             tv_title.setText("修改商品");
         }
@@ -176,6 +178,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
     }
 
     private void initChangeData() {
+        Log.d("asdasdasdasdas",gId+"");
         ViseHttp.POST(NetConfig.getEditGoodsInfo)
                 .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.getEditGoodsInfo))
                 .addParam("gid",gId)
@@ -215,11 +218,10 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                                     for (int i = 0 ;i < listShangPinLabel.size();i++){
                                         if (lab_bean_choosed.getId().equals(listShangPinLabel.get(i).getId())){
                                             listShangPinLabel.get(i).setChecked(true);
-                                            break;
+                                            shangPinLabelAdapter.notifyItemChanged(i);
                                         }
                                     }
                                 }
-                                shangPinLabelAdapter.notifyDataSetChanged();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -293,29 +295,6 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         }, new FabuShangpinIntercalationPicsAdapter.OnSetFirstPicListienner() {
             @Override
             public void onSetFirst(final int postion) {
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(FaBu_XiuGaiShangPinActivity.this);
-//                builder.setMessage("设置为首图？")
-//                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                for (int i = 0; i<mList.size();i++){
-//                                    if (i == postion){
-////                                       NewUserIntercalationPicModel model = mList.get(postion);
-////                                       model.setFirstPic(true);
-//                                        mList.get(i).setFirstPic(true);
-//                                    }else {
-//                                        mList.get(i).setFirstPic(false);
-//                                    }
-//                                }
-//                                adapter.notifyDataSetChanged();
-//                            }
-//                        })
-//                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).show();
             }
         });
     }
@@ -359,7 +338,24 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         rvChoosedService.setLayoutManager(mangerChoosedService);
         rvChoosedService.setAdapter(shangPinServiceChoosedAdapter);
         //标签rv---------------------------------------------------------------------------------
-        shangPinLabelAdapter = new ShangPinLabelAdapter(listShangPinLabel);
+        shangPinLabelAdapter = new ShangPinLabelAdapter(listShangPinLabel, new ShangPinLabelAdapter.OnItemChoosed() {
+            @Override
+            public void onChoosed(int pos) {
+                for (int i = 0 ;i<listShangPinLabel.size();i++){
+                    listShangPinLabel.get(i).setChecked(false);
+                }
+                listShangPinLabel.get(pos).setChecked(true);
+                shangPinLabelAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onLongClick(int pos) {
+                Intent intent = new Intent();
+                intent.setClass(FaBu_XiuGaiShangPinActivity.this,ShangPinLabelEditActivity.class);
+                intent.putExtra(ShangPinLabelEditActivity.EDIT_LABEL_BEAN,listShangPinLabel.get(pos));
+                startActivityForResult(intent,REQUEST_CODE_EDIT_LABEL);
+            }
+        });
         GridLayoutManager managerLabel = new GridLayoutManager(FaBu_XiuGaiShangPinActivity.this,4){
             @Override
             public boolean canScrollVertically() {
@@ -372,8 +368,9 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         callLabelData();
     }
     private void callLabelData(){
-        ViseHttp.POST(NetConfig.tagList)
-                .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.tagList))
+        ViseHttp.POST(NetConfig.getMyTag)
+                .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.getMyTag))
+                .addParam("uid",spImp.getUID())
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
@@ -384,6 +381,9 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                                 listShangPinLabel.clear();
                                 listShangPinLabel.addAll(gson.fromJson(data,ShangPinLabelModel.class).getObj());
                                 shangPinLabelAdapter.notifyDataSetChanged();
+                                if (!isFaBu){
+                                    initChangeData();
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -478,7 +478,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
             }
         });
     }
-    @OnClick({R.id.rl_back,R.id.rl_btn_add_price,R.id.rl_btn_add_service,R.id.rl_save,R.id.iv_label_tishi,R.id.iv_service_tishi,})
+    @OnClick({R.id.rl_back,R.id.rl_btn_add_price,R.id.rl_btn_add_service,R.id.rl_save,R.id.iv_label_tishi,R.id.iv_service_tishi,R.id.rl_btn_add_label})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.rl_back:
@@ -486,6 +486,11 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                 break;
             case R.id.rl_save:
                 save();
+                break;
+            case R.id.rl_btn_add_label:
+                Intent intent = new Intent();
+                intent.setClass(FaBu_XiuGaiShangPinActivity.this,ShangPinLabelEditActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_ADD_LABEL);
                 break;
             case R.id.rl_btn_add_price:
                     ShangPinUpLoadModel.SpecBean bean = new ShangPinUpLoadModel.SpecBean();
@@ -537,16 +542,22 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         model.setGoodsInfo(edtShangPinInfo.getText().toString());
         String strServicesIdChoose = "";
         for (ShangPinServiceModel.ObjBean bean : listShangPinServiceChoosed){
-            if (bean.isChecked()) strServicesIdChoose = strServicesIdChoose + bean.getId();
+            if (bean.isChecked()) strServicesIdChoose = strServicesIdChoose + "," + bean.getId();
         }
-        strServicesIdChoose = strServicesIdChoose.replace(""," ").trim();
-        strServicesIdChoose = strServicesIdChoose.replace(" ",",");
+        if (strServicesIdChoose.length()>1 && strServicesIdChoose.charAt(0) == ','){
+            strServicesIdChoose = strServicesIdChoose.substring(1);
+        }
         String strLabelsIdChoose = "";
-        for (ShangPinLabelModel.ObjBean bean : listShangPinLabel){
-            if (bean.isChecked()) strLabelsIdChoose = strLabelsIdChoose + bean.getId();
+        for (int i = 0;i< listShangPinLabel.size();i++){
+            if (listShangPinLabel.get(i).isChecked()){
+                strLabelsIdChoose = strLabelsIdChoose + ","  + listShangPinLabel.get(i).getId();
+            }
         }
-        strLabelsIdChoose = strLabelsIdChoose.replace(""," ").trim();
-        strLabelsIdChoose = strLabelsIdChoose.replace(" ",",");
+        if (strLabelsIdChoose.length()>1 && strLabelsIdChoose.charAt(0) == ','){
+            strLabelsIdChoose = strLabelsIdChoose.substring(1);
+        }
+//        strLabelsIdChoose = strLabelsIdChoose.replace(""," ").trim();
+//        strLabelsIdChoose = strLabelsIdChoose.replace(" ",",");
         model.setService(strServicesIdChoose);
         model.setTag(strLabelsIdChoose);
         List<ShangPinUpLoadModel.SpecBean> listUp = new ArrayList<>();
@@ -770,6 +781,19 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         if (requestCode == REQUEST_CODE_ADD_SERVICE && resultCode == ShangPinServiceEditActivity.ADD_SUCCESS_RESULT_CODE && data!=null){
             listShangPinServiceList.add((ShangPinServiceModel.ObjBean) data.getSerializableExtra(ShangPinServiceEditActivity.NEW_ADD_SERVICE_MODEL));
             shangPinServiceListAdapter.notifyDataSetChanged();
+        }
+        if (requestCode == REQUEST_CODE_ADD_LABEL && resultCode == ShangPinLabelEditActivity.ADD_SUCCESS_RESULT_CODE && data!=null){
+            listShangPinLabel.add((ShangPinLabelModel.ObjBean) data.getSerializableExtra(ShangPinLabelEditActivity.NEW_ADD_LABEL_MODEL));
+            shangPinLabelAdapter.notifyDataSetChanged();
+        }
+        if (requestCode == REQUEST_CODE_EDIT_LABEL && resultCode == ShangPinLabelEditActivity.ADD_SUCCESS_RESULT_CODE && data!=null){
+            ShangPinLabelModel.ObjBean editBean = (ShangPinLabelModel.ObjBean) data.getSerializableExtra(ShangPinLabelEditActivity.NEW_ADD_LABEL_MODEL);
+            for (int i = 0;i<listShangPinLabel.size();i++){
+                if (listShangPinLabel.get(i).getId().equals(editBean.getId())){
+                    listShangPinLabel.set(i,editBean);
+                }
+            }
+            shangPinLabelAdapter.notifyDataSetChanged();
         }
     }
 }

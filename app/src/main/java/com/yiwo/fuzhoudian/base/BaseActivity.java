@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
         normalDialog.setTitle(title);
         normalDialog.setMessage(message);
         normalDialog.setPositiveButton("确 定", listener);
-        normalDialog.setNegativeButton("取消", listener1);
+        normalDialog.setNegativeButton("取 消", listener1);
         // 显示
         normalDialog.show();
     }

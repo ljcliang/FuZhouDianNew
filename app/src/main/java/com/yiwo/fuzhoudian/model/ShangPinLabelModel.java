@@ -1,5 +1,6 @@
 package com.yiwo.fuzhoudian.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ShangPinLabelModel {
@@ -38,7 +39,7 @@ public class ShangPinLabelModel {
         this.obj = obj;
     }
 
-    public static class ObjBean {
+    public static class ObjBean implements Serializable {
         /**
          * id : 1
          * name : 食品

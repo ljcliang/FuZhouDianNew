@@ -1,6 +1,8 @@
 package com.yiwo.fuzhoudian;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -19,6 +21,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.api.model.session.SessionEventListener;
+import com.netease.nim.uikit.business.session.module.MsgForwardFilter;
+import com.netease.nim.uikit.business.session.module.MsgRevokeFilter;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yiwo.fuzhoudian.base.BaseActivity;
 import com.yiwo.fuzhoudian.fragments.HomeFragment;
 import com.yiwo.fuzhoudian.fragments.MessageFragment;
@@ -107,9 +115,54 @@ public class MainActivity extends BaseActivity {
         spImp = new SpImp(this);
         uid = spImp.getUID();
         initUpLoadController();
+        initSessionListener();
         initFragment();
     }
+    private void initSessionListener() {
+        NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
+            @Override
+            public boolean shouldIgnore(IMMessage message) {
+                return false;
+            }
+        });
+        NimUIKit.setMsgRevokeFilter(new MsgRevokeFilter() {
+            @Override
+            public boolean shouldIgnore(IMMessage message) {
+                return false;
+            }
+        });
+        NimUIKit.setSessionListener(new SessionEventListener() {
+            @Override
+            public void onAvatarClicked(Context context, IMMessage message) {//设置头像点击监听
+//                if (!message.getFromAccount().equals("tongbanxiaozhushou")){
+//                    Intent intent = new Intent();
+//                    intent.putExtra("person_id",message.getFromAccount());
+//                    intent.putExtra("status","1");
+//                    intent.setClass(context, PersonMainActivity1.class);
+//                    context.startActivity(intent);
+//                }
+            }
 
+            @Override
+            public void onAvatarLongClicked(Context context, IMMessage message) {
+
+            }
+
+            @Override
+            public void onAckMsgClicked(Context context, IMMessage message) {
+
+            }
+
+            @Override
+            public void onMsgTextClicked(Context context, IMMessage message) {
+                if (message.getSessionId().equals("tongbanxiaozhushou")&&message.getMsgType()== MsgTypeEnum.text){//瞳伴小助手消息
+                    ((Activity)context).finish();
+                    switchFragment(1);
+                }
+            }
+
+        });
+    }
     private void initFragment() {
 //        homeFragment = new HomeFragment();
         homeFragment =  HomeDianPuGuanLiFragment.newInstance(NetConfig.ShopHomeUrl+""+spImp.getUID());
@@ -147,7 +200,7 @@ public class MainActivity extends BaseActivity {
                 fragmentTransaction.hide(fragmentList.get(i));
             }
         }
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     @Override

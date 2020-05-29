@@ -512,4 +512,16 @@ public class NetConfig {
     public static String sendSet = "action/ac_goods/sendSet";
 //    action/ac_goods/getSendSet   获取配送设置信息    传uid用户id
     public static String getSendSet =  "action/ac_goods/getSendSet";
+//    action/ac_goods/    shopAboutGoods   获取相关商品列表   传uid ，searchword
+    public static String shopAboutGoods =  "action/ac_goods/shopAboutGoods";
+//action/ac_user/userAddressLatLng   地址接口  传uid用户id  shopLat  shopLng经纬度 address
+    public static String userAddressLatLng =  "action/ac_user/userAddressLatLng";
+//    action/ac_user/getUserAddressLatLng   获取地址信息  传uid用户id
+public static String getUserAddressLatLng =  "action/ac_user/getUserAddressLatLng";
+//action/ac_goods/addMyTag   添加我的标签   name标签名   uid用户id  返回id
+    public static String addMyTag =  "action/ac_goods/addMyTag";
+//    action/ac_goods/getMyTag  我的标签  传uid
+public static String getMyTag =  "action/ac_goods/getMyTag";
+//action/ac_goods/editMyTag   编辑  传id   name名字
+    public static String editMyTag =  "action/ac_goods/editMyTag";
 }
