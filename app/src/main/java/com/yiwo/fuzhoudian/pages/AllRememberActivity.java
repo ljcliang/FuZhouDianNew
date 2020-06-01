@@ -72,7 +72,7 @@ public class AllRememberActivity extends BaseActivity {
         mViewPager.setAdapter(mViewPagerFragmentAdapter);
 
         mTitleDataList = new ArrayList<>();
-        mTitleDataList.add(" 我的友记 ");
+        mTitleDataList.add(" 我的文章 ");
 //        mTitleDataList.add(" 参写友记 ");
 
         CommonNavigator commonNavigator = new CommonNavigator(this);

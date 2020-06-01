@@ -10,7 +10,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:id="@+id/iv_checked"
-        android:src="@mipmap/checkbox_red_false"
+        android:src="@mipmap/checkbox_black_false"
         android:layout_width="20dp"
         android:layout_height="20dp"/>
     <LinearLayout

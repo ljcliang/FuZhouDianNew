@@ -104,7 +104,7 @@ public class CreateYouJiActivity extends BaseActivity {
         });
         mTitleDataList = new ArrayList<>();
         if (!onlyShowAddVideo){
-            mTitleDataList.add("相册");
+            mTitleDataList.add("文章");
         }
         mTitleDataList.add("视频");
 //        mTitleDataList.add("拍照");

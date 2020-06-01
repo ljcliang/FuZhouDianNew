@@ -162,7 +162,13 @@ public class SpImp {
         editor.putString(SpPublic.WX_UNIONID, s).toString();
         editor.commit();
     }
-
+    public String getUserName(){
+        return sp.getString(SpPublic.USER_NAME,"");
+    }
+    public void setUserName(String s){
+        editor.putString(SpPublic.USER_NAME, s).toString();
+        editor.commit();
+    }
     public void setLastCreateYouJiAddress(String s){
         editor.putString(SpPublic.LAST_CREATE_YOUJI_ADDRESS, s).toString();
         editor.commit();

@@ -140,6 +140,7 @@ public class ShopLocationActivity extends BaseActivity {
     }
 
     private void save() {
+        address = edtWeiZhiInfo.getText().toString();
         if (TextUtils.isEmpty(shopLat)||TextUtils.isEmpty(shopLng)||TextUtils.isEmpty(address)){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("请在地图上选择店铺位置")
@@ -297,6 +298,22 @@ public class ShopLocationActivity extends BaseActivity {
 // 定义地图状态zoom表示缩放级别3-18
             MapStatus mMapStatus = new MapStatus.Builder().target(cenpt)
                     .zoom(18.0f).build();
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
+                    .newMapStatus(mMapStatus);
+//            MapStatus.Builder builder = new MapStatus.Builder();
+//            builder.zoom(18.0f);
+            mBaiduMap.setMapStatus(mMapStatusUpdate);
+            mLocationClient.stop();
+        }
+
+        @Override
+        public void onLocDiagnosticMessage(int i, int i1, String s) {
+            super.onLocDiagnosticMessage(i, i1, s);
+            LatLng cenpt = new LatLng(39.91327919129028,
+                    116.40392813332507 );
+// 定义地图状态zoom表示缩放级别3-18
+            MapStatus mMapStatus = new MapStatus.Builder().target(cenpt)
+                    .zoom(15.0f).build();
             MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
                     .newMapStatus(mMapStatus);
 //            MapStatus.Builder builder = new MapStatus.Builder();

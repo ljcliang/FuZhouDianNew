@@ -137,7 +137,11 @@ public class CreateYouJiAddInfoActivity extends TakePhotoActivity {
         setContentView(R.layout.activity_create_youji_addinfo);
         ButterKnife.bind(this);
         spImp = new SpImp(CreateYouJiAddInfoActivity.this);
-        tvCity.setText(spImp.getLastCreateYouJiAddress());
+        if (TextUtils.isEmpty(spImp.getLastCreateYouJiAddress())){
+            tvCity.setText(spImp.getUserName());
+        }else {
+            tvCity.setText(spImp.getLastCreateYouJiAddress());
+        }
         tvLabel.setText(spImp.getLastCreateYouJiLabelText());
         yourChoiceId = spImp.getLastCreateYouJiLabelId();
         init();

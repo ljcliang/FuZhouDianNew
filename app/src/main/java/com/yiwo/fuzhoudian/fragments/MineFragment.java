@@ -105,13 +105,15 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,
-            R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan,
+            R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan,R.id.tv_name,R.id.tv_kinds,
             R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7})
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
             default:
                 break;
+            case R.id.tv_kinds:
+            case R.id.tv_name:
             case R.id.iv_head:
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), MyInformationActivity.class);
@@ -245,7 +247,7 @@ public class MineFragment extends BaseFragment {
 //                                    } else {
 //                                        Picasso.with(getContext()).load(userModel.getObj().getHeadeimg()).into(ivAvatar);
 //                                    }
-                                    mTvName.setText("昵称: " + userModel.getObj().getUsername());
+                                    mTvName.setText(userModel.getObj().getUsername());
                                     if (TextUtils.isEmpty(userModel.getObj().getUserautograph())) {
 
                                     } else {
@@ -269,7 +271,7 @@ public class MineFragment extends BaseFragment {
         } else {
 //            tvNotLogin.setVisibility(View.VISIBLE);
 //            rlContent.setVisibility(View.GONE);
-            Glide.with(getContext()).load("null").into(mIvHead);
+//            Glide.with(getContext()).load("null").into(mIvHead);
         }
     }
 

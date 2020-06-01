@@ -48,7 +48,7 @@ public class ShangPinServiceAdapter extends RecyclerView.Adapter<ShangPinService
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tvInfo.setText(data.get(position).getInfo());
         holder.tvName.setText(data.get(position).getName());
-        holder.ivChecked.setImageResource(data.get(position).isChecked() ? R.mipmap.checkbox_red_true:R.mipmap.checkbox_red_false);
+        holder.ivChecked.setImageResource(data.get(position).isChecked() ? R.mipmap.checkbox_black_true:R.mipmap.checkbox_black_false);
         if (canChoose){
             holder.rlAll.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

@@ -75,7 +75,7 @@ public class ShangPinLabelEditActivity extends BaseActivity {
                     edtName.setHint("");
                 }else {
                     if (edtName.getText().toString().equals("")){
-                        edtName.setHint("在这里输入（6字以内）");
+                        edtName.setHint("在这里输入名称(4字以内)");
                     }
                 }
             }

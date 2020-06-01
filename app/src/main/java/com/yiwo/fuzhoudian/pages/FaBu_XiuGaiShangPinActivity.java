@@ -1,8 +1,6 @@
 package com.yiwo.fuzhoudian.pages;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,19 +26,18 @@ import com.jph.takephoto.app.TakePhotoActivity;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.R;
-import com.yiwo.fuzhoudian.custom.TitleMessageOkDialog;
-import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
-import com.yiwo.fuzhoudian.model.ModifyFriendRememberModel;
-import com.yiwo.fuzhoudian.model.UpLoadShangPinImgIntercalationPicModel;
-import com.yiwo.fuzhoudian.network.NetConfig;
+import com.yiwo.fuzhoudian.adapter.FaBuShangPinJiaGeAdapter;
 import com.yiwo.fuzhoudian.adapter.FabuShangpinIntercalationPicsAdapter;
 import com.yiwo.fuzhoudian.adapter.ShangPinLabelAdapter;
 import com.yiwo.fuzhoudian.adapter.ShangPinServiceAdapter;
-import com.yiwo.fuzhoudian.adapter.FaBuShangPinJiaGeAdapter;
+import com.yiwo.fuzhoudian.custom.TitleMessageOkDialog;
+import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.model.ShangPinLabelModel;
 import com.yiwo.fuzhoudian.model.ShangPinServiceModel;
 import com.yiwo.fuzhoudian.model.ShangPinUpLoadModel;
+import com.yiwo.fuzhoudian.model.UpLoadShangPinImgIntercalationPicModel;
 import com.yiwo.fuzhoudian.model.XiuGaiShangPinModel;
+import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.TokenUtils;
 
@@ -559,6 +556,10 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
 //        strLabelsIdChoose = strLabelsIdChoose.replace(""," ").trim();
 //        strLabelsIdChoose = strLabelsIdChoose.replace(" ",",");
         model.setService(strServicesIdChoose);
+        if (TextUtils.isEmpty(strLabelsIdChoose)){
+            Toast.makeText(FaBu_XiuGaiShangPinActivity.this,"请选择商品标签",Toast.LENGTH_SHORT).show();
+            return;
+        }
         model.setTag(strLabelsIdChoose);
         List<ShangPinUpLoadModel.SpecBean> listUp = new ArrayList<>();
         for (ShangPinUpLoadModel.SpecBean bean : listPrices){//过滤没有填写任何信息的价格
@@ -576,6 +577,10 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                 }
                 if (bean.getNowPrice().equals("")&&bean.getOldPrice().equals("")){
                     Toast.makeText(FaBu_XiuGaiShangPinActivity.this,"商品价格不能为空",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (bean.getAllNum().equals("")){
+                    Toast.makeText(FaBu_XiuGaiShangPinActivity.this,"商品库存不能为空",Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

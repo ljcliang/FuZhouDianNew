@@ -29,6 +29,7 @@ public class SpPublic {
 
     public static String WX_UNIONID = "wx_unionid";//绑定微信 ID
 
+    public static String USER_NAME = "user_name";
     //上次创建友记填写的地点 、标签文字、标签ID
     public static String LAST_CREATE_YOUJI_ADDRESS = "last_create_youji_address";
     public static String LAST_CREATE_YOUJI_LABEL_TEXT = "last_create_youji_label_text";
