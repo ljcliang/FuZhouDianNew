@@ -61,7 +61,8 @@ public class DetailsOfFriendsWebActivity extends BaseSonicWebActivity {
         fmID= getIntent().getStringExtra("fmid");
         spImp = new SpImp(DetailsOfFriendsWebActivity.this);
         uid = spImp.getUID();
-        url = NetConfig.BaseUrl+"action/ac_article/youJiWeb?id="+fmID+"&uid="+uid;
+        url = NetConfig.BaseUrl+"action/ac_shopInfo/articleInfo?id="+fmID+"&uid="+uid;
+//        url = NetConfig.BaseUrl+"action/ac_article/youJiWeb?id="+fmID+"&uid="+uid;
         initIntentSonic(url,webView);
         Log.d("aaaa",url);
         webView.setWebChromeClient(new WebChromeClient(){

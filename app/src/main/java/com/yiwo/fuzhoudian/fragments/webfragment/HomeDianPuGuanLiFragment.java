@@ -3,14 +3,21 @@ package com.yiwo.fuzhoudian.fragments.webfragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Button;
 
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseWebFragment;
+import com.yiwo.fuzhoudian.utils.ShareUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +42,7 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         url = getArguments().getString("url");
         if (url != null) {
             initIntentSonic(url, mWv);
+            mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
         }
         initView(rootView);
         return rootView;
@@ -78,5 +86,41 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
                 showStaus();
                 break;
         }
+    }
+    public class AndroidInterface extends Object{
+        /**
+         * 首页分享店铺交互方法
+         * @param shopName 店铺名称
+         * @param img 图片
+         * @param info 介绍
+         * @param shareUrl 分享链接
+         */
+        @JavascriptInterface
+        public void toshareshop(String shopName,String img,String info,String shareUrl){
+            share(shareUrl,shopName,info,img);
+        }
+
+        /**
+         * 首页分享商品的交互方法   返回 商品名  商品图  商品信息  分享链接
+         * @param goodName 商品名
+         * @param img 商品图
+         * @param info 商品信息
+         * @param shareUrl 分享链接
+         */
+        @JavascriptInterface
+        public void tosharegoods(String goodName,String img,String info,String shareUrl){
+            share(shareUrl,goodName,info,img);
+        }
+    }
+    public void share (final String url, final String title, final String message, final String img){
+        Log.d("shareshare",url);
+        new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                .setShareboardclickCallback(new ShareBoardlistener() {
+                    @Override
+                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        ShareUtils.shareWeb(getActivity(), url, title,
+                                message, img, share_media);
+                    }
+                }).open();
     }
 }

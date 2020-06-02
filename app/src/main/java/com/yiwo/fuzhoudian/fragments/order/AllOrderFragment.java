@@ -88,7 +88,9 @@ public class AllOrderFragment extends BaseFragment {
         uid = spImp.getUID();
         return view;
     }
-
+    public void refreshData(){
+        refreshLayout.autoRefresh();
+    }
     private void initData1() {
 
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
