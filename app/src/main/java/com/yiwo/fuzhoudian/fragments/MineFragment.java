@@ -36,6 +36,7 @@ import com.yiwo.fuzhoudian.pages.PeiSongSettingActivity;
 import com.yiwo.fuzhoudian.pages.SetActivity;
 import com.yiwo.fuzhoudian.pages.ShopLocationActivity;
 import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
+import com.yiwo.fuzhoudian.pages.webpages.XiaoShouMingXiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.wangyiyunshipin.VideoUpLoadListActivity;
 
@@ -182,6 +183,12 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.rl_bottom_3://销售明细
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    XiaoShouMingXiActivity.start(getContext(),NetConfig.XiaoSHouMingXiUrl+spImp.getUID());
+                } else {
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.rl_bottom_4://我的评论
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {

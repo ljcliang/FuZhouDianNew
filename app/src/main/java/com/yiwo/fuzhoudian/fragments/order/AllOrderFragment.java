@@ -116,6 +116,7 @@ public class AllOrderFragment extends BaseFragment {
                                         mList.addAll(model.getObj());
                                         adapter.notifyDataSetChanged();
                                         refreshlayout.finishRefresh(500);
+                                        listenner.onDataChange(-1);
                                     }
                                     refreshlayout.finishRefresh(500);
                                 } catch (JSONException e) {
@@ -304,7 +305,7 @@ public class AllOrderFragment extends BaseFragment {
     public interface DataChangeListenner{
         /**
          * 有数据变化时调用接口，
-         * @param type 操作状态
+         * @param type 操作状态   为-1时候
          */
         void onDataChange(int type);
     }

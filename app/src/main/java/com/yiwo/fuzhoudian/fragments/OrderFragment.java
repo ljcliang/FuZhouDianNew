@@ -99,7 +99,7 @@ public class OrderFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_order, null);
-        ScreenAdapterTools.getInstance().loadView(rootView);
+//        ScreenAdapterTools.getInstance().loadView(rootView);
         unbinder = ButterKnife.bind(this, rootView);
         init();
         return rootView;

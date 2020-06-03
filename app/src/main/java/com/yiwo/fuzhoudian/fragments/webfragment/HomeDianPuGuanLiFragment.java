@@ -1,6 +1,8 @@
 package com.yiwo.fuzhoudian.fragments.webfragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -69,13 +71,11 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
     }
 
     public void showStaus() {
-        if (vStaus.getVisibility() == View.VISIBLE){
-            vStaus.setVisibility(View.GONE);
-        }else {
-            vStaus.setVisibility(View.VISIBLE);
-        }
+        vStaus.setVisibility(View.VISIBLE);
     }
-
+    public void hideStaus() {
+        vStaus.setVisibility(View.GONE);
+    }
 
     @Override
     public void onClick(View v) {
@@ -83,7 +83,11 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             default:
                 break;
             case R.id.btn:
-                showStaus();
+                if (vStaus.getVisibility() == View.VISIBLE){
+                    hideStaus();
+                }else {
+                    showStaus();
+                }
                 break;
         }
     }
@@ -111,6 +115,33 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         public void tosharegoods(String goodName,String img,String info,String shareUrl){
             share(shareUrl,goodName,info,img);
         }
+
+        /**
+         *
+         * @param status  open打开状态   hidden隐藏状态
+         */
+        @JavascriptInterface
+        public void showstyle(final String status){
+            Log.d("asdasdas",status);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Message message = new Message();
+                    if (status.equals("open")){
+                        message.arg1 = 1;
+                    }else {
+                        message.arg1 = 0;
+                    }
+                    handler.sendMessage(message);
+                }
+            }).start();
+//            if (status.equals("open")){
+//                showStaus();
+//            }else {
+//                hideStaus();
+//            }
+//            btn.callOnClick();
+        }
     }
     public void share (final String url, final String title, final String message, final String img){
         Log.d("shareshare",url);
@@ -123,4 +154,18 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
                     }
                 }).open();
     }
+    private  Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.arg1){
+                case 0:
+                    vStaus.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    vStaus.setVisibility(View.GONE);
+                    break;
+            }
+        }
+    };
 }

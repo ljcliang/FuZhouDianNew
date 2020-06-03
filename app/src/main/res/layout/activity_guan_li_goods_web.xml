@@ -16,10 +16,50 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/titleTv"
-            style="@style/TopBarStyle_TvTitle"
-            android:text="管理商品" />
+        <RelativeLayout
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/bg_white_18dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/rl_fabu"
+            android:layout_toRightOf="@+id/rl_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_toLeftOf="@+id/ll_btn_serch"
+                android:lines="1"
+                android:id="@+id/edt_search"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="13sp"
+                android:hint="搜索商品"
+                android:background="@drawable/bg_search_edt"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/ll_btn_serch"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/color_666666"
+                    android:layout_width="1dp"
+                    android:layout_height="15dp"/>
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="搜 索"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rl_fabu"
             style="@style/TopBarStyle_RlRight">

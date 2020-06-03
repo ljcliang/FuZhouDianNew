@@ -15,6 +15,9 @@ import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.adapter.FragmentViewpagerAdapter;
 import com.yiwo.fuzhoudian.base.BaseActivity;
 import com.yiwo.fuzhoudian.fragments.MyCommentYouJiFragment;
+import com.yiwo.fuzhoudian.fragments.webfragment.ShangPinPingLunFragment;
+import com.yiwo.fuzhoudian.fragments.webfragment.WenZhangPingLunFragment;
+import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.sp.SpImp;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -65,14 +68,14 @@ public class MyCommentActivity extends BaseActivity {
     private void initData() {
 
         fragmentList = new ArrayList<>();
-        fragmentList.add(new MyCommentYouJiFragment());
-//        fragmentList.add(new MyCommentHuoDongFragment());
+        fragmentList.add(WenZhangPingLunFragment.newInstance(NetConfig.ArticleCommentUrl+spImp.getUID()));
+        fragmentList.add(ShangPinPingLunFragment.newInstance(NetConfig.GoodsCommentUrl+spImp.getUID()));
         mViewPagerFragmentAdapter = new FragmentViewpagerAdapter(mFragmentManager, fragmentList);
         mViewPager.setAdapter(mViewPagerFragmentAdapter);
 
         mTitleDataList = new ArrayList<>();
-        mTitleDataList.add("动态评论");
-//        mTitleDataList.add("活动评价");
+        mTitleDataList.add("文章评论");
+        mTitleDataList.add("商品评价");
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
@@ -102,7 +105,7 @@ public class MyCommentActivity extends BaseActivity {
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setColors(Color.parseColor("#4e94a0"));
+                indicator.setColors(Color.parseColor("#FFFFFF"));
                 return indicator;
             }
         });

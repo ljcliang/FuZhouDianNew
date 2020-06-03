@@ -3,11 +3,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <View
-        android:id="@+id/v_staus"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,12 +10,6 @@
             android:id="@+id/wv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></WebView>
-        <Button
-            android:visibility="gone"
-            android:id="@+id/btn"
-            android:layout_alignParentBottom="true"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
     </RelativeLayout>
 
 </LinearLayout>

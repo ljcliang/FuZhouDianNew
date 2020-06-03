@@ -13,8 +13,17 @@ public class NetConfig {
     public static String BaseUrl = "https://fzd.91yiwo.com/index.php/";
 //    public static String BaseUrl = "http://www.youlaiyouyue.com/";
 //    public static String BaseUrl = "http://47.92.136.19/index.php/";
+    //首页店铺URl
     public static String ShopHomeUrl = BaseUrl+"action/ac_goods/goodsList?uid="; //后面加 店铺的id
+    //管理店铺 URL
     public static String GuanLiGoodsUrl = BaseUrl+"action/ac_goods/myGoods?uid="; //后面加 用户id
+    //销售明细URL
+    public static String XiaoSHouMingXiUrl = BaseUrl+"action/ac_goods/sellMessage?uid="; // +店铺id
+    //店铺商品评论URL：
+    public static String GoodsCommentUrl = BaseUrl+"action/ac_goods/goodsComment?uid="; // +店铺id
+    //店铺文章评论URL：
+    public static String ArticleCommentUrl = BaseUrl+"action/ac_goods/articleComment?uid="; // +店铺id
+
     //检测版本号 返回 an_version 安卓版本号  an_download下载地址
     public static String checkVersion = "action/ac_public/check_version";
     //登录
