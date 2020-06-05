@@ -446,7 +446,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
     }
     private boolean oneIsTongBanZhuShou(String accID0,String accID1){
-        if (accID0.equals("tongbanxiaozhushou")||accID1.equals("tongbanxiaozhushou")){
+        if (accID0.equals("fzddianjiaxiaozhushou")||accID1.equals("fzddianjiaxiaozhushou")){
             return true;
         }else {
             return false;

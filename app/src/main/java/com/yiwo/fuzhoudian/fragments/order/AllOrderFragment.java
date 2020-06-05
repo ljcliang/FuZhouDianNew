@@ -217,37 +217,66 @@ public class AllOrderFragment extends BaseFragment {
 
     private void chuLiDingDan(SellerOrderModel.ObjBean bean, final int type) {
         String quxiaoyuanyin = "";
-        if (type ==0){//取消订单时
-
-        }
-        ViseHttp.POST(NetConfig.sellerDoOrder)
-                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.sellerDoOrder))
-                .addParam("uid", spImp.getUID())
-                .addParam("orderID",bean.getId())
-                .addParam("type",type+"")
-                .addParam("qxyy",quxiaoyuanyin)
-                .request(new ACallback<String>() {
-                    @Override
-                    public void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.getInt("code") == 200){
-                                toToast(getContext(),jsonObject.getString("message"));
-                                refresh();
-                                if (listenner!=null){
-                                    listenner.onDataChange(type);
+//        if (type ==0){//取消订单时
+//
+//        }else
+        if (type == 3){//确定买家已经收货
+            ViseHttp.POST(NetConfig.shopSureGetThings)
+                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.shopSureGetThings))
+                    .addParam("uid", spImp.getUID())
+                    .addParam("orderID",bean.getId())
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if (jsonObject.getInt("code") == 200){
+                                    toToast(getContext(),jsonObject.getString("message"));
+                                    refresh();
+                                    if (listenner!=null){
+                                        listenner.onDataChange(type);
+                                    }
                                 }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onFail(int errCode, String errMsg) {
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
 
-                    }
-                });
+                        }
+                    });
+        }else { //  0拒绝接单  1出单  2删除
+            ViseHttp.POST(NetConfig.sellerDoOrder)
+                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.sellerDoOrder))
+                    .addParam("uid", spImp.getUID())
+                    .addParam("orderID",bean.getId())
+                    .addParam("type",type+"")
+                    .addParam("qxyy",quxiaoyuanyin)
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(data);
+                                if (jsonObject.getInt("code") == 200){
+                                    toToast(getContext(),jsonObject.getString("message"));
+                                    refresh();
+                                    if (listenner!=null){
+                                        listenner.onDataChange(type);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }
     }
 
     public void refresh(){

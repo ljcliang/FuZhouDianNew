@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity {
     UMShareAPI api;
     private boolean isShowPwd = false;
     private String account;
-
+    public static final int LOGIN_SUSS_RESULT = 0x00000011 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,6 +208,7 @@ public class LoginActivity extends BaseActivity {
                                             };
                                     NIMClient.getService(AuthService.class).login(info)
                                             .setCallback(callback);
+                                    setResult(LOGIN_SUSS_RESULT);
                                     finish();
                                 } else {
                                     toToast(c, jsonObject.optString("message").toString());

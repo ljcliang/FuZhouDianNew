@@ -56,6 +56,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.tv_order_sn.setText("订单号:"+data.get(position).getOrder_sn());
         Glide.with(context).load(data.get(position).getUserpic()).apply(new RequestOptions().error(R.mipmap.my_head).placeholder(R.mipmap.my_head)).into(holder.iv_userhead);
         holder.tv_username.setText(data.get(position).getUsername());
         holder.tv_staus.setText(data.get(position).getStatusMes());
@@ -82,7 +83,8 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.tv_btn_delete.setVisibility(View.GONE);
         holder.tv_btn_yipingjia.setVisibility(View.GONE);
         holder.tv_btn_tuikuan.setVisibility(View.GONE);
-//         1出单  拒绝接单       2 空白     3删除     4删除   已评价   5确认退款   6、7删除
+        holder.tv_btn_querenshouhuo.setVisibility(View.GONE);
+//         1出单  拒绝接单       2 确认收货     3删除     4删除   已评价   5确认退款   6、7删除
         switch (data.get(position).getStatus()){
 
             case "0":
@@ -93,7 +95,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                 holder.tv_btn_jujuejiedan.setVisibility(View.VISIBLE);
                 break;
             case "2":
-
+                holder.tv_btn_querenshouhuo.setVisibility(View.VISIBLE);
                 break;
             case "3":
                 holder.tv_btn_delete.setVisibility(View.VISIBLE);
@@ -125,7 +127,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("确定拒绝出单？")
+                builder.setMessage("确定出单？")
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -196,7 +198,24 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 //                context.startActivity(intent);
             }
         });
-
+        holder.tv_btn_querenshouhuo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("确定买家已收货？")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                btnsOnCLickListenner.onChuLiDan(position,3);
+                            }
+                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
+            }
+        });
     }
 
     @Override
@@ -207,12 +226,13 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 
         private RelativeLayout rlDetails;
         private ImageView iv_userhead,fragment_all_order_rv_iv;
-        private TextView tv_username,tv_staus,tv_goods_name,tv_goods_info,tv_goods_price,tv_goods_num,tv_all_price,
-                tv_btn_delete,tv_btn_yipingjia,tv_btn_tuikuan,tv_btn_chudan,tv_btn_jujuejiedan;
+        private TextView tv_username,tv_staus,tv_goods_name,tv_goods_info,tv_goods_price,tv_goods_num,tv_all_price,tv_order_sn,
+                tv_btn_delete,tv_btn_yipingjia,tv_btn_tuikuan,tv_btn_chudan,tv_btn_jujuejiedan,tv_btn_querenshouhuo;
         private LinearLayout ll_price;
         public ViewHolder(View itemView) {
             super(itemView);
             rlDetails = itemView.findViewById(R.id.fragment_all_order_rv_rl_details);
+            tv_order_sn = itemView.findViewById(R.id.tv_order_sn);
             iv_userhead = itemView.findViewById(R.id.iv_userhead);
             fragment_all_order_rv_iv = itemView.findViewById(R.id.fragment_all_order_rv_iv);
             tv_username = itemView.findViewById(R.id.tv_username);
@@ -230,7 +250,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             tv_btn_tuikuan = itemView.findViewById(R.id.tv_btn_tuikuan);
             tv_btn_chudan = itemView.findViewById(R.id.tv_btn_chudan);
             tv_btn_jujuejiedan = itemView.findViewById(R.id.tv_btn_jujuejiedan);
-
+            tv_btn_querenshouhuo = itemView.findViewById(R.id.tv_btn_querenshouhuo);
             ll_price = itemView.findViewById(R.id.ll_price);
         }
     }
@@ -238,7 +258,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         /**
          *
          * @param postion
-         * @param type type 操作类型  0拒绝接单  1出单  2删除
+         * @param type type 操作类型  0拒绝接单  1出单  2删除 3确定收货
          */
         void onChuLiDan(int postion,int type);//type 操作类型  0拒绝接单  1出单  2删除
         void onYiPingJia(int postion);

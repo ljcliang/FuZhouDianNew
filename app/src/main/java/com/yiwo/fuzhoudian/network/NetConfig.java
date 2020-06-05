@@ -517,6 +517,8 @@ public class NetConfig {
     public static String sellerOrder = "action/ac_goods/sellerOrder";
 //    action/ac_goods   /   sellerDoOrder  操作订单   传uid 用户id   orderID 订单id  type 操作类型  0拒绝接单  1出单  2删除       type=0时传 qxyy 拒绝接单的原因
     public static String sellerDoOrder = "action/ac_goods/sellerDoOrder";
+//    action/ac_goods/     shopSureGetThings   传uid用户id    orderID订单id
+    public static String shopSureGetThings = "action/ac_goods/shopSureGetThings";
 //action/ac_goods/      sendSet     配送设置           传uid 用户id   money配送费   noMoney满多少钱  zt  0可自提  1不可自提      ps0可配送 1不可配送
     public static String sendSet = "action/ac_goods/sendSet";
 //    action/ac_goods/getSendSet   获取配送设置信息    传uid用户id

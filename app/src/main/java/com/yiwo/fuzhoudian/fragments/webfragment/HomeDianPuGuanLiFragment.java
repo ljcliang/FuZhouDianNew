@@ -1,10 +1,12 @@
 package com.yiwo.fuzhoudian.fragments.webfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,17 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.yiwo.fuzhoudian.MainActivity;
+import com.yiwo.fuzhoudian.MyApplication;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseWebFragment;
+import com.yiwo.fuzhoudian.custom.XieYiDialog;
+import com.yiwo.fuzhoudian.network.NetConfig;
+import com.yiwo.fuzhoudian.pages.LoginActivity;
+import com.yiwo.fuzhoudian.pages.MyFriendActivity;
+import com.yiwo.fuzhoudian.pages.UserAgreementActivity;
+import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
+import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.ShareUtils;
 
 import butterknife.BindView;
@@ -35,21 +46,66 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
     private String url;
     private View vStaus;
     private Button btn;
-
+    private SpImp spImp;
+    private static final int REQUEST_CODE = 0x00000011;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home_dianpuguanli, null);
         unbinder = ButterKnife.bind(this, rootView);
-        url = getArguments().getString("url");
-        if (url != null) {
-            initIntentSonic(url, mWv);
-            mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
-        }
+        spImp = new SpImp(getContext());
         initView(rootView);
+        Intent intent = new Intent();
+        if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+            if (!spImp.isAgree()){
+                showAgreeDialog();
+            }
+            url = getArguments().getString("url");
+            if (url != null) {
+                initIntentSonic(url, mWv);
+                mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+            }
+        }else {
+            intent.setClass(getContext(), LoginActivity.class);
+            Log.d("sadasda","sdasdasd");
+            startActivityForResult(intent,REQUEST_CODE);
+        }
         return rootView;
     }
+    private void showAgreeDialog() {
+        XieYiDialog dialog = new XieYiDialog(getContext(), new XieYiDialog.XieYiDialogListener() {
+            @Override
+            public void agreeBtnListen() {
+                spImp.setIsAgreeXieYi(true);
+//                initAsset();
+//                initData();
+            }
 
+            @Override
+            public void disAgreeBtnListen() {
+                spImp.setIsAgreeXieYi(false);
+                MyApplication.getInstance().exit();
+            }
+
+            @Override
+            public void xieYiTextClickListen() {
+                Intent itA = new Intent(getContext(), UserAgreementActivity.class);
+                itA.putExtra("title", "用户协议");
+                itA.putExtra("url", NetConfig.userAgreementUrl);
+                startActivity(itA);
+            }
+
+            @Override
+            public void zhengCeTextClickListen() {
+                Intent itTk = new Intent(getActivity(), UserAgreementActivity.class);
+                itTk.putExtra("title", "隐私政策");
+                itTk.putExtra("url", NetConfig.userAgreementUrl1);
+                startActivity(itTk);
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+    }
     public static HomeDianPuGuanLiFragment newInstance(String url) {
         HomeDianPuGuanLiFragment f = new HomeDianPuGuanLiFragment();
         Bundle args = new Bundle();
@@ -83,11 +139,12 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             default:
                 break;
             case R.id.btn:
-                if (vStaus.getVisibility() == View.VISIBLE){
-                    hideStaus();
-                }else {
-                    showStaus();
-                }
+//                if (vStaus.getVisibility() == View.VISIBLE){
+//                    hideStaus();
+//                }else {
+//                    showStaus();
+//                }
+                RenZheng0_BeginActivity.openActivity(getContext());
                 break;
         }
     }
@@ -168,4 +225,20 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             }
         }
     };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == LoginActivity.LOGIN_SUSS_RESULT ){
+            if (!spImp.isAgree()){
+                showAgreeDialog();
+            }
+            Log.d("sadasda","login_chengggon");
+            url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
+            if (url != null) {
+                initIntentSonic(url, mWv);
+                mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+            }
+        }
+    }
 }

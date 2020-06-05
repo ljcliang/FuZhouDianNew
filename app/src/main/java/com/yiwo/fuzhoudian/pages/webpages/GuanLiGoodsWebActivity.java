@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.yiwo.fuzhoudian.R;
@@ -24,6 +26,10 @@ public class GuanLiGoodsWebActivity extends BaseSonicWebActivity {
     WebView webView;
     @BindView(R.id.rl_fabu)
     RelativeLayout mRlFabu;
+    @BindView(R.id.ll_btn_serch)
+    LinearLayout mLlBtnSerch;
+    @BindView(R.id.edt_search)
+    EditText mEdtSearch;
     private String url;
 
     @Override
@@ -43,7 +49,7 @@ public class GuanLiGoodsWebActivity extends BaseSonicWebActivity {
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.rl_return, R.id.rl_fabu})
+    @OnClick({R.id.rl_return, R.id.rl_fabu, R.id.ll_btn_serch})
     public void onClick(View v) {
         switch (v.getId()) {
             default:
@@ -55,6 +61,10 @@ public class GuanLiGoodsWebActivity extends BaseSonicWebActivity {
                 Intent intent = new Intent();
                 intent.setClass(GuanLiGoodsWebActivity.this, FaBu_XiuGaiShangPinActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.ll_btn_serch:
+                webView.loadUrl("javascript:sousuo('" + mEdtSearch.getText().toString() + "')");
+                mEdtSearch.setText("");
                 break;
         }
     }

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,17 +28,25 @@ import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.session.SessionEventListener;
 import com.netease.nim.uikit.business.session.module.MsgForwardFilter;
 import com.netease.nim.uikit.business.session.module.MsgRevokeFilter;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.auth.constant.LoginSyncStatus;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yiwo.fuzhoudian.base.BaseActivity;
-import com.yiwo.fuzhoudian.fragments.HomeFragment;
+import com.yiwo.fuzhoudian.custom.XieYiDialog;
 import com.yiwo.fuzhoudian.fragments.MessageFragment;
 import com.yiwo.fuzhoudian.fragments.MineFragment;
 import com.yiwo.fuzhoudian.fragments.OrderFragment;
 import com.yiwo.fuzhoudian.fragments.webfragment.HomeDianPuGuanLiFragment;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.LoginActivity;
+import com.yiwo.fuzhoudian.pages.UserAgreementActivity;
 import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiActivity;
+import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.StatusBarUtils;
 import com.yiwo.fuzhoudian.wangyiyunshipin.upload.constant.UploadType;
@@ -47,8 +58,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.yiwo.fuzhoudian.network.NetConfig.ShopHomeUrl;
 
 public class MainActivity extends BaseActivity {
 
@@ -87,23 +96,26 @@ public class MainActivity extends BaseActivity {
     FrameLayout flContainer;
     @BindView(R.id.rl_main)
     RelativeLayout rlMain;
+    @BindView(R.id.iv_point_new_chat_message)
+    ImageView ivNewChatMessage;
     private long exitTime = 0;
 
     private List<Fragment> fragmentList = new ArrayList<>();
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-//    HomeFragment homeFragment;
+    //    HomeFragment homeFragment;
     HomeDianPuGuanLiFragment homeFragment;
     MessageFragment messageFragment;
     MineFragment mineFragment;
     OrderFragment orderFragment;
-    String[] permissions = new String[]{android.Manifest.permission.CALL_PHONE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.RECORD_AUDIO
+    String[] permissions = new String[]{Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO
             , Manifest.permission.CAMERA};
     List<String> mPermissionList = new ArrayList<>();
     private SpImp spImp;
     private String uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +129,16 @@ public class MainActivity extends BaseActivity {
         initUpLoadController();
         initSessionListener();
         initFragment();
+        NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
+            @Override
+            public void onEvent(LoginSyncStatus loginSyncStatus) {
+                if (loginSyncStatus == LoginSyncStatus.SYNC_COMPLETED){
+                    NIMClient.toggleNotification(true);
+                }
+            }
+        },true);
     }
+
     private void initSessionListener() {
         NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
             @Override
@@ -155,17 +176,27 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onMsgTextClicked(Context context, IMMessage message) {
-                if (message.getSessionId().equals("tongbanxiaozhushou")&&message.getMsgType()== MsgTypeEnum.text){//瞳伴小助手消息
-                    ((Activity)context).finish();
-                    switchFragment(1);
+                if (message.getSessionId().equals("fzddianjiaxiaozhushou") && message.getMsgType() == MsgTypeEnum.text) {//瞳伴小助手消息
+                    Log.d("sadasda", message.getContent());
+                    if (message.getContent().indexOf("订单") != -1) {
+                        ((Activity) context).finish();
+                        switchFragment(1);
+                    }
                 }
             }
 
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkHasNewChatmessage();
+    }
+
     private void initFragment() {
 //        homeFragment = new HomeFragment();
-        homeFragment =  HomeDianPuGuanLiFragment.newInstance(NetConfig.ShopHomeUrl+""+spImp.getUID());
+        homeFragment = HomeDianPuGuanLiFragment.newInstance(NetConfig.ShopHomeUrl + "" + spImp.getUID());
         orderFragment = new OrderFragment();
         messageFragment = new MessageFragment();
         mineFragment = new MineFragment();
@@ -259,9 +290,11 @@ public class MainActivity extends BaseActivity {
     public ImageView getCartImageView() {
         return ivBottom3;
     }
+
     public RelativeLayout getRlMain() {
         return rlMain;
     }
+
     @OnClick({R.id.ll_btn_1, R.id.ll_btn_2, R.id.ll_btn_3, R.id.ll_btn_4, R.id.ll_btn_5})
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -269,14 +302,29 @@ public class MainActivity extends BaseActivity {
             default:
                 break;
             case R.id.ll_btn_1:
-                switchFragment(0);
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    switchFragment(0);
+                } else {
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ll_btn_2:
-                switchFragment(1);
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    switchFragment(1);
+                } else {
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ll_btn_3:
-                intent.setClass(MainActivity.this, CreateYouJiActivity.class);
-                startActivity(intent);
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    intent.setClass(MainActivity.this, CreateYouJiActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ll_btn_4:
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
@@ -291,6 +339,7 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
+
     public void getPermissions() {
         /**
          * 判断哪些权限未授予
@@ -311,10 +360,52 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, permissions, 1);
         }
     }
+
     private void initUpLoadController() {
         UploadController.getInstance().init(MainActivity.this);
         UploadController.getInstance().loadVideoDataFromLocal(UploadType.SHORT_VIDEO);
 //        UploadController.getInstance().attachUi(VideoUpLoadListActivity.this);
+    }
+
+    public boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+
+    private void newMessageLis() {//新聊天消息监听
+        Observer<List<IMMessage>> incomingMessageObserver =
+                new Observer<List<IMMessage>>() {
+                    @Override
+                    public void onEvent(List<IMMessage> messages) {
+                        // 处理新收到的消息，为了上传处理方便，SDK 保证参数 messages 全部来自同一个聊天对象。
+                        ivNewChatMessage.setVisibility(View.VISIBLE);
+                    }
+                };
+        NIMClient.getService(MsgServiceObserve.class)
+                .observeReceiveMessage(incomingMessageObserver, true);
+    }
+
+    private void checkHasNewChatmessage() {
+        if (!isNetworkConnected(this)) {
+            return;
+        }
+        if (!TextUtils.isEmpty(uid) && !uid.equals("0")) {
+            if (NIMClient.getService(MsgService.class).getTotalUnreadCount() > 0) {//获取未读消息数
+                ivNewChatMessage.setVisibility(View.VISIBLE);
+            } else {
+                ivNewChatMessage.setVisibility(View.GONE);
+            }
+        } else {
+            ivNewChatMessage.setVisibility(View.GONE);
+        }
+        newMessageLis();
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -323,7 +414,7 @@ public class MainActivity extends BaseActivity {
         if (fragments != null) {
             for (Fragment fragment : fragments) {
                 if (fragment != null) {
-                    fragment.onRequestPermissionsResult(requestCode,permissions,grantResults);
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 }
             }
         }
