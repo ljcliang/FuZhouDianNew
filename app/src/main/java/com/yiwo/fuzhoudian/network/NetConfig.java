@@ -517,7 +517,9 @@ public class NetConfig {
     public static String sellerOrder = "action/ac_goods/sellerOrder";
 //    action/ac_goods   /   sellerDoOrder  操作订单   传uid 用户id   orderID 订单id  type 操作类型  0拒绝接单  1出单  2删除       type=0时传 qxyy 拒绝接单的原因
     public static String sellerDoOrder = "action/ac_goods/sellerDoOrder";
-//    action/ac_goods/     shopSureGetThings   传uid用户id    orderID订单id
+//    action/ac_goods/orderRefund   确认退款   传 uid 用户id   orderID 订单id
+    public static String orderRefund = "action/ac_goods/orderRefund";
+//    action/ac_goods/     shopSureGetThings   确认收货 传uid用户id    orderID订单id
     public static String shopSureGetThings = "action/ac_goods/shopSureGetThings";
 //action/ac_goods/      sendSet     配送设置           传uid 用户id   money配送费   noMoney满多少钱  zt  0可自提  1不可自提      ps0可配送 1不可配送
     public static String sendSet = "action/ac_goods/sendSet";
@@ -528,11 +530,11 @@ public class NetConfig {
 //action/ac_user/userAddressLatLng   地址接口  传uid用户id  shopLat  shopLng经纬度 address
     public static String userAddressLatLng =  "action/ac_user/userAddressLatLng";
 //    action/ac_user/getUserAddressLatLng   获取地址信息  传uid用户id
-public static String getUserAddressLatLng =  "action/ac_user/getUserAddressLatLng";
+    public static String getUserAddressLatLng =  "action/ac_user/getUserAddressLatLng";
 //action/ac_goods/addMyTag   添加我的标签   name标签名   uid用户id  返回id
     public static String addMyTag =  "action/ac_goods/addMyTag";
 //    action/ac_goods/getMyTag  我的标签  传uid
-public static String getMyTag =  "action/ac_goods/getMyTag";
+    public static String getMyTag =  "action/ac_goods/getMyTag";
 //action/ac_goods/editMyTag   编辑  传id   name名字
     public static String editMyTag =  "action/ac_goods/editMyTag";
 }

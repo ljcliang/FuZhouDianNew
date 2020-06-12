@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
+import com.yiwo.fuzhoudian.custom.EditContentDialog_L;
 import com.yiwo.fuzhoudian.fragments.webfragment.HomeDianPuGuanLiFragment;
 import com.yiwo.fuzhoudian.model.AllOrderFragmentModel;
 import com.yiwo.fuzhoudian.model.SellerOrderModel;
@@ -131,7 +132,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                btnsOnCLickListenner.onChuLiDan(position,1);
+                                btnsOnCLickListenner.onChuLiDan(position,1,"");
                             }
                         }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
                     @Override
@@ -144,19 +145,13 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.tv_btn_jujuejiedan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("确定拒绝出单？")
-                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                btnsOnCLickListenner.onChuLiDan(position,0);
-                            }
-                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                EditContentDialog_L contentDialog = new EditContentDialog_L(context, "请输入拒绝接单原因", new EditContentDialog_L.OnReturnListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onReturn(String content) {
+                        btnsOnCLickListenner.onChuLiDan(position,0,content);
                     }
-                }).show();
+                });
+                contentDialog.show();
             }
         });
         holder.tv_btn_delete.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +162,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                btnsOnCLickListenner.onChuLiDan(position,2);
+                                btnsOnCLickListenner.onChuLiDan(position,2,"");
                             }
                         }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
                     @Override
@@ -186,6 +181,19 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 //                intent.putExtra("orderid", data.get(position).getOID());
 //                intent.putExtra("type","0");
 //                context.startActivity(intent);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("确定退款？")
+                                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        btnsOnCLickListenner.onTuiKuan(position);
+                                    }
+                                }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
             }
         });
         holder.tv_btn_yipingjia.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +214,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                btnsOnCLickListenner.onChuLiDan(position,3);
+                                btnsOnCLickListenner.onChuLiDan(position,3,"");
                             }
                         }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
                     @Override
@@ -258,9 +266,9 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         /**
          *
          * @param postion
-         * @param type type 操作类型  0拒绝接单  1出单  2删除 3确定收货
+         * @param type type 操作类型  0拒绝接单  1出单  2删除 3确定收货,type == 0 时传入拒绝原因
          */
-        void onChuLiDan(int postion,int type);//type 操作类型  0拒绝接单  1出单  2删除
+        void onChuLiDan(int postion,int type,String juJueYuanYin);//type 操作类型  0拒绝接单  1出单  2删除
         void onYiPingJia(int postion);
         void onTuiKuan(int postion);
     }

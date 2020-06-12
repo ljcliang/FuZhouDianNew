@@ -185,8 +185,9 @@ public class AllOrderFragment extends BaseFragment {
                                 mList = model.getObj();
                                 adapter = new FragmentAllOrderAdapter(mList, getActivity(), new FragmentAllOrderAdapter.BtnsOnCLickListenner() {
                                     @Override
-                                    public void onChuLiDan(int postion, int type) {
-                                        chuLiDingDan(mList.get(postion),type);
+                                    public void onChuLiDan(int postion, int type,String juJueYuanYin) {
+                                        Log.d("sadasd",type+":::"+juJueYuanYin);
+                                        chuLiDingDan(mList.get(postion),type,juJueYuanYin);
                                     }
 
                                     @Override
@@ -196,7 +197,7 @@ public class AllOrderFragment extends BaseFragment {
 
                                     @Override
                                     public void onTuiKuan(int postion) {
-
+                                        tuikuan(mList.get(postion));
                                     }
                                 });
                                 recyclerView.setAdapter(adapter);
@@ -215,11 +216,44 @@ public class AllOrderFragment extends BaseFragment {
 
     }
 
-    private void chuLiDingDan(SellerOrderModel.ObjBean bean, final int type) {
+    private void tuikuan(SellerOrderModel.ObjBean bean) {
+        ViseHttp.POST(NetConfig.orderRefund)
+                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.orderRefund))
+                .addParam("uid", spImp.getUID())
+                .addParam("orderID",bean.getId())
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 200){
+                                toToast(getContext(),jsonObject.getString("message"));
+                                refresh();
+                                if (listenner!=null){
+                                    listenner.onDataChange(-1);
+                                }
+                            }else {
+                                toToast(getContext(),"退款失败："+jsonObject.getString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        toToast(getContext(),errCode+":"+errMsg);
+                    }
+                });
+    }
+
+    private void chuLiDingDan(SellerOrderModel.ObjBean bean, final int type,String juJueYuanYin) {
         String quxiaoyuanyin = "";
-//        if (type ==0){//取消订单时
-//
-//        }else
+        if (type ==0){//拒绝接单时
+            quxiaoyuanyin = juJueYuanYin;
+        }
         if (type == 3){//确定买家已经收货
             ViseHttp.POST(NetConfig.shopSureGetThings)
                     .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.shopSureGetThings))
@@ -257,6 +291,7 @@ public class AllOrderFragment extends BaseFragment {
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
+                            Log.d("sadasd",data);
                             try {
                                 JSONObject jsonObject = new JSONObject(data);
                                 if (jsonObject.getInt("code") == 200){
@@ -273,7 +308,8 @@ public class AllOrderFragment extends BaseFragment {
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-
+                            Log.d("sadasd",errCode+ errMsg);
+                            toToast(getContext(),errCode+":"+ errMsg);
                         }
                     });
         }
