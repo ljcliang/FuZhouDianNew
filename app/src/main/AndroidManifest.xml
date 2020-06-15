@@ -20,6 +20,8 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
+            android:taskAffinity="com.yiwo.fuzhoudian"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".pages.ShangPinLabelEditActivity" />
         <activity android:name=".pages.ShopLocationActivity" />

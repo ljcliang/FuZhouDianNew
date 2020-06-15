@@ -5,6 +5,6 @@ package com.yiwo.fuzhoudian.network;
  */
 
 public class UMConfig {
-    public static String WECHAT_APPSECRET = "9d93a565d8231a85a41cb5a0b8e5c125";
-    public static String WECHAT_APPID = "wx77762a8eab365cf1";
+    public static String WECHAT_APPSECRET = "540d735c57c7d48cf059ff3389e190a0";
+    public static String WECHAT_APPID = "wxf9e3761735d824c4";
 }

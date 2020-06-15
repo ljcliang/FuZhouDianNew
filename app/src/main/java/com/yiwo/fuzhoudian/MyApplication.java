@@ -101,8 +101,9 @@ public class MyApplication extends Application {
         //----------------------友盟--------------------
         //初始化组件化基础库, 所有友盟业务SDK都必须调用此初始化接口。
         //建议在宿主App的Application.onCreate函数中调用基础组件库初始化函数。
-        UMConfigure.init(this, "5ed5e8e1dbc2ec08279bd8eb", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         UMShareAPI.get(this);
+        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, "5ed5e8e1dbc2ec08279bd8eb", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         {
             PlatformConfig.setWeixin(UMConfig.WECHAT_APPID, UMConfig.WECHAT_APPSECRET);
         }

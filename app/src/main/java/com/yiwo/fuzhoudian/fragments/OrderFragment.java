@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
@@ -34,6 +36,8 @@ public class OrderFragment extends BaseFragment {
     TabLayout mTb;
     @BindView(R.id.activity_my_order_viewpager)
     ViewPager mVp;
+    @BindView(R.id.edt_search)
+    EditText editSearch;
     private List<Fragment> mFragmentList;
     private AllOrderFragment allOrderFragment,allOrderFragment1,allOrderFragment2,allOrderFragment3,allOrderFragment4;
     private void initFragment() {
@@ -148,5 +152,13 @@ public class OrderFragment extends BaseFragment {
             mTb.addTab(mTb.newTab().setText(mTitleList.get(i)));
         }
     }
-
+    @OnClick({R.id.ll_btn_serch})
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.ll_btn_serch:
+                mVp.setCurrentItem(0);
+                allOrderFragment.refresh(editSearch.getText().toString());
+                break;
+        }
+    }
 }

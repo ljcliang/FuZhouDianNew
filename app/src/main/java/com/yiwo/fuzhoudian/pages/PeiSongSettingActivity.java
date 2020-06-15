@@ -82,11 +82,17 @@ public class PeiSongSettingActivity extends BaseActivity {
                                 if (daoodianziti){
                                     ivCkDaodian.setImageResource(R.mipmap.checkbox_black_true);
                                 }else {
-                                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_false);
+//                                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_false);
+                                    ivCkDaodian.setImageResource(R.mipmap.checkbox_black_true);
                                 }
                                 edtGouman.setText(model.getObj().getNoMoney());
                                 edtPeisongfei.setText(model.getObj().getMoney());
-                                edtPeisongfanwei.setText(model.getObj().getCanGet());
+                                if (model.getObj().getCanGet().equals("0") ){
+                                    edtPeisongfanwei.setHint("在这里输入");
+                                }else {
+                                    edtPeisongfanwei.setText(model.getObj().getCanGet());
+                                }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

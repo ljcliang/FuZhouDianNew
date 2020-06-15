@@ -158,6 +158,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="130px">
                 <TextView
+                    android:id="@+id/tv_text_shop_name"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="35px"
                     android:textSize="30px"
@@ -167,10 +168,14 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
+                    android:layout_marginLeft="50px"
+                    android:layout_toRightOf="@+id/tv_text_shop_name"
                     android:gravity="end"
                     android:maxLength="30"
                     android:hint="在这里输入"
                     android:background="@null"
+                    android:maxLines="1"
+                    android:inputType="text"
                     android:id="@+id/activity_my_information_et_username"
                     android:layout_marginRight="38px"
                     android:textColor="@color/color_101010"

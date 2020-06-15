@@ -314,13 +314,17 @@ public class AllOrderFragment extends BaseFragment {
                     });
         }
     }
-
     public void refresh(){
+        refresh("");
+    }
+    public void refresh(String search_word){
+
         ViseHttp.POST(NetConfig.sellerOrder)
                 .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.sellerOrder))
                 .addParam("page", "1")
                 .addParam("uid", uid)
                 .addParam("status", status)
+                .addParam("search_word",search_word)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
