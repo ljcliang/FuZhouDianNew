@@ -324,7 +324,7 @@ public class AllOrderFragment extends BaseFragment {
                 .addParam("page", "1")
                 .addParam("uid", uid)
                 .addParam("status", status)
-                .addParam("search_word",search_word)
+                .addParam("keyWord",search_word)
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {

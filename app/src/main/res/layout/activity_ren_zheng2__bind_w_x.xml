@@ -9,40 +9,61 @@
     <RelativeLayout
         android:id="@+id/rl_bind_wx"
         android:padding="2dp"
-        android:background="@drawable/bg_d8d8d8_0px_trans"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:layout_width="280dp"
-        android:layout_height="150dp">
-        <TextView
-            android:id="@+id/tv_bind_wx"
-            android:layout_centerInParent="true"
-            android:textSize="15sp"
-            android:text="点击绑定微信"
-            android:textColor="@color/color_101010"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
         <ImageView
-            android:scaleType="fitCenter"
-            android:id="@+id/iv_yingyezhizhao"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:id="@+id/iv_erweima"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:scaleType="fitCenter" />
     </RelativeLayout>
+<!--    绑定微信账户，系统会往您的微信绑定账户\n打入随机金额，输入打入金额后完成绑定。\n绑定账户后，买家购买后的款项将实时转入\n绑定的账户。-->
     <TextView
+        android:id="@+id/tv_tishi"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_gravity="center_horizontal"
         android:textSize="15sp"
         android:textColor="@color/color_101010"
-        android:text="绑定微信账户，系统会往您的微信绑定账户\n打入随机金额，输入打入金额后完成绑定。\n绑定账户后，买家购买后的款项将实时转入\n绑定的账户。"
+        android:text="保存二维码图片到相册，在微信中识别打开，确认授权即可，或者复制授权链接，在微信中粘贴链接（可发送给文件传输助手或自己等），打开确认授权即可。"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:id="@+id/tv_next"
+        android:visibility="gone"
+        android:id="@+id/tv_save"
         android:textColor="@color/white"
         android:gravity="center"
         android:textSize="15sp"
-        android:text="下一步"
-        android:layout_marginTop="100dp"
+        android:text="保存二维码到相册"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_4e94a0_20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="170dp"
+        android:layout_height="35dp"/>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_copy"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:text="复制授权链接"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_4e94a0_20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="170dp"
+        android:layout_height="35dp"/>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_finsh"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:text="完  成"
+        android:layout_marginTop="30dp"
         android:background="@drawable/bg_4e94a0_20dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="170dp"

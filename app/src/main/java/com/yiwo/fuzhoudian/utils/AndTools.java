@@ -2,19 +2,41 @@ package com.yiwo.fuzhoudian.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class AndTools {
 
@@ -214,6 +236,88 @@ public class AndTools {
             }
         }
     }
+    //保存网络图片到相册
+    public static void saveImageUrlToGallery( final Context context, String url) {
+        Subscription subscribe = Observable.just(url).map(new Func1<String, File>() {
+            @Override
+            public File call(String s) {
+                File file = null;
+                try {
+                    file = Glide.with(context).load(s).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return file;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<File>() {
+                    @Override
+                    public void call(File file) {
+                        if (file != null) {
+                            saveImageToGallery(context, file.getAbsolutePath());
+                            Toast.makeText(context,"已保存至相册",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context,"保存失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
+    //保存图片到相册
+    public static void saveImageToGallery(final Context context, String path) {
+        File file = new File(path);
+        //其次把文件插入到系统图库
+        try {
+            String filename = path.substring(path.lastIndexOf('/') + 1);
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), filename, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 通知图库更新
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        public void onScanCompleted(String path, Uri uri) {
+                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            mediaScanIntent.setData(uri);
+                            context.sendBroadcast(mediaScanIntent);
+                        }
+                    });
+        } else {
+            String relationDir = file.getParent();
+            File file1 = new File(relationDir);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.fromFile(file1.getAbsoluteFile())));
+        }
+    }
+
+
+    public static void saveScreenShot(final Context context,Bitmap bitmap)  {
+        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+        OutputStream outStream = null;
+        String filename;//声明文件名
+        // 以保存时间为文件名
+         Date date = new Date(System.currentTimeMillis());
+         SimpleDateFormat sdf = new SimpleDateFormat ("yyyyMMddHHmmss");
+         filename =  sdf.format(date);
+         File file = new File(extStorageDirectory, filename+".JPEG");
+         //创建文件，第一个参数为路径，第二个参数为文件名
+         try {
+             outStream = new FileOutputStream(file);//创建输入流
+             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+             outStream.close();
+//             /**       这三行可以实现相册更新
+               Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+               Uri uri = Uri.fromFile(file);intent.setData(uri);
+             context.sendBroadcast(intent);
+//               /这个广播的目的就是更新图库，发了这个广播进入相册就可以找到你保存的图片了！*/
+             Toast.makeText(context,"saved",
+                     Toast.LENGTH_SHORT).show();
+         } catch(Exception e) {
+             Toast.makeText(context, "exception:" + e,
+                     Toast.LENGTH_SHORT).show();
+         }
+    }
 }
 

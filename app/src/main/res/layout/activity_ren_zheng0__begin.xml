@@ -7,11 +7,12 @@
     android:orientation="vertical"
     tools:context=".pages.renzheng.RenZheng0_BeginActivity">
     <TextView
+        android:id="@+id/tv_message"
         android:layout_marginTop="200dp"
         android:layout_gravity="center_horizontal"
         android:textSize="15sp"
         android:textColor="@color/color_101010"
-        android:text="您还没有通过认证\n认证之后开通店铺"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -19,7 +20,7 @@
         android:textColor="@color/white"
         android:gravity="center"
         android:textSize="15sp"
-        android:text="开始认证"
+        android:text=""
         android:layout_marginTop="200dp"
         android:background="@drawable/bg_4e94a0_20dp"
         android:layout_gravity="center_horizontal"

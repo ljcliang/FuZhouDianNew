@@ -537,4 +537,17 @@ public class NetConfig {
     public static String getMyTag =  "action/ac_goods/getMyTag";
 //action/ac_goods/editMyTag   编辑  传id   name名字
     public static String editMyTag =  "action/ac_goods/editMyTag";
+
+    /**
+     *  action/ac_user/userVerify         传   uid 用户id    tel 电话    store_name 店铺名称
+     *  merchant_shortname  店铺简称    email 邮箱     id_card_name身份证上的姓名
+     *  id_card_number身份证号    idCardCopy身份证人像面   idCardNational 身份证国徽面   businessLicense营业执照   shopImg店铺照片
+     */
+    public static String userVerify =  "action/ac_user/userVerify";
+    /**
+     * action/ac_user/     wxQuery
+     * 查询是否签约微信   传uid用户id   返回 sign0待签约  1已签约   url签约地址
+     *   sign  0 未上传  1审核中  2待授权  3已授权  4失败
+     */
+    public static String wxQuery = "action/ac_user/wxQuery";
 }

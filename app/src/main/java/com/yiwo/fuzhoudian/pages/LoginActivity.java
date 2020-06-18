@@ -1,5 +1,6 @@
 package com.yiwo.fuzhoudian.pages;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseActivity;
+import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.StringUtils;
@@ -64,6 +66,7 @@ public class LoginActivity extends BaseActivity {
     ImageView iv_show_pwd;
 //    @BindView(R.id.login_wechatIv)
 //    ImageView login_wechatIv;
+    private Dialog dialog;
     Context c;
     public SpImp spImp;
     UMShareAPI api;
@@ -131,6 +134,7 @@ public class LoginActivity extends BaseActivity {
 //        if (false) {
             toToast(this, "请输入正确的手机号");
         } else {
+            dialog = WeiboDialogUtils.createLoadingDialog(LoginActivity.this,"登录中。。。");
             String token = getToken(NetConfig.BaseUrl + NetConfig.loginUrl);
             ViseHttp.POST(NetConfig.loginUrl)
                     .addParam("app_key", token)
@@ -209,19 +213,23 @@ public class LoginActivity extends BaseActivity {
                                     NIMClient.getService(AuthService.class).login(info)
                                             .setCallback(callback);
                                     setResult(LOGIN_SUSS_RESULT);
+                                    WeiboDialogUtils.closeDialog(dialog);
                                     finish();
                                 } else {
+                                    WeiboDialogUtils.closeDialog(dialog);
                                     toToast(c, jsonObject.optString("message").toString());
                                 }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                WeiboDialogUtils.closeDialog(dialog);
                             }
                         }
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-
+                            WeiboDialogUtils.closeDialog(dialog);
+                            toToast(c, errMsg);
                         }
                     });
         }
