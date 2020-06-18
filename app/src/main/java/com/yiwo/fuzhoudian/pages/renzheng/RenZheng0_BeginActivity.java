@@ -69,6 +69,7 @@ public class RenZheng0_BeginActivity extends BaseActivity {
                                         tvMessage.setText("验证成功！");
                                         tvNext.setVisibility(View.VISIBLE);
                                         tvNext.setText("完 成");
+                                        spImp.setIfSign("1");
                                         break;
                                     case "4":
                                         tvMessage.setText("认证失败，请重新上传资料！");

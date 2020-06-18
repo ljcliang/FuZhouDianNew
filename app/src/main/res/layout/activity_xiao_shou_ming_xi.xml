@@ -21,7 +21,13 @@
             android:id="@+id/titleTv"
             style="@style/TopBarStyle_TvTitle"
             android:text="销售明细" />
-
+        <RelativeLayout
+            android:id="@+id/rl_tixian"
+            style="@style/TopBarStyle_RlRight">
+            <TextView
+                android:text="提现"
+                style="@style/TopBarStyle_TVRight"/>
+        </RelativeLayout>
     </RelativeLayout>
     <WebView
         android:id="@+id/webView"

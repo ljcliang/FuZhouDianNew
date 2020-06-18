@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/color_f8f8f8"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="300dp"/>
+    <Button
+        android:id="@+id/btn"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="保存到相册"
+        android:background="@drawable/bg_4e94a0_20dp"
+        android:layout_width="200dp"
+        android:layout_height="40dp"/>
+</LinearLayout>

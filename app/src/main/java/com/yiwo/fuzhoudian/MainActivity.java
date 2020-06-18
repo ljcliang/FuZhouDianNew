@@ -46,6 +46,7 @@ import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.LoginActivity;
 import com.yiwo.fuzhoudian.pages.UserAgreementActivity;
 import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiActivity;
+import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
 import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.StatusBarUtils;
@@ -302,8 +303,12 @@ public class MainActivity extends BaseActivity {
             default:
                 break;
             case R.id.ll_btn_1:
+
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
                     switchFragment(0);
+                    if (!spImp.getIfSign().equals("1")){//还没有完成认证
+                        RenZheng0_BeginActivity.openActivity(MainActivity.this);
+                    }
                 } else {
                     intent.setClass(this, LoginActivity.class);
                     startActivity(intent);

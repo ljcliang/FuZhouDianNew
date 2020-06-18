@@ -197,4 +197,19 @@ public class SpImp {
     public String getLastCreateVideoAddress(){
         return sp.getString(SpPublic.LAST_CREATE_VIDEO_ADDRESS,"");
     }
+    public void setIfSign(String s){
+        editor.putString(SpPublic.IF_SIGN, s).toString();
+        editor.commit();
+    }
+
+    /**
+     *
+     * @return 1为已认证
+     */
+    public String getIfSign(){
+        return sp.getString(SpPublic.IF_SIGN,"");
+    }
+    public void clear(){
+        editor.clear().commit();
+    }
 }

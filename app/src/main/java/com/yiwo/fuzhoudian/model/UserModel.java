@@ -5,11 +5,10 @@ package com.yiwo.fuzhoudian.model;
  */
 
 public class UserModel {
-
     /**
      * code : 200
      * message : 获取成功!
-     * obj : {"headeimg":"http://47.92.136.19/uploads/header/2018/10/19/3ccfe6790eeac1bc99dbfcd164dabb89153992760420.jpg","username":"老司机","sex":"0","useraddress":"黑龙江省-哈尔滨市","userautograph":"恶魔","userbirthday":"1993-09-25","usertime":"2018-08-01","usercodeok":"已认证","usermarry":"1","usergrade":"1","sign":"0","vip":"1","news":15,"Friendnote":1,"Focusonnews":9,"Activitymessage":1}
+     * obj : {"shopUrl":"https://fzd.91yiwo.com/wxweb/wx_goods/goodsList?uid=3","headeimg":"https://fzd.91yiwo.com/uploads/header/2020/06/18/8403a0eb1cbb9ad4a082535cecac8742159246588413.png","username":"花生仓买店","sex":"0","useraddress":"黑龙江省哈尔滨市松北区丰源街","userautograph":"食品日杂百货","userbirthday":"暂未设置生日","usertime":"2020-05-11 16:24:04","usercodeok":"已认证","usermarry":"1","usergrade":"0","sign":"0","vip":"0","news":"0","Friendnote":"7","Focusonnews":"0","Activitymessage":"0","type":"0","video_num":"1","fm_num":"7","goods_num":"4","like_num":"0","tel":"110"}
      */
 
     private int code;
@@ -42,31 +41,32 @@ public class UserModel {
 
     public static class ObjBean {
         /**
-         * headeimg : http://47.92.136.19/uploads/header/2018/10/19/3ccfe6790eeac1bc99dbfcd164dabb89153992760420.jpg
-         * username : 老司机
+         * shopUrl : https://fzd.91yiwo.com/wxweb/wx_goods/goodsList?uid=3
+         * headeimg : https://fzd.91yiwo.com/uploads/header/2020/06/18/8403a0eb1cbb9ad4a082535cecac8742159246588413.png
+         * username : 花生仓买店
          * sex : 0
-         * useraddress : 黑龙江省-哈尔滨市
-         * userautograph : 恶魔
-         * userbirthday : 1993-09-25
-         * usertime : 2018-08-01
+         * useraddress : 黑龙江省哈尔滨市松北区丰源街
+         * userautograph : 食品日杂百货
+         * userbirthday : 暂未设置生日
+         * usertime : 2020-05-11 16:24:04
          * usercodeok : 已认证
          * usermarry : 1
-         * usergrade : 1
-         * sign : 0   0 不是领队 1 是领队
-         * vip : 1
-         * news : 15
-         * Friendnote : 1
-         * Focusonnews : 9
-         * Activitymessage : 1
-         * type  0未开启  1已开启
-         * video_num  视频数   fm_num文章数   goods_num商品数    like_num关注数
-         * tel  电话
+         * usergrade : 0
+         * sign : 0
+         * vip : 0
+         * news : 0
+         * Friendnote : 7
+         * Focusonnews : 0
+         * Activitymessage : 0
+         * type : 0
+         * video_num : 1
+         * fm_num : 7
+         * goods_num : 4
+         * like_num : 0
+         * tel : 110
          */
-        private String video_num;
-        private String fm_num;
-        private String goods_num;
-        private String like_num;
-        private String tel;
+
+        private String shopUrl;
         private String headeimg;
         private String username;
         private String sex;
@@ -79,11 +79,25 @@ public class UserModel {
         private String usergrade;
         private String sign;
         private String vip;
-        private int news;
-        private int Friendnote;
-        private int Focusonnews;
-        private int Activitymessage;
+        private String news;
+        private String Friendnote;
+        private String Focusonnews;
+        private String Activitymessage;
         private String type;
+        private String video_num;
+        private String fm_num;
+        private String goods_num;
+        private String like_num;
+        private String tel;
+
+        public String getShopUrl() {
+            return shopUrl;
+        }
+
+        public void setShopUrl(String shopUrl) {
+            this.shopUrl = shopUrl;
+        }
+
         public String getHeadeimg() {
             return headeimg;
         }
@@ -180,35 +194,35 @@ public class UserModel {
             this.vip = vip;
         }
 
-        public int getNews() {
+        public String getNews() {
             return news;
         }
 
-        public void setNews(int news) {
+        public void setNews(String news) {
             this.news = news;
         }
 
-        public int getFriendnote() {
+        public String getFriendnote() {
             return Friendnote;
         }
 
-        public void setFriendnote(int Friendnote) {
+        public void setFriendnote(String Friendnote) {
             this.Friendnote = Friendnote;
         }
 
-        public int getFocusonnews() {
+        public String getFocusonnews() {
             return Focusonnews;
         }
 
-        public void setFocusonnews(int Focusonnews) {
+        public void setFocusonnews(String Focusonnews) {
             this.Focusonnews = Focusonnews;
         }
 
-        public int getActivitymessage() {
+        public String getActivitymessage() {
             return Activitymessage;
         }
 
-        public void setActivitymessage(int Activitymessage) {
+        public void setActivitymessage(String Activitymessage) {
             this.Activitymessage = Activitymessage;
         }
 

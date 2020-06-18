@@ -17,8 +17,8 @@ public class NetConfig {
     public static String ShopHomeUrl = BaseUrl+"action/ac_goods/goodsList?uid="; //后面加 店铺的id
     //管理店铺 URL
     public static String GuanLiGoodsUrl = BaseUrl+"action/ac_goods/myGoods?uid="; //后面加 用户id
-    //销售明细URL
-    public static String XiaoSHouMingXiUrl = BaseUrl+"action/ac_goods/sellMessage?uid="; // +店铺id
+    //销售明细URLhttps://fzd.91yiwo.com/action/ac_user/sellDetailed?uid=
+    public static String XiaoSHouMingXiUrl = BaseUrl+"action/ac_user/sellDetailed?uid="; // +店铺id
     //店铺商品评论URL：
     public static String GoodsCommentUrl = BaseUrl+"action/ac_goods/goodsComment?uid="; // +店铺id
     //店铺文章评论URL：
@@ -550,4 +550,10 @@ public class NetConfig {
      *   sign  0 未上传  1审核中  2待授权  3已授权  4失败
      */
     public static String wxQuery = "action/ac_user/wxQuery";
+    /**
+     * action/ac_user/getMoneyFromWx  提现
+     * 传uid 用户id
+     * 返回 status 0未认证  1提现余额不足   2未绑定银行卡   3绑定银行卡信息有误 请重新绑定  4操作成功
+     */
+    public static String getMoneyFromWx = "action/ac_user/getMoneyFromWx";
 }

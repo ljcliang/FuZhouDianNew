@@ -31,6 +31,7 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseActivity;
 import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
+import com.yiwo.fuzhoudian.fragments.webfragment.HomeDianPuGuanLiFragment;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.StringUtils;
@@ -157,6 +158,7 @@ public class LoginActivity extends BaseActivity {
                                     spImp.setIsAdmin(js.getString("isAdmin"));
                                     spImp.setWXUnionID(js.getString("unionid"));
                                     spImp.setUserName(js.getString("username"));
+                                    spImp.setIfSign(js.getString("if_sign"));
                                     account = js.optString("wy_accid");
                                     //清除vas_sonic缓存
 //                                    SonicEngine.getInstance().cleanCache();
@@ -212,6 +214,10 @@ public class LoginActivity extends BaseActivity {
                                             };
                                     NIMClient.getService(AuthService.class).login(info)
                                             .setCallback(callback);
+                                    //发送广播更新首页web
+                                    Intent intent = new Intent();
+                                    intent.setAction(HomeDianPuGuanLiFragment.ACTION_RELOAD_WEB);
+                                    sendBroadcast(intent);
                                     setResult(LOGIN_SUSS_RESULT);
                                     WeiboDialogUtils.closeDialog(dialog);
                                     finish();

@@ -80,12 +80,15 @@ public class SetActivity extends BaseActivity {
 
                             @Override
                             public void sureBtnListen() {
-                                spImp.setUID("0");
-                                spImp.setYXID("0");
-                                spImp.setYXTOKEN("0");
-                                spImp.setIsAdmin("0");
-                                spImp.setWyUpAccid("");
-                                spImp.setWyUpToken("");
+//                                spImp.setUID("0");
+//                                spImp.setYXID("0");
+//                                spImp.setYXTOKEN("0");
+//                                spImp.setIsAdmin("0");
+//                                spImp.setWyUpAccid("");
+//                                spImp.setWyUpToken("");
+//                                spImp.setIfSign("");
+//                                spImp.setUserName("");
+                                spImp.clear();
                                 spCache.clear();
                                 NimUIKit.logout();
                                 //清除vas_sonic缓存

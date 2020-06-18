@@ -312,7 +312,7 @@ public class AndTools {
                Uri uri = Uri.fromFile(file);intent.setData(uri);
              context.sendBroadcast(intent);
 //               /这个广播的目的就是更新图库，发了这个广播进入相册就可以找到你保存的图片了！*/
-             Toast.makeText(context,"saved",
+             Toast.makeText(context,"已保存至相册！",
                      Toast.LENGTH_SHORT).show();
          } catch(Exception e) {
              Toast.makeText(context, "exception:" + e,

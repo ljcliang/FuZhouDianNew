@@ -36,5 +36,7 @@ public class SpPublic {
     public static String LAST_CREATE_YOUJI_LABEL_ID = "last_create_youji_label_id";
     //上次发布视频填写的地点
     public static String LAST_CREATE_VIDEO_ADDRESS = "last_create_video_address";
+    //是否已经认证
+    public static String IF_SIGN = "if_sign";
 
 }

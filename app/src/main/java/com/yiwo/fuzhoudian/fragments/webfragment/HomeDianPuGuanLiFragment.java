@@ -1,6 +1,9 @@
 package com.yiwo.fuzhoudian.fragments.webfragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,7 +50,8 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
     private View vStaus;
     private Button btn;
     private SpImp spImp;
-    private static final int REQUEST_CODE = 0x00000011;
+    private ReLoadBroadcastreceiver reLoadBroadcastreceiver = new ReLoadBroadcastreceiver();
+    public static final String ACTION_RELOAD_WEB = "HomeDianPuGuanLiFragment.reload";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,20 +59,25 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         unbinder = ButterKnife.bind(this, rootView);
         spImp = new SpImp(getContext());
         initView(rootView);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_RELOAD_WEB);
+        getContext().registerReceiver(reLoadBroadcastreceiver,intentFilter);
+
         Intent intent = new Intent();
-        if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-            if (!spImp.isAgree()){
-                showAgreeDialog();
-            }
-            url = getArguments().getString("url");
-            if (url != null) {
-                initIntentSonic(url, mWv);
-                mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
-            }
+        if (!spImp.isAgree()){
+            showAgreeDialog();
         }else {
-            intent.setClass(getContext(), LoginActivity.class);
-            Log.d("sadasda","sdasdasd");
-            startActivityForResult(intent,REQUEST_CODE);
+            if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                url = getArguments().getString("url");
+                if (url != null) {
+                    initIntentSonic(url, mWv);
+                    mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+                }
+            }else {
+                intent.setClass(getContext(), LoginActivity.class);
+                Log.d("sadasda","sdasdasd");
+                startActivity(intent);
+            }
         }
         return rootView;
     }
@@ -77,6 +86,21 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             @Override
             public void agreeBtnListen() {
                 spImp.setIsAgreeXieYi(true);
+                url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
+                if (url != null) {
+                    if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                        url = getArguments().getString("url");
+                        if (url != null) {
+                            initIntentSonic(url, mWv);
+                            mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+                        }
+                    }else {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), LoginActivity.class);
+                        Log.d("sadasda","sdasdasd");
+                        startActivity(intent);
+                    }
+                }
 //                initAsset();
 //                initData();
             }
@@ -227,18 +251,38 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
     };
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == LoginActivity.LOGIN_SUSS_RESULT ){
+    public void onDestroy() {
+        super.onDestroy();
+        getContext().unregisterReceiver(reLoadBroadcastreceiver);
+    }
+
+    public class ReLoadBroadcastreceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
             if (!spImp.isAgree()){
                 showAgreeDialog();
             }
-            Log.d("sadasda","login_chengggon");
             url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
             if (url != null) {
                 initIntentSonic(url, mWv);
                 mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
             }
         }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_CODE && resultCode == LoginActivity.LOGIN_SUSS_RESULT ){
+//            if (!spImp.isAgree()){
+//                showAgreeDialog();
+//            }
+//            Log.d("sadasda","login_chengggon");
+//            url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
+//            if (url != null) {
+//                initIntentSonic(url, mWv);
+//                mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+//            }
+//        }
     }
 }

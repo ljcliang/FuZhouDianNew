@@ -16,28 +16,32 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseFragment;
+import com.yiwo.fuzhoudian.custom.MyErWeiMaDialog;
 import com.yiwo.fuzhoudian.model.UserModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.AllRememberActivity;
-import com.yiwo.fuzhoudian.pages.FaBu_XiuGaiShangPinActivity;
 import com.yiwo.fuzhoudian.pages.GuanZhuActivity;
 import com.yiwo.fuzhoudian.pages.LoginActivity;
-import com.yiwo.fuzhoudian.pages.MessageActivity;
 import com.yiwo.fuzhoudian.pages.MyCommentActivity;
-import com.yiwo.fuzhoudian.pages.MyContactActivity;
 import com.yiwo.fuzhoudian.pages.MyInformationActivity;
 import com.yiwo.fuzhoudian.pages.MyPicturesActivity;
 import com.yiwo.fuzhoudian.pages.MyVideosActivity;
 import com.yiwo.fuzhoudian.pages.PeiSongSettingActivity;
 import com.yiwo.fuzhoudian.pages.SetActivity;
 import com.yiwo.fuzhoudian.pages.ShopLocationActivity;
+import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
 import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
 import com.yiwo.fuzhoudian.pages.webpages.XiaoShouMingXiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
+import com.yiwo.fuzhoudian.utils.ShareUtils;
 import com.yiwo.fuzhoudian.wangyiyunshipin.VideoUpLoadListActivity;
 
 import org.json.JSONException;
@@ -94,7 +98,7 @@ public class MineFragment extends BaseFragment {
     private View view;
     private Unbinder unbinder;
     private SpImp spImp;
-
+    private UserModel userModel;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,13 +109,41 @@ public class MineFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,
-            R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan,R.id.tv_name,R.id.tv_kinds,
+    @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,R.id.rl_share_erweima,R.id.rl_share_url,
+            R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan, R.id.tv_name, R.id.tv_kinds,
             R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7})
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
             default:
+                break;
+            case R.id.rl_share_erweima://我的二维码
+                if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else if (!spImp.getIfSign().equals("1")){
+                    RenZheng0_BeginActivity.openActivity(getContext());
+                }else {
+                    MyErWeiMaDialog dialog = new MyErWeiMaDialog(getContext(),userModel.getObj().getShopUrl() + "");
+                    dialog.show();
+                }
+                break;
+            case R.id.rl_share_url:
+                if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else if (!spImp.getIfSign().equals("1")){
+                    RenZheng0_BeginActivity.openActivity(getContext());
+                }else {
+                    new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .setShareboardclickCallback(new ShareBoardlistener() {
+                                @Override
+                                public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                    ShareUtils.shareWeb(getActivity(), userModel.getObj().getShopUrl() + "", userModel.getObj().getUsername(),
+                                            userModel.getObj().getUserautograph()+"。地址"+userModel.getObj().getUseraddress(), userModel.getObj().getHeadeimg(), share_media);
+                                }
+                            }).open();
+                }
                 break;
             case R.id.tv_kinds:
             case R.id.tv_name:
@@ -146,7 +178,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.rl_shangpin:
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    GuanLiGoodsWebActivity.start(getContext(),NetConfig.GuanLiGoodsUrl+spImp.getUID());
+                    GuanLiGoodsWebActivity.start(getContext(), NetConfig.GuanLiGoodsUrl + spImp.getUID());
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -190,7 +222,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.rl_bottom_3://销售明细
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    XiaoShouMingXiActivity.start(getContext(),NetConfig.XiaoSHouMingXiUrl+spImp.getUID());
+                    XiaoShouMingXiActivity.start(getContext(), NetConfig.XiaoSHouMingXiUrl + spImp.getUID());
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -251,7 +283,7 @@ public class MineFragment extends BaseFragment {
                                 JSONObject jsonObject = new JSONObject(data);
                                 if (jsonObject.getInt("code") == 200) {
                                     Gson gson = new Gson();
-                                    UserModel userModel = gson.fromJson(data, UserModel.class);
+                                    userModel = gson.fromJson(data, UserModel.class);
                                     Glide.with(getContext()).load(userModel.getObj().getHeadeimg()).apply(new RequestOptions()
                                             .placeholder(R.mipmap.my_head)
                                             .error(R.mipmap.my_head)).into(mIvHead);
@@ -292,5 +324,12 @@ public class MineFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick({R.id.rl_share_erweima, R.id.rl_share_url})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+
+        }
     }
 }

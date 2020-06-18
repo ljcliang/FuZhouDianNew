@@ -103,6 +103,7 @@ public class RenZheng2_BindWXActivity extends BaseActivity {
                                         tvFinsh.setVisibility(View.VISIBLE);
                                         tvSave.setVisibility(View.GONE);
                                         tvCopy.setVisibility(View.GONE);
+                                        spImp.setIfSign("1");
                                         break;
                                     case "4":
 //                                    tvMessage.setText("认证失败，请重新上传资料！");
