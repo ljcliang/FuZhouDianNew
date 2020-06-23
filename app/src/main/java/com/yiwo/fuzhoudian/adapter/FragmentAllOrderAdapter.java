@@ -204,6 +204,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
 //                intent.putExtra("orderid", data.get(position).getOID());
 //                intent.putExtra("type","0");
 //                context.startActivity(intent);
+                btnsOnCLickListenner.onYiPingJia(position);
             }
         });
         holder.tv_btn_querenshouhuo.setOnClickListener(new View.OnClickListener() {

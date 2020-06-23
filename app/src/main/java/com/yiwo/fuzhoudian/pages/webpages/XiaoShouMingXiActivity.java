@@ -65,7 +65,23 @@ public class XiaoShouMingXiActivity extends BaseSonicWebActivity {
                 onBackPressed();
                 break;
             case R.id.rl_tixian:
-                tiXian();
+                AlertDialog.Builder builder = new AlertDialog.Builder(XiaoShouMingXiActivity.this);
+                builder.setMessage("确定提现？")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                tiXian();
+                            }
+                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        Intent intent = new Intent();
+                        intent.setClass(XiaoShouMingXiActivity.this, TiXianShuoMingActivity.class);
+                        startActivity(intent);
+                    }
+                }).show();
+
                 break;
         }
     }
@@ -131,7 +147,7 @@ public class XiaoShouMingXiActivity extends BaseSonicWebActivity {
                                         break;
                                     case "3"://绑定银行卡youwu
                                         AlertDialog.Builder builder3 = new AlertDialog.Builder(XiaoShouMingXiActivity.this);
-                                        builder3.setMessage("您还绑定的银行卡信息有误")
+                                        builder3.setMessage("您绑定的银行卡信息有误")
                                                 .setPositiveButton("查看绑定步骤", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -149,7 +165,7 @@ public class XiaoShouMingXiActivity extends BaseSonicWebActivity {
                                         break;
                                     case "4"://提示成功
                                         AlertDialog.Builder builder4 = new AlertDialog.Builder(XiaoShouMingXiActivity.this);
-                                        builder4.setMessage("提现成功")
+                                        builder4.setMessage("提现申请成功，将在24小时内打入绑定银行账户，请注意查收")
                                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -27,12 +27,14 @@ import com.yiwo.fuzhoudian.adapter.FragmentAllOrderAdapter;
 import com.yiwo.fuzhoudian.base.BaseFragment;
 import com.yiwo.fuzhoudian.model.SellerOrderModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
+import com.yiwo.fuzhoudian.pages.MyCommentActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.TokenUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,9 +51,8 @@ public class AllOrderFragment extends BaseFragment {
     @BindView(R.id.fragment_all_order_refreshLayout)
     RefreshLayout refreshLayout;
 
+    private List<SellerOrderModel.ObjBean> mList = new ArrayList<>();
     private FragmentAllOrderAdapter adapter;
-    private List<SellerOrderModel.ObjBean> mList;
-
     private SpImp spImp;
     private String uid = "";
     private int page = 1;
@@ -86,6 +87,28 @@ public class AllOrderFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         spImp = new SpImp(getContext());
         uid = spImp.getUID();
+        mList = new ArrayList<>();
+        adapter = new FragmentAllOrderAdapter(mList, getActivity(), new FragmentAllOrderAdapter.BtnsOnCLickListenner() {
+            @Override
+            public void onChuLiDan(int postion, int type,String juJueYuanYin) {
+                Log.d("sadasd",type+":::"+juJueYuanYin);
+                chuLiDingDan(mList.get(postion),type,juJueYuanYin);
+            }
+
+            @Override
+            public void onYiPingJia(int postion) {
+                MyCommentActivity.open(getContext(),false);
+            }
+
+            @Override
+            public void onTuiKuan(int postion) {
+                tuikuan(mList.get(postion));
+            }
+        });
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
         return view;
     }
     public void refreshData(){
@@ -165,9 +188,6 @@ public class AllOrderFragment extends BaseFragment {
                         });
             }
         });
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
         ViseHttp.POST(NetConfig.sellerOrder)
                 .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.sellerOrder))
                 .addParam("page", "1")
@@ -182,25 +202,9 @@ public class AllOrderFragment extends BaseFragment {
                                 Log.d("asdsad","asdasdssa");
                                 Gson gson = new Gson();
                                 SellerOrderModel model = gson.fromJson(data, SellerOrderModel.class);
-                                mList = model.getObj();
-                                adapter = new FragmentAllOrderAdapter(mList, getActivity(), new FragmentAllOrderAdapter.BtnsOnCLickListenner() {
-                                    @Override
-                                    public void onChuLiDan(int postion, int type,String juJueYuanYin) {
-                                        Log.d("sadasd",type+":::"+juJueYuanYin);
-                                        chuLiDingDan(mList.get(postion),type,juJueYuanYin);
-                                    }
-
-                                    @Override
-                                    public void onYiPingJia(int postion) {
-
-                                    }
-
-                                    @Override
-                                    public void onTuiKuan(int postion) {
-                                        tuikuan(mList.get(postion));
-                                    }
-                                });
-                                recyclerView.setAdapter(adapter);
+                                mList.clear();
+                                mList.addAll(model.getObj());
+                                adapter.notifyDataSetChanged();
                                 page = 2;
                             }
                         } catch (JSONException e) {

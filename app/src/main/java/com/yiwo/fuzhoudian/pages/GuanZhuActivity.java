@@ -172,6 +172,7 @@ public class GuanZhuActivity extends BaseActivity {
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
+                        Log.d("guanzhu",data);
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 200) {
@@ -193,6 +194,7 @@ public class GuanZhuActivity extends BaseActivity {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        Log.d("guanzhu",errCode+"////"+errMsg);
                     }
                 });
     }

@@ -64,20 +64,16 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         getContext().registerReceiver(reLoadBroadcastreceiver,intentFilter);
 
         Intent intent = new Intent();
-        if (!spImp.isAgree()){
-            showAgreeDialog();
-        }else {
-            if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                url = getArguments().getString("url");
-                if (url != null) {
-                    initIntentSonic(url, mWv);
-                    mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
-                }
-            }else {
-                intent.setClass(getContext(), LoginActivity.class);
-                Log.d("sadasda","sdasdasd");
-                startActivity(intent);
+        if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+            url = getArguments().getString("url");
+            if (url != null) {
+                initIntentSonic(url, mWv);
+                mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
             }
+        }else {
+            intent.setClass(getContext(), LoginActivity.class);
+            Log.d("sadasda","sdasdasd");
+            startActivity(intent);
         }
         return rootView;
     }
@@ -260,9 +256,9 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!spImp.isAgree()){
-                showAgreeDialog();
-            }
+//            if (!spImp.isAgree()){
+//                showAgreeDialog();
+//            }
             url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
             if (url != null) {
                 initIntentSonic(url, mWv);

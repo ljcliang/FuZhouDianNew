@@ -128,8 +128,8 @@ public class MainActivity extends BaseActivity {
         spImp = new SpImp(this);
         uid = spImp.getUID();
         initUpLoadController();
-        initSessionListener();
         initFragment();
+        initSessionListener();
         NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
             @Override
             public void onEvent(LoginSyncStatus loginSyncStatus) {
@@ -182,6 +182,11 @@ public class MainActivity extends BaseActivity {
                     if (message.getContent().indexOf("订单") != -1) {
                         ((Activity) context).finish();
                         switchFragment(1);
+                        orderFragment.refreshAll();
+//                        if (orderFragment.isResumed()){
+//                            Log.d("sadasda", "orderFragment.isNotHidden()!!!!");
+//                            orderFragment.refreshAll();
+//                        }
                     }
                 }
             }

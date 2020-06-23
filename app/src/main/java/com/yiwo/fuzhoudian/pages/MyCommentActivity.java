@@ -1,6 +1,7 @@
 package com.yiwo.fuzhoudian.pages;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class MyCommentActivity extends BaseActivity {
     ViewPager mViewPager;
     @BindView(R.id.btn_back)
     ImageView btn_back;
-
+    private static final String CHOOSED_YOUJI = "choosed_youji";
     private FragmentManager mFragmentManager;
     private FragmentViewpagerAdapter mViewPagerFragmentAdapter;
     private List<Fragment> fragmentList;
@@ -64,7 +65,12 @@ public class MyCommentActivity extends BaseActivity {
         spImp = new SpImp(MyCommentActivity.this);
         initData();
     }
-
+    public static void open(Context context,boolean choosedYouJiPinglun){
+        Intent intent = new Intent();
+        intent.setClass(context, MyCommentActivity.class);
+        intent.putExtra(CHOOSED_YOUJI,choosedYouJiPinglun);
+        context.startActivity(intent);
+    }
     private void initData() {
 
         fragmentList = new ArrayList<>();
@@ -116,6 +122,11 @@ public class MyCommentActivity extends BaseActivity {
 //        titleContainer.setDividerDrawable(getResources().getDrawable(R.drawable.simple_splitter));
         ViewPagerHelper.bind(magicIndicator, mViewPager);
 
+        if (getIntent().getBooleanExtra(CHOOSED_YOUJI,true)){
+            mViewPager.setCurrentItem(0);
+        }else {
+            mViewPager.setCurrentItem(1);
+        }
 
     }
 

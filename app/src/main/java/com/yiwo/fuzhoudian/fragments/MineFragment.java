@@ -230,8 +230,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.rl_bottom_4://我的评论
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    intent.setClass(getContext(), MyCommentActivity.class);
-                    startActivity(intent);
+                    MyCommentActivity.open(getContext(),true);
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);

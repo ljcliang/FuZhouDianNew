@@ -89,7 +89,6 @@ public class ShopLocationActivity extends BaseActivity {
         mLocationClient.registerLocationListener(myListener);
         //注册监听函数
         initOption();
-        mLocationClient.start();
         initData();
     }
 
@@ -102,13 +101,31 @@ public class ShopLocationActivity extends BaseActivity {
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            Gson gson = new Gson();
-                            ShopLocationInfoModel model = gson.fromJson(data, ShopLocationInfoModel.class);
-                            shopLat = model.getObj().getShopLat();
-                            shopLng = model.getObj().getShopLng();
-                            address = model.getObj().getAddress();
-                            edtWeiZhiInfo.setText(address);
-                            edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
+                            if (jsonObject.getInt("code") == 200){
+                                Gson gson = new Gson();
+                                ShopLocationInfoModel model = gson.fromJson(data, ShopLocationInfoModel.class);
+                                shopLat = model.getObj().getShopLat();
+                                shopLng = model.getObj().getShopLng();
+                                address = model.getObj().getAddress();
+                                if (TextUtils.isEmpty(shopLat)||TextUtils.isEmpty(shopLng)){
+                                    mLocationClient.start();
+                                    edtWeiZhiInfo.setText(model.getObj().getAddress());
+                                    Log.d("定位——————定位","没历史坐标");
+                                }else {
+                                    Log.d("定位——————定位","有历史坐标");
+                                    LatLng point = new LatLng(Double.parseDouble(shopLat),Double.parseDouble(shopLng));
+                                    handlePoint(point,false);
+                                    MapStatus mMapStatus = new MapStatus.Builder().target(point)
+                                            .zoom(18.0f).build();
+                                    MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
+                                            .newMapStatus(mMapStatus);
+//            MapStatus.Builder builder = new MapStatus.Builder();
+//            builder.zoom(18.0f);
+                                    mBaiduMap.setMapStatus(mMapStatusUpdate);
+                                    edtWeiZhiInfo.setText(model.getObj().getAddress());
+                                }
+                                edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -243,7 +260,7 @@ public class ShopLocationActivity extends BaseActivity {
          */
         @Override
         public void onMapClick(LatLng point) {
-            handlePoint(point);
+            handlePoint(point,true);
         }
 
         /**
@@ -253,7 +270,7 @@ public class ShopLocationActivity extends BaseActivity {
          */
         @Override
         public void onMapPoiClick(MapPoi mapPoi) {
-            handlePoint(mapPoi.getPosition());
+            handlePoint(mapPoi.getPosition(),true);
         }
     };
 
@@ -309,11 +326,19 @@ public class ShopLocationActivity extends BaseActivity {
         @Override
         public void onLocDiagnosticMessage(int i, int i1, String s) {
             super.onLocDiagnosticMessage(i, i1, s);
-            LatLng cenpt = new LatLng(39.91327919129028,
-                    116.40392813332507 );
+            Log.d("定位——————定位",i+"///"+i1+"///"+s);
+            toToast(ShopLocationActivity.this,"无法定位到当前位置，请开启手机定位后重试");
+            LatLng cenpt;
+            if (TextUtils.isEmpty(shopLat)||TextUtils.isEmpty(shopLng)){
+                cenpt = new LatLng(39.91327919129028,
+                        116.40392813332507 );
+            }else {
+                cenpt = new LatLng(Double.parseDouble(shopLat),Double.parseDouble(shopLng));
+            }
+
 // 定义地图状态zoom表示缩放级别3-18
             MapStatus mMapStatus = new MapStatus.Builder().target(cenpt)
-                    .zoom(15.0f).build();
+                    .zoom(18.0f).build();
             MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
                     .newMapStatus(mMapStatus);
 //            MapStatus.Builder builder = new MapStatus.Builder();
@@ -329,7 +354,7 @@ public class ShopLocationActivity extends BaseActivity {
      *
      * @param point
      */
-    private void handlePoint(final LatLng point) {
+    private void handlePoint(final LatLng point, final boolean resetEdt) {
         //定义Maker坐标点
         //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
@@ -363,8 +388,10 @@ public class ShopLocationActivity extends BaseActivity {
                             Log.d("infoinfo附近地址", info.regionName + "//" + info.directionDesc);
                         }
                     }
-                    edtWeiZhiInfo.setText(reverseGeoCodeResult.getAddress() + "");
-                    edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
+                    if (resetEdt){
+                        edtWeiZhiInfo.setText(reverseGeoCodeResult.getAddress() + "");
+                        edtWeiZhiInfo.setSelection(edtWeiZhiInfo.getText().length());
+                    }
                 }
                 shopLat = point.latitude+"";
                 shopLng = point.longitude+"";

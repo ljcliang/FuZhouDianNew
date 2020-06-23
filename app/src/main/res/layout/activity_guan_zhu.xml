@@ -36,7 +36,7 @@
                 android:layout_marginRight="20px"
                 android:layout_marginLeft="20px"
                 android:textSize="28px"
-                android:hint="搜索用户"
+                android:hint="请输入昵称"
                 android:paddingLeft="50px"
                 android:paddingRight="50px"
                 android:background="@drawable/bg_search_edt"
@@ -73,12 +73,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
-
+                android:visibility="gone"
                 android:id="@+id/rv_woguanzhude"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
             <android.support.v7.widget.RecyclerView
-                android:visibility="gone"
                 android:id="@+id/rv_guanzhuwode"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

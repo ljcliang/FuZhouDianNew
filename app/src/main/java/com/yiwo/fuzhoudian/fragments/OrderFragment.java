@@ -152,6 +152,15 @@ public class OrderFragment extends BaseFragment {
             mTb.addTab(mTb.newTab().setText(mTitleList.get(i)));
         }
     }
+    public void refreshAll(){
+        Log.d("sadasda", "refresh");
+        allOrderFragment.refresh();
+//        allOrderFragment1.refresh();
+//        allOrderFragment2.refresh();
+//        allOrderFragment3.refresh();
+//        allOrderFragment4.refresh();
+    }
+
     @OnClick({R.id.ll_btn_serch})
     public void onClick(View v){
         switch (v.getId()){
