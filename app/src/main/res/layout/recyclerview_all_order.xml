@@ -250,9 +250,9 @@
                 android:textColor="@color/color_d84c37"
                 android:background="@drawable/bg_d84c37_border_27px"
                 android:textSize="11sp"
-                android:layout_width="70dp"
+                android:layout_width="62dp"
                 android:layout_height="22dp"
-                android:text="帮用户签收"
+                android:text="待签收"
                 />
         </LinearLayout>
 

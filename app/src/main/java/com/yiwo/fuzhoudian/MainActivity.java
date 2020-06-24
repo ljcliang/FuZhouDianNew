@@ -388,7 +388,6 @@ public class MainActivity extends BaseActivity {
         }
         return false;
     }
-
     private void newMessageLis() {//新聊天消息监听
         Observer<List<IMMessage>> incomingMessageObserver =
                 new Observer<List<IMMessage>>() {

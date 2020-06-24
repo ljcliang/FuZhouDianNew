@@ -18,6 +18,9 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Button;
 
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.shareboard.SnsPlatform;
@@ -43,6 +46,8 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
     View rootView;
     @BindView(R.id.wv)
     WebView mWv;
+    @BindView(R.id.refresh_layout)
+    RefreshLayout refreshLayout;
     private View view;
     private Unbinder unbinder;
 
@@ -59,6 +64,7 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         unbinder = ButterKnife.bind(this, rootView);
         spImp = new SpImp(getContext());
         initView(rootView);
+        initRefresh();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_RELOAD_WEB);
         getContext().registerReceiver(reLoadBroadcastreceiver,intentFilter);
@@ -77,55 +83,73 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         }
         return rootView;
     }
-    private void showAgreeDialog() {
-        XieYiDialog dialog = new XieYiDialog(getContext(), new XieYiDialog.XieYiDialogListener() {
+
+    private void initRefresh() {
+        refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void agreeBtnListen() {
-                spImp.setIsAgreeXieYi(true);
-                url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                url = getArguments().getString("url");
                 if (url != null) {
-                    if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                        url = getArguments().getString("url");
-                        if (url != null) {
-                            initIntentSonic(url, mWv);
-                            mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
-                        }
-                    }else {
-                        Intent intent = new Intent();
-                        intent.setClass(getContext(), LoginActivity.class);
-                        Log.d("sadasda","sdasdasd");
-                        startActivity(intent);
-                    }
+//                    initIntentSonic(url, mWv);
+//                    mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+                    mWv.reload();
                 }
-//                initAsset();
-//                initData();
-            }
-
-            @Override
-            public void disAgreeBtnListen() {
-                spImp.setIsAgreeXieYi(false);
-                MyApplication.getInstance().exit();
-            }
-
-            @Override
-            public void xieYiTextClickListen() {
-                Intent itA = new Intent(getContext(), UserAgreementActivity.class);
-                itA.putExtra("title", "用户协议");
-                itA.putExtra("url", NetConfig.userAgreementUrl);
-                startActivity(itA);
-            }
-
-            @Override
-            public void zhengCeTextClickListen() {
-                Intent itTk = new Intent(getActivity(), UserAgreementActivity.class);
-                itTk.putExtra("title", "隐私政策");
-                itTk.putExtra("url", NetConfig.userAgreementUrl1);
-                startActivity(itTk);
+                refreshLayout.finishRefresh(500);
             }
         });
-        dialog.setCancelable(false);
-        dialog.show();
+        refreshLayout.setEnableLoadMore(false);
     }
+
+//    private void showAgreeDialog() {
+//        XieYiDialog dialog = new XieYiDialog(getContext(), new XieYiDialog.XieYiDialogListener() {
+//            @Override
+//            public void agreeBtnListen() {
+//                spImp.setIsAgreeXieYi(true);
+//                url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
+//                if (url != null) {
+//                    if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+//                        url = getArguments().getString("url");
+//                        if (url != null) {
+//                            initIntentSonic(url, mWv);
+//                            mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+//                        }
+//                    }else {
+//                        Intent intent = new Intent();
+//                        intent.setClass(getContext(), LoginActivity.class);
+//                        Log.d("sadasda","sdasdasd");
+//                        startActivity(intent);
+//                    }
+//                }
+////                initAsset();
+////                initData();
+//            }
+//
+//            @Override
+//            public void disAgreeBtnListen() {
+//                spImp.setIsAgreeXieYi(false);
+//                MyApplication.getInstance().exit();
+//            }
+//
+//            @Override
+//            public void xieYiTextClickListen() {
+//                Intent itA = new Intent(getContext(), UserAgreementActivity.class);
+//                itA.putExtra("title", "用户协议");
+//                itA.putExtra("url", NetConfig.userAgreementUrl);
+//                startActivity(itA);
+//            }
+//
+//            @Override
+//            public void zhengCeTextClickListen() {
+//                Intent itTk = new Intent(getActivity(), UserAgreementActivity.class);
+//                itTk.putExtra("title", "隐私政策");
+//                itTk.putExtra("url", NetConfig.userAgreementUrl1);
+//                startActivity(itTk);
+//            }
+//        });
+//        dialog.setCancelable(false);
+//        dialog.show();
+//    }
     public static HomeDianPuGuanLiFragment newInstance(String url) {
         HomeDianPuGuanLiFragment f = new HomeDianPuGuanLiFragment();
         Bundle args = new Bundle();

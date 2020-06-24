@@ -10,7 +10,7 @@
         style="@style/TopBarStyle">
         <TextView
             style="@style/TopBarStyle_TvTitle"
-            android:text="选择活动" />
+            android:text="选择商品" />
 
         <RelativeLayout
             android:id="@+id/rl_back"

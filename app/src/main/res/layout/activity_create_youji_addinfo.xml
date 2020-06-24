@@ -11,7 +11,7 @@
 
         <TextView
             style="@style/TopBarStyle_TvTitle"
-            android:text="创建友记" />
+            android:text="创建文章" />
 
         <RelativeLayout
             android:id="@+id/activity_create_friend_remember_rl_back"

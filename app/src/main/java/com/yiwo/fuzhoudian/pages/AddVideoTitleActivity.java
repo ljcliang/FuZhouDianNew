@@ -77,7 +77,11 @@ public class AddVideoTitleActivity extends BaseActivity {
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(AddVideoTitleActivity.this);
         spImp = new SpImp(AddVideoTitleActivity.this);
-        tvCity.setText(spImp.getLastCreateVideoAddress());
+        if (!TextUtils.isEmpty(spImp.getLastCreateVideoAddress())){
+            tvCity.setText(spImp.getLastCreateVideoAddress());
+        }else {
+            tvCity.setText(spImp.getUserName());
+        }
         editText.addTextChangedListener(textTitleWatcher);
         videoItem = (VideoItem) getIntent().getSerializableExtra(TakeVideoFragment_new.EXTRA_VIDEO_ITEM);
         url_screenshot = getIntent().getStringExtra("screenshot");

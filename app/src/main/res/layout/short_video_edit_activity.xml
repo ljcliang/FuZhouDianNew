@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="24dp"
-            android:background="@drawable/bg_ffffff_border_15dp"
+            android:background="@drawable/bg_4e94a0_15dp"
             android:id="@+id/back_btn"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
@@ -34,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/bg_ffffff_border_15dp"
+            android:background="@drawable/bg_4e94a0_15dp"
             android:gravity="center"
             android:text="完成"
             android:textColor="@color/color_white_ffffff"

@@ -94,7 +94,7 @@ public class AllRememberFragment extends BaseFragment {
                                 adapter.setListener(new MyRememberAdapter.OnDeleteListener() {
                                     @Override
                                     public void onDelete(final int i) {
-                                        toDialog(getContext(), "提示", "是否删除友记", new DialogInterface.OnClickListener() {
+                                        toDialog(getContext(), "提示", "是否删除文章", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(final DialogInterface dialogInterface, int which) {
                                                 ViseHttp.POST(NetConfig.deleteFriendRememberUrl)

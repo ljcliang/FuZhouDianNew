@@ -86,7 +86,7 @@ public class AllCollectionAdapter extends RecyclerView.Adapter<AllCollectionAdap
         holder.tv_canyuxiezuo_num.setText("团友共有"+data.get(position).getInNum()+"人参与写作");
         holder.tv_fabu_time.setText("发表时间："+data.get(position).getFtime());
         holder.tv_xiangguanhuodong.setText("关联活动："+data.get(position).getPftitle());
-        holder.tvLookNum.setText(data.get(position).getFmlook()+"人阅读了这篇友记");
+        holder.tvLookNum.setText(data.get(position).getFmlook()+"人阅读了这篇文章");
         Glide.with(context).load(data.get(position).getFpic()).apply(new RequestOptions().placeholder(R.mipmap.zanwutupian).error(R.mipmap.zanwutupian)).into(holder.iv);
         holder.ll.setOnClickListener(new View.OnClickListener() {
             @Override

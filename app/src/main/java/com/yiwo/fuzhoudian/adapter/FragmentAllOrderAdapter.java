@@ -211,13 +211,14 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("确定买家已收货？")
-                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                btnsOnCLickListenner.onChuLiDan(position,3,"");
-                            }
-                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                builder.setMessage("0000天后自动确认收货？")
+//                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                btnsOnCLickListenner.onChuLiDan(position,3,"");
+//                            }
+//                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
