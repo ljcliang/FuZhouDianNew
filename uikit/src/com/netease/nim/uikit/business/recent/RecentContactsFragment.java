@@ -304,23 +304,23 @@ public class RecentContactsFragment extends TFragment {
             }
         });
 
-        title = (isTagSet(recent, RECENT_TAG_STICKY) ? getString(R.string.main_msg_list_clear_sticky_on_top) : getString(R.string.main_msg_list_sticky_on_top));
-        alertDialog.addItem(title, new onSeparateItemClickListener() {
-            @Override
-            public void onClick() {
-
-
-
-                if (isTagSet(recent, RECENT_TAG_STICKY)) {
-                    removeTag(recent, RECENT_TAG_STICKY);
-                } else {
-                    addTag(recent, RECENT_TAG_STICKY);
-                }
-                NIMClient.getService(MsgService.class).updateRecent(recent);
-
-                refreshMessages(false);
-            }
-        });
+//        title = (isTagSet(recent, RECENT_TAG_STICKY) ? getString(R.string.main_msg_list_clear_sticky_on_top) : getString(R.string.main_msg_list_sticky_on_top));
+//        alertDialog.addItem(title, new onSeparateItemClickListener() {
+//            @Override
+//            public void onClick() {
+//
+//
+//
+//                if (isTagSet(recent, RECENT_TAG_STICKY)) {
+//                    removeTag(recent, RECENT_TAG_STICKY);
+//                } else {
+//                    addTag(recent, RECENT_TAG_STICKY);
+//                }
+//                NIMClient.getService(MsgService.class).updateRecent(recent);
+//
+//                refreshMessages(false);
+//            }
+//        });
 
 //        alertDialog.addItem("删除该聊天（仅服务器）", new onSeparateItemClickListener() {
 //            @Override

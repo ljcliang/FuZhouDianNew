@@ -271,12 +271,14 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
                                     if (jsonObject.getInt("code") == 200) {
                                         toToast(RenZheng1_EditInfoActivity.this, "已提交审核");
                                         RenZheng0_BeginActivity.openActivity(RenZheng1_EditInfoActivity.this);
-                                    }
-                                    if (jsonObject.getInt("code") == 400) {
+                                    } else if (jsonObject.getInt("code") == 400) {
                                         toToast(RenZheng1_EditInfoActivity.this, jsonObject.getString("message"));
+                                    }else {
+                                        toToast(RenZheng1_EditInfoActivity.this, "请求失败！");
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    toToast(RenZheng1_EditInfoActivity.this, "请求失败！");
                                 }
                                 WeiboDialogUtils.closeDialog(dialog);
                             }

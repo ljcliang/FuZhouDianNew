@@ -15,6 +15,7 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.model.ActicleCommentVideoModel;
 import com.yiwo.fuzhoudian.sp.SpImp;
+import com.yiwo.fuzhoudian.tongban_emoticon.String2HtmlTextTools;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class ArticleCommentCommentVideoAdapter extends RecyclerView.Adapter<Arti
         Glide.with(context).load(data.get(position).getUserpic()).apply(new RequestOptions().placeholder(R.mipmap.my_head).error(R.mipmap.my_head)).into(holder.imageView);
         holder.tv_name.setText(data.get(position).getUsername());
         holder.tv.setText(data.get(position).getVcontent()+"  "+data.get(position).getVctime());
+        String2HtmlTextTools.tvSetHtmlForImage(context,holder.tv,data.get(position).getVcontent()+"  "+data.get(position).getVctime());
         holder.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -35,8 +35,8 @@
     <string name="forward_to_team">转发到群聊</string>
     <string name="withdrawn_msg">撤 回</string>
     <string name="save">保存</string>
-    <string name="main_msg_list_delete_chatting">删除该聊天</string>
-    <string name="main_msg_list_sticky_on_top">置顶该聊天</string>
+    <string name="main_msg_list_delete_chatting">删除该消息</string>
+    <string name="main_msg_list_sticky_on_top">置顶该消息</string>
     <string name="main_msg_list_clear_sticky_on_top">取消置顶</string>
     <string name="save_to_device">保存到手机</string>
     <string name="picture_save_fail">图片保存失败</string>

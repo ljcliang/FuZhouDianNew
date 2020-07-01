@@ -1,6 +1,9 @@
 package com.yiwo.fuzhoudian.fragments.order;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +28,7 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.adapter.FragmentAllOrderAdapter;
 import com.yiwo.fuzhoudian.base.BaseFragment;
+import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.model.SellerOrderModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.MyCommentActivity;
@@ -62,6 +66,7 @@ public class AllOrderFragment extends BaseFragment {
     private String status = "100";
     public boolean hasChanged = false;
     private DataChangeListenner listenner;
+    private Dialog dialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -259,32 +264,66 @@ public class AllOrderFragment extends BaseFragment {
             quxiaoyuanyin = juJueYuanYin;
         }
         if (type == 3){//确定买家已经收货
-            ViseHttp.POST(NetConfig.shopSureGetThings)
-                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.shopSureGetThings))
-                    .addParam("uid", spImp.getUID())
-                    .addParam("orderID",bean.getId())
+            Log.d("sadasd",bean.getId());
+            dialog = WeiboDialogUtils.createLoadingDialog(getContext(),"");
+            ViseHttp.POST(NetConfig.getSureTime)
+                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.getSureTime))
+                    .addParam("orderID", bean.getId())
                     .request(new ACallback<String>() {
                         @Override
                         public void onSuccess(String data) {
+                            Log.d("sadasd",data);
                             try {
                                 JSONObject jsonObject = new JSONObject(data);
                                 if (jsonObject.getInt("code") == 200){
-                                    toToast(getContext(),jsonObject.getString("message"));
-                                    refresh();
-                                    if (listenner!=null){
-                                        listenner.onDataChange(type);
-                                    }
+                                    JSONObject jsonObject1 = jsonObject.getJSONObject("obj");
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setMessage(jsonObject1.getString("message"))
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            }).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            WeiboDialogUtils.closeDialog(dialog);
                         }
 
                         @Override
                         public void onFail(int errCode, String errMsg) {
-
+                            WeiboDialogUtils.closeDialog(dialog);
                         }
                     });
+//            ViseHttp.POST(NetConfig.shopSureGetThings)
+//                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.shopSureGetThings))
+//                    .addParam("uid", spImp.getUID())
+//                    .addParam("orderID",bean.getId())
+//                    .request(new ACallback<String>() {
+//                        @Override
+//                        public void onSuccess(String data) {
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(data);
+//                                if (jsonObject.getInt("code") == 200){
+//                                    toToast(getContext(),jsonObject.getString("message"));
+//                                    refresh();
+//                                    if (listenner!=null){
+//                                        listenner.onDataChange(type);
+//                                    }
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFail(int errCode, String errMsg) {
+//
+//                        }
+//                    });
         }else { //  0拒绝接单  1出单  2删除
             ViseHttp.POST(NetConfig.sellerDoOrder)
                     .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.sellerDoOrder))

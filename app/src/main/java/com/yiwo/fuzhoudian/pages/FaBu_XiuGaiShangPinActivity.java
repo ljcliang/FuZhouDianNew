@@ -135,7 +135,6 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         ButterKnife.bind(this);
         spImp = new SpImp(this);
         callTishi();
-        initRv();
         initPopServiceList();
         initUpData();
         if (getIntent().getStringExtra(GID) == null ||getIntent().getStringExtra(GID).equals("")){
@@ -161,6 +160,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                                 guigeTiShi = jsonObject.getJSONObject("obj").getString("specMes");
                                 serviceTiShi = jsonObject.getJSONObject("obj").getString("serveMes");
                                 labelTiShi = jsonObject.getJSONObject("obj").getString("tagMes");
+                                initRv();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,6 +171,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                     public void onFail(int errCode, String errMsg) {
 
                     }
+
                 });
     }
 

@@ -4,8 +4,8 @@ public class RenZhengModel {
 
     /**
      * code : 200
-     * message : 待签约!
-     * obj : {"sign":"2","url":"https://pay.weixin.qq.com/public/apply4ec_sign/s?applymentId=2000002145415047&sign=25f509122847df6923f2d6fd3dc7105c","mes":"待签约","erWeiCode":"https://fzd.91yiwo.com/index.php/action/ac_user/payImgstr?uid=3"}
+     * message : 已完成!
+     * obj : {"sign":"3","url":"","mes":"已完成","pay":"0"}
      */
 
     private int code;
@@ -38,15 +38,16 @@ public class RenZhengModel {
 
     public static class ObjBean {
         /**
-         * sign : 2
-         * url : https://pay.weixin.qq.com/public/apply4ec_sign/s?applymentId=2000002145415047&sign=25f509122847df6923f2d6fd3dc7105c
-         * mes : 待签约
-         * erWeiCode : https://fzd.91yiwo.com/index.php/action/ac_user/payImgstr?uid=3
+         * sign : 3
+         * url :
+         * mes : 已完成
+         * pay : 0
          */
 
         private String sign;
         private String url;
         private String mes;
+        private String pay;
 
         public String getSign() {
             return sign;
@@ -70,6 +71,14 @@ public class RenZhengModel {
 
         public void setMes(String mes) {
             this.mes = mes;
+        }
+
+        public String getPay() {
+            return pay;
+        }
+
+        public void setPay(String pay) {
+            this.pay = pay;
         }
     }
 }

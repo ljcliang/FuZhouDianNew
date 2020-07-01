@@ -126,6 +126,7 @@ public class VideoActivity extends FragmentActivity {
             initPingLun();
         }
         initEmotionMainFragment();
+        ll_edt.setVisibility(View.INVISIBLE);
     }
 
     private void initPingLun() {
@@ -140,7 +141,9 @@ public class VideoActivity extends FragmentActivity {
                 vcID = id;
                 vPostion = position;
                 isComment = false;
+                ll_edt.setVisibility(View.VISIBLE);
                 emotionMainFragment.showKeyBoard();
+                emotionMainFragment.setHint("回复:"+data_pinglun.get(position).getUsername());
             }
         });
         articleCommentVideoAdapter.setDeletePinLunLis(new ArticleCommentVideoAdapter.OnDeletePinLun() {
@@ -386,7 +389,7 @@ public class VideoActivity extends FragmentActivity {
             @Override
             public void onCommitListen(String string) {
                 if (TextUtils.isEmpty(string)) {
-                    toToast(VideoActivity.this, "请输入评论内容");
+                    toToast(VideoActivity.this, "请输入评论...");
                 } else {
                     if (isComment){
                         toComment(string);
@@ -483,6 +486,7 @@ public class VideoActivity extends FragmentActivity {
         emotionMainFragment.goneKeyboard();
 //        emotionMainFragment.clearEdt();
         isComment = true;
+        emotionMainFragment.setHint("请输入评论...");
 //        /设置动画，从自身位置的最下端向上滑动了自身的高度，持续时间为500ms
         final TranslateAnimation ctrlAnimation = new TranslateAnimation(
                 TranslateAnimation.RELATIVE_TO_SELF, 0, TranslateAnimation.RELATIVE_TO_SELF, 0,
@@ -571,6 +575,7 @@ public class VideoActivity extends FragmentActivity {
                                 articleCommentVideoAdapter.notifyDataSetChanged();
                                 rv_pinglun.scrollToPosition(pingLunPostion);
                                 isComment = true;
+                                emotionMainFragment.setHint("请输入评论...");
                                 emotionMainFragment.clearEdt();
                             }else {
                                 toToast(VideoActivity.this, "回复失败");
@@ -584,8 +589,9 @@ public class VideoActivity extends FragmentActivity {
                     @Override
                     public void onFail(int errCode, String errMsg) {
                         WeiboDialogUtils.closeDialog(dialog);
-                        isComment = true;
-                        emotionMainFragment.clearEdt();
+//                        isComment = true;
+//
+//                        emotionMainFragment.clearEdt();
                         toToast(VideoActivity.this, "回复失败"+errCode+":"+errMsg);
                     }
                 });

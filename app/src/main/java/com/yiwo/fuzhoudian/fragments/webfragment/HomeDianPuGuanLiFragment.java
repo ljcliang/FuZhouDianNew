@@ -35,6 +35,7 @@ import com.yiwo.fuzhoudian.pages.LoginActivity;
 import com.yiwo.fuzhoudian.pages.MyFriendActivity;
 import com.yiwo.fuzhoudian.pages.UserAgreementActivity;
 import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
+import com.yiwo.fuzhoudian.pages.renzheng.RenZheng3_RenZhengFeiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.ShareUtils;
 
@@ -82,6 +83,25 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             startActivity(intent);
         }
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
+            btn.setText("去登陆");
+            btn.setVisibility(View.VISIBLE);
+            mWv.setVisibility(View.GONE);
+        }else {
+            if (!spImp.getIfSign().equals("1")){
+                btn.setText("去认证");
+                btn.setVisibility(View.VISIBLE);
+                mWv.setVisibility(View.GONE);
+            }else {
+                btn.setVisibility(View.GONE);
+                mWv.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void initRefresh() {
@@ -183,12 +203,15 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             default:
                 break;
             case R.id.btn:
-//                if (vStaus.getVisibility() == View.VISIBLE){
-//                    hideStaus();
-//                }else {
-//                    showStaus();
-//                }
-                RenZheng0_BeginActivity.openActivity(getContext());
+                if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    if (!spImp.getIfSign().equals("1")){
+                        RenZheng0_BeginActivity.openActivity(getContext());
+                    }
+                }
                 break;
         }
     }
@@ -285,8 +308,12 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
 //            }
             url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
             if (url != null) {
-                initIntentSonic(url, mWv);
-                mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+                if (spImp.getIfSign().equals("1")){
+                    initIntentSonic(url, mWv);
+                    mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
+                }else {
+                    RenZheng0_BeginActivity.openActivity(getContext());
+                }
             }
         }
     }

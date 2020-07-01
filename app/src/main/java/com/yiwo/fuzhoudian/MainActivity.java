@@ -203,6 +203,7 @@ public class MainActivity extends BaseActivity {
     private void initFragment() {
 //        homeFragment = new HomeFragment();
         homeFragment = HomeDianPuGuanLiFragment.newInstance(NetConfig.ShopHomeUrl + "" + spImp.getUID());
+//        homeFragment = HomeDianPuGuanLiFragment.newInstance("http://192.168.7.103/tb/fzd/shop_main.html");
         orderFragment = new OrderFragment();
         messageFragment = new MessageFragment();
         mineFragment = new MineFragment();

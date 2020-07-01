@@ -46,6 +46,7 @@ public class RenZheng2_BindWXActivity extends BaseActivity {
     private SpImp spImp;
 
     private String sBindStaus = ""; // 0 未上传  1审核中  2待授权  3已授权  4失败
+    private String sRenZhengFeiStaus = "";
     private Bitmap bitmapEWM;
     private String renzhengUrl;
 
@@ -76,7 +77,7 @@ public class RenZheng2_BindWXActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 RenZhengModel model = gson.fromJson(data, RenZhengModel.class);
                                 sBindStaus = model.getObj().getSign();
-
+                                sRenZhengFeiStaus = model.getObj().getPay();
                                 renzhengUrl = model.getObj().getUrl();
                                 bitmapEWM = QRCodeUtil.createQRCodeBitmap(renzhengUrl,320,320);
                                 Glide.with(RenZheng2_BindWXActivity.this).load(bitmapEWM).into(iv_erweima);
@@ -98,12 +99,20 @@ public class RenZheng2_BindWXActivity extends BaseActivity {
                                         tvCopy.setVisibility(View.VISIBLE);
                                         break;
                                     case "3":
-                                        tvTiShi.setText("微信授权成功！");
-                                        iv_erweima.setVisibility(View.GONE);
-                                        tvFinsh.setVisibility(View.VISIBLE);
-                                        tvSave.setVisibility(View.GONE);
-                                        tvCopy.setVisibility(View.GONE);
-                                        spImp.setIfSign("1");
+                                        if (sRenZhengFeiStaus.equals("0")){
+                                            tvTiShi.setText("未缴纳微信认证费");
+                                            tvFinsh.setText("去缴纳");
+                                            tvFinsh.setVisibility(View.VISIBLE);
+                                            tvSave.setVisibility(View.GONE);
+                                            tvCopy.setVisibility(View.GONE);
+                                        }else if (sRenZhengFeiStaus.equals("1")||sRenZhengFeiStaus.equals("2")){
+                                            tvTiShi.setText("微信授权成功！");
+                                            iv_erweima.setVisibility(View.GONE);
+                                            tvFinsh.setVisibility(View.VISIBLE);
+                                            tvSave.setVisibility(View.GONE);
+                                            tvCopy.setVisibility(View.GONE);
+                                            spImp.setIfSign("1");
+                                        }
                                         break;
                                     case "4":
 //                                    tvMessage.setText("认证失败，请重新上传资料！");
@@ -141,7 +150,11 @@ public class RenZheng2_BindWXActivity extends BaseActivity {
                 toToast(RenZheng2_BindWXActivity.this,"已复制到剪切板");
                 break;
             case R.id.tv_finsh:
-                onBackPressed();
+                if (sRenZhengFeiStaus.equals("0")){
+                    RenZheng3_RenZhengFeiActivity.openActivity(RenZheng2_BindWXActivity.this);
+                }else if (sRenZhengFeiStaus.equals("1")||sRenZhengFeiStaus.equals("2")){
+                    onBackPressed();
+                }
                 break;
         }
     }

@@ -210,20 +210,16 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.tv_btn_querenshouhuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("0000天后自动确认收货？")
-//                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                btnsOnCLickListenner.onChuLiDan(position,3,"");
-//                            }
-//                        })
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).show();
+
+                btnsOnCLickListenner.onChuLiDan(position,3,"");
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setMessage("0000天后将自动确认收货")
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                }).show();
             }
         });
     }

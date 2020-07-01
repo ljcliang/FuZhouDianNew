@@ -79,6 +79,7 @@ public class WelcomeActivity extends BaseActivity {
     private void initData() {
         account = spImp.getYXID();
         String token = spImp.getYXTOKEN();
+        Log.d("asdada",account);
         if(TextUtils.isEmpty(account)||account.equals("0")){
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -146,7 +147,7 @@ public class WelcomeActivity extends BaseActivity {
                         @Override
                         public void onFailed(int i) {
                             Log.d("dsadsda","登录失败："+i);
-                            toToast(WelcomeActivity.this, "登录失败");
+//                            toToast(WelcomeActivity.this, "登录失败");
 //                            Intent intent = new Intent();
 //                            if(TextUtils.isEmpty(spImp.getYd())){
 //                                intent.setClass(WelcomeActivity.this, GuideActivity.class);
@@ -163,7 +164,7 @@ public class WelcomeActivity extends BaseActivity {
 //                                intent.setClass(WelcomeActivity.this, MainActivity.class);
 //                                startActivity(intent);
 //                            }
-                            finish();
+//                            finish();
                         }
 
                         @Override

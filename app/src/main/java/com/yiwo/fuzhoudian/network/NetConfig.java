@@ -548,6 +548,7 @@ public class NetConfig {
      * action/ac_user/     wxQuery
      * 查询是否签约微信   传uid用户id   返回 sign0待签约  1已签约   url签约地址
      *   sign  0 未上传  1审核中  2待授权  3已授权  4失败
+     *   pay  0未付费  1已付费 2 不需要验证费；
      */
     public static String wxQuery = "action/ac_user/wxQuery";
     /**
@@ -556,4 +557,25 @@ public class NetConfig {
      * 返回 status 0未认证  1提现余额不足   2未绑定银行卡   3绑定银行卡信息有误 请重新绑定  4操作成功
      */
     public static String getMoneyFromWx = "action/ac_user/getMoneyFromWx";
+
+    /**
+     * action/ac_user/getCode  获取邀请码   传uid  用户id   返回 inviteCode
+     */
+    public static String getCode = "action/ac_user/getCode";
+    /**
+     * action/ac_user/getCodeMoney    获取邀请码 金额    传 code 邀请码   返回 price
+     */
+    public static String getCodeMoney = "action/ac_user/getCodeMoney";
+    /**
+     * action/ac_shopInfo     /     shopInvitePay    传uid用户id     inviteCode邀请码
+     */
+    public static String shopInvitePay = "action/ac_shopInfo/shopInvitePay";
+    /**
+     * action/ac_user/inviteInfo     返回 price
+     */
+    public static String inviteInfo = "action/ac_user/inviteInfo";
+    /**(
+     * action/ac_goods/getSureTime 收货时间       传 orderID 订单id
+     */
+    public static String getSureTime = "action/ac_goods/getSureTime";
 }

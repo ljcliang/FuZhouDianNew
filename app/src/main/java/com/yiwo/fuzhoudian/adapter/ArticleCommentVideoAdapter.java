@@ -19,6 +19,7 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.model.ActicleCommentVideoModel;
 import com.yiwo.fuzhoudian.sp.SpImp;
+import com.yiwo.fuzhoudian.tongban_emoticon.String2HtmlTextTools;
 
 import java.util.List;
 
@@ -65,7 +66,8 @@ public class ArticleCommentVideoAdapter extends RecyclerView.Adapter<ArticleComm
         });
         holder.tvNickname.setText(data.get(position).getUsername());
         holder.tvTitle.setText(data.get(position).getVname());
-        holder.tvContent.setText(data.get(position).getVcontent());
+//        holder.tvContent.setText(data.get(position).getVcontent());
+        String2HtmlTextTools.tvSetHtmlForImage(context,holder.tvContent,data.get(position).getVcontent());
         holder.ll.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

@@ -30,8 +30,10 @@ import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseActivity;
 import com.yiwo.fuzhoudian.model.CityModel;
+import com.yiwo.fuzhoudian.model.GuanLianShangPinModel;
 import com.yiwo.fuzhoudian.network.ActivityConfig;
 import com.yiwo.fuzhoudian.pages.CityActivity;
+import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiAddInfoActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.FileUtils;
 import com.yiwo.fuzhoudian.wangyiyunshipin.TakeVideoFragment_new;
@@ -54,8 +56,13 @@ public class AddVideoTitleActivity extends BaseActivity {
     TextView tv_num;
     @BindView(R.id.activity_create_friend_remember_tv_activity_city)
     EditText tvCity;
-
+    @BindView(R.id.activity_create_friend_remember_tv_active_title)
+    TextView tvAboutGoods;
     private static final int REQUEST_CODE_GET_CITY = 1;
+    private static final int REQUEST_CODE_SUO_SHU_HUO_DONG = 2;
+
+    private String yourChoiceActiveId = "";
+    private String yourChoiceActiveName = "";
 
     private VideoItem videoItem;
     private String url_screenshot;
@@ -89,7 +96,7 @@ public class AddVideoTitleActivity extends BaseActivity {
         Log.d("asdasd",videoItem.getUriString()+"|||"+videoItem.getFilePath());
         Glide.with(AddVideoTitleActivity.this).load(videoItem.getUriString()).apply(new RequestOptions().error(R.mipmap.zanwutupian)).into(iv);
     }
-    @OnClick({R.id.rl_back,R.id.activity_up_load_video_rl_complete,R.id.rl_choose_address})
+    @OnClick({R.id.rl_back,R.id.activity_up_load_video_rl_complete,R.id.rl_choose_address,R.id.activity_create_friend_remember_rl_active_title})
      public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_back:
@@ -99,6 +106,11 @@ public class AddVideoTitleActivity extends BaseActivity {
                 Intent it = new Intent(AddVideoTitleActivity.this, CityActivity.class);
                 it.putExtra(ActivityConfig.ACTIVITY, "createYouJi");
                 startActivityForResult(it, REQUEST_CODE_GET_CITY);
+                break;
+            case R.id.activity_create_friend_remember_rl_active_title:
+                //活动标题
+                Intent it_suoshu = new Intent(AddVideoTitleActivity.this, GuanLianShangPinActivity.class);
+                startActivityForResult(it_suoshu, REQUEST_CODE_SUO_SHU_HUO_DONG);
                 break;
             case R.id.activity_up_load_video_rl_complete:
 
@@ -155,6 +167,7 @@ public class AddVideoTitleActivity extends BaseActivity {
                     spImp.setLastCreateVideoAddress(tvCity.getText().toString());
                     videoItem.setVideoFaBuName(editText.getText().toString());
                     videoItem.setVideoAddress(tvCity.getText().toString());
+                    videoItem.setVideoAboutGoods(yourChoiceActiveId);
 
                     VideoUpLoadListActivity.startVideoUpLoadListActivity(AddVideoTitleActivity.this,videoItem);
                     popupWindow.dismiss();
@@ -225,6 +238,12 @@ public class AddVideoTitleActivity extends BaseActivity {
         } else if (requestCode == REQUEST_CODE_GET_CITY && resultCode == 3) {//国际城市
             String city = data.getStringExtra("city");
             tvCity.setText(city);
+        }
+        if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
+            GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
+            yourChoiceActiveName = bean.getGoodsName();
+            yourChoiceActiveId = bean.getGid();
+            tvAboutGoods.setText(yourChoiceActiveName);
         }
     }
     private void close(){

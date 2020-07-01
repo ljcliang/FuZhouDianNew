@@ -107,7 +107,6 @@ public class ForgetPwActivity extends BaseActivity {
         if (!StringUtils.isPhoneNumberValid(phone)) {
             toToast(c, "请输入正确的手机号");
         } else {
-            MyApplication.ftptimecount.start();
             String token = getToken(NetConfig.BaseUrl + NetConfig.getCodeUrl);
             ViseHttp.POST(NetConfig.getCodeUrl)
                     .addParam("app_key", token)
@@ -122,6 +121,7 @@ public class ForgetPwActivity extends BaseActivity {
                                     JSONObject js = new JSONObject(a);
                                     codeID = js.optString("codeID");
                                     Log.i("我的codeID", js.optString("codeID").toString());
+                                    MyApplication.ftptimecount.start();
                                 } else {
                                     toToast(c, jsonObject.optString("message").toString());
                                 }

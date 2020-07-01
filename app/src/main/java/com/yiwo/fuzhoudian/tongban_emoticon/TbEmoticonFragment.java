@@ -33,7 +33,7 @@ public class TbEmoticonFragment extends BaseFragment {
     @BindView(R.id.ll_all)
     LinearLayout ll_all;
     @BindView(R.id.comment_rl)//整个评论视图
-    RelativeLayout comment_rl;
+    public RelativeLayout comment_rl;
     @BindView(R.id.comment_et_comment)//评论视图输入框
     EditText comment_et_comment;
     @BindView(R.id.ll_xiaolian)//评论视图表情按钮
@@ -193,6 +193,10 @@ public class TbEmoticonFragment extends BaseFragment {
     }
     public void  showKeyBoard(){
         showKeyboard(comment_et_comment);
+    }
+    public void setHint(String s){
+        comment_et_comment.setText("");
+        comment_et_comment.setHint(s);
     }
     //弹出软键盘
     private void showKeyboard(EditText editText) {

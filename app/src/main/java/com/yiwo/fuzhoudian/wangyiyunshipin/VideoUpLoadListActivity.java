@@ -48,6 +48,7 @@ public class VideoUpLoadListActivity extends com.yiwo.fuzhoudian.base.BaseActivi
         findViews();
         initData();
         videoItem = (VideoItem) getIntent().getSerializableExtra(TakeVideoFragment_new.EXTRA_VIDEO_ITEM);
+        DemoCache.setVisibleActivity(this);
         if (videoItem != null){
             android.util.Log.d("VIdeoUpLOadList",videoItem.getUriString()+"|||"+videoItem.getFilePath());
             uploadFile(videoItem);
@@ -80,6 +81,19 @@ public class VideoUpLoadListActivity extends com.yiwo.fuzhoudian.base.BaseActivi
     public void onDestroy() {
         super.onDestroy();
 //        UploadController.getInstance().suspend();
+        DemoCache.setVisibleActivity(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
     private void findViews() {
 
@@ -104,6 +118,7 @@ public class VideoUpLoadListActivity extends com.yiwo.fuzhoudian.base.BaseActivi
 //                videoAdapter.fetchMoreEnd(true);
 //            }
 //        });
+
         videoListView.addOnItemTouchListener(new OnItemClickListener<VideoAdapter>() {
             @Override
             public void onItemClick(VideoAdapter adapter, View view, int position) {

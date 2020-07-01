@@ -1,5 +1,8 @@
 package com.yiwo.fuzhoudian.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,9 +28,12 @@ import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseFragment;
 import com.yiwo.fuzhoudian.custom.MyErWeiMaDialog;
+import com.yiwo.fuzhoudian.custom.TitleMessageOkDialog;
+import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.model.UserModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.AllRememberActivity;
+import com.yiwo.fuzhoudian.pages.FaBu_XiuGaiShangPinActivity;
 import com.yiwo.fuzhoudian.pages.GuanZhuActivity;
 import com.yiwo.fuzhoudian.pages.LoginActivity;
 import com.yiwo.fuzhoudian.pages.MyCommentActivity;
@@ -42,6 +48,7 @@ import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
 import com.yiwo.fuzhoudian.pages.webpages.XiaoShouMingXiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.ShareUtils;
+import com.yiwo.fuzhoudian.utils.StringUtils;
 import com.yiwo.fuzhoudian.wangyiyunshipin.VideoUpLoadListActivity;
 
 import org.json.JSONException;
@@ -95,10 +102,16 @@ public class MineFragment extends BaseFragment {
     TextView mTvNum3;
     @BindView(R.id.tv_num4)
     TextView mTvNum4;
+    @BindView(R.id.rl_yaoqingma)
+    RelativeLayout rlYaoqingma;
+    @BindView(R.id.ll_share)
+    LinearLayout llShare;
     private View view;
     private Unbinder unbinder;
     private SpImp spImp;
     private UserModel userModel;
+    private Dialog loadingDialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,7 +122,8 @@ public class MineFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,R.id.rl_share_erweima,R.id.rl_share_url,
+    @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,
+            R.id.rl_yaoqingma, R.id.rl_share_erweima, R.id.rl_share_url,
             R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan, R.id.tv_name, R.id.tv_kinds,
             R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7})
     public void onClick(View v) {
@@ -117,14 +131,62 @@ public class MineFragment extends BaseFragment {
         switch (v.getId()) {
             default:
                 break;
+            case R.id.rl_yaoqingma:
+                loadingDialog = WeiboDialogUtils.createLoadingDialog(getContext(), "");
+                ViseHttp.POST(NetConfig.getCode)
+                        .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.getCode))
+                        .addParam("uid", spImp.getUID())
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.getInt("code") == 200) {
+                                        JSONObject jsonObject1 = jsonObject.getJSONObject("obj");
+                                        final String code = jsonObject1.getString("inviteCode");
+                                        Log.d("-------------", code);
+                                        TitleMessageOkDialog titleMessageOkDialog1 = new TitleMessageOkDialog(getContext(), jsonObject1.getString("inviteCode"),
+                                                jsonObject1.getString("message") , "复制到剪贴板", new TitleMessageOkDialog.OnBtnClickListenner() {
+                                            @Override
+                                            public void onclick(Dialog dialog) {
+                                                StringUtils.copy(code, getContext());
+                                                toToast(getContext(), "已复制");
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        titleMessageOkDialog1.show();
+//                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//                                        builder.setTitle(jsonObject1.getString("inviteCode"))
+//                                                .setMessage(jsonObject1.getString("message"))
+////                                                .setMessage("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊嗷嗷嗷嗷")
+//                                                .setPositiveButton("复制到剪贴板", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                                        StringUtils.copy(code, getContext());
+//                                                        toToast(getContext(), "已复制");
+//                                                    }
+//                                                }).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                WeiboDialogUtils.closeDialog(loadingDialog);
+                            }
+
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                WeiboDialogUtils.closeDialog(loadingDialog);
+                            }
+                        });
+                break;
             case R.id.rl_share_erweima://我的二维码
                 if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
-                } else if (!spImp.getIfSign().equals("1")){
+                } else if (!spImp.getIfSign().equals("1")) {
                     RenZheng0_BeginActivity.openActivity(getContext());
-                }else {
-                    MyErWeiMaDialog dialog = new MyErWeiMaDialog(getContext(),userModel.getObj().getShopUrl() + "");
+                } else {
+                    MyErWeiMaDialog dialog = new MyErWeiMaDialog(getContext(), userModel.getObj().getShopUrl() + "");
                     dialog.show();
                 }
                 break;
@@ -132,15 +194,15 @@ public class MineFragment extends BaseFragment {
                 if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
-                } else if (!spImp.getIfSign().equals("1")){
+                } else if (!spImp.getIfSign().equals("1")) {
                     RenZheng0_BeginActivity.openActivity(getContext());
-                }else {
+                } else {
                     new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                             .setShareboardclickCallback(new ShareBoardlistener() {
                                 @Override
                                 public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                     ShareUtils.shareWeb(getActivity(), userModel.getObj().getShopUrl() + "", userModel.getObj().getUsername(),
-                                            userModel.getObj().getUserautograph()+"。地址"+userModel.getObj().getUseraddress(), userModel.getObj().getHeadeimg(), share_media);
+                                            userModel.getObj().getUserautograph() + "。地址" + userModel.getObj().getUseraddress(), userModel.getObj().getHeadeimg(), share_media);
                                 }
                             }).open();
                 }
@@ -230,7 +292,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.rl_bottom_4://我的评论
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    MyCommentActivity.open(getContext(),true);
+                    MyCommentActivity.open(getContext(), true);
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -268,6 +330,13 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (spImp.getIfSign().equals("1")){
+            llShare.setVisibility(View.VISIBLE);
+            rlYaoqingma.setVisibility(View.VISIBLE);
+        }else {
+            llShare.setVisibility(View.GONE);
+            rlYaoqingma.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
 //            tvNotLogin.setVisibility(View.GONE);
 //            rlContent.setVisibility(View.VISIBLE);
@@ -323,12 +392,5 @@ public class MineFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @OnClick({R.id.rl_share_erweima, R.id.rl_share_url})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-
-        }
     }
 }

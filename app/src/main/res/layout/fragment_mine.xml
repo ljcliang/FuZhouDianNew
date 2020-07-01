@@ -224,6 +224,7 @@
                     </RelativeLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_share"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="50dp"
                     android:layout_alignParentRight="true"
@@ -235,12 +236,15 @@
                         android:id="@+id/rl_share_erweima"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
                         <ImageView
-                            android:layout_centerInParent="true"
-                            android:layout_margin="5dp"
-                            android:src="@mipmap/ic_erweima"
                             android:layout_width="28dp"
-                            android:layout_height="28dp"/>
+                            android:layout_height="28dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@mipmap/ic_erweima" />
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/rl_share_url"
@@ -254,6 +258,36 @@
                             android:layout_height="25dp"/>
                     </RelativeLayout>
                 </LinearLayout>
+                <RelativeLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_alignRight="@+id/ll_share"
+                    android:layout_below="@+id/ll_share"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/rl_yaoqingma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iv_tuijianma"
+                        android:src="@mipmap/tuijianma"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"/>
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_tuijianma"
+                        android:id="@+id/tv_tuijianma"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:text="推荐码"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+<!--                    <ImageView-->
+<!--                        android:layout_centerInParent="true"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:src="@mipmap/ic_black"-->
+<!--                        android:layout_width="28dp"-->
+<!--                        android:layout_height="28dp"/>-->
+                </RelativeLayout>
             </RelativeLayout>
             <LinearLayout
                 android:visibility="gone"
