@@ -31,7 +31,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="15dp"
                 android:textSize="13sp"
-                android:hint="搜索订单"
+                android:hint="请搜索订单号或收货人"
                 android:background="@drawable/bg_search_edt"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"

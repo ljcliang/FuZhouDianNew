@@ -3,6 +3,7 @@ package com.yiwo.fuzhoudian.base;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebResourceRequest;
@@ -109,6 +110,9 @@ public class BaseSonicWebActivity extends BaseActivity {
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         // webview is ready now, just tell session client to bind
         if (sonicSessionClient != null) {

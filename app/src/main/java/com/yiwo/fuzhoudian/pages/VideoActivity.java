@@ -485,6 +485,7 @@ public class VideoActivity extends FragmentActivity {
         }
         emotionMainFragment.goneKeyboard();
 //        emotionMainFragment.clearEdt();
+        ll_edt.setVisibility(View.INVISIBLE);
         isComment = true;
         emotionMainFragment.setHint("请输入评论...");
 //        /设置动画，从自身位置的最下端向上滑动了自身的高度，持续时间为500ms

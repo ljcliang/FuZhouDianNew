@@ -32,7 +32,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:layout_centerVertical="true"
-            android:hint="搜多关键词"
+            android:hint="搜索关键词"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
             android:textSize="14sp"

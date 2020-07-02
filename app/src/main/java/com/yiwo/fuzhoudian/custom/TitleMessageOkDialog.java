@@ -25,7 +25,9 @@ public class TitleMessageOkDialog extends Dialog {
         this.message = message;
         this.onBtnClickListenner = onBtnClickListenner;
     }
-
+    public void setCanceable(boolean b){
+        this.setCancelable(b);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

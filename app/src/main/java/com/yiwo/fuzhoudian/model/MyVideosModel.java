@@ -1,5 +1,6 @@
 package com.yiwo.fuzhoudian.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class MyVideosModel {
         this.obj = obj;
     }
 
-    public static class ObjBean {
+    public static class ObjBean implements Serializable {
         /**
          * vID : 5
          * vname : 我的一个小视频

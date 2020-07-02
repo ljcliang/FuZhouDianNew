@@ -154,11 +154,24 @@ public class OrderFragment extends BaseFragment {
     }
     public void refreshAll(){
         Log.d("sadasda", "refresh");
-        allOrderFragment.refresh();
-//        allOrderFragment1.refresh();
-//        allOrderFragment2.refresh();
-//        allOrderFragment3.refresh();
-//        allOrderFragment4.refresh();
+        switch (mVp.getCurrentItem()){
+            case 0:
+                allOrderFragment.refresh();
+                break;
+            case 1:
+                allOrderFragment1.refresh();
+                break;
+            case 2:
+                allOrderFragment2.refresh();
+                break;
+            case 3:
+                allOrderFragment3.refresh();
+                break;
+            case 4:
+                allOrderFragment4.refresh();
+                break;
+
+        }
     }
 
     @OnClick({R.id.ll_btn_serch})

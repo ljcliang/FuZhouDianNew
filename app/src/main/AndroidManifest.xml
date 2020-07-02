@@ -89,6 +89,7 @@
         <activity android:name=".pages.MessageViewActivity" />
         <activity android:name=".pages.MessageFriendsActivity" />
         <activity android:name=".pages.AddVideoTitleActivity" />
+        <activity android:name=".pages.EditVideoTitleActivity" />
         <activity android:name=".pages.AllRememberActivity" />
         <activity android:name=".pages.ModifyFriendRememberActivity" />
         <activity android:name=".pages.MyFriendActivity" />

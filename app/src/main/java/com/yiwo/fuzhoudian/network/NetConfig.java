@@ -175,11 +175,11 @@ public class NetConfig {
     public static String editorFriendTogetherSubtitleContentUrl = "action/ac_activity/update_activity_info";
     //用户协议地址
 //    public static String userAgreementUrl = "http://47.92.136.19/index.php/action/ac_public/user_agreement";
-    public static String userAgreementUrl = "http://39.104.102.152/index.php/action/ac_public/userDeal";
-    public static String userAgreementUrl1 = "http://39.104.102.152/index.php/action/ac_public/userDeal2";
-    public static String chongZhiXieYiUrl = "http://www.tongbanapp.com/action/ac_public/paydeal";
-//      报名协议
-    public static String joinDealUrl = "http://tb.91yiwo.cn/action/ac_public/joinDeal";
+    public static String userAgreementUrl = BaseUrl +"action/ac_public/userDeal";
+    public static String userAgreementUrl1 = BaseUrl + "action/ac_public/userDeal2";
+    public static String chongZhiXieYiUrl = BaseUrl + "action/ac_public/paydeal";
+////      报名协议
+//    public static String joinDealUrl = "http://tb.91yiwo.cn/action/ac_public/joinDeal";
     //获取用户的活动列表
     public static String userActiveListUrl = "action/ac_article/ActivityList";
     //显示实名认证信息
