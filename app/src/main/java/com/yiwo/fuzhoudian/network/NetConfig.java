@@ -578,4 +578,8 @@ public class NetConfig {
      * action/ac_goods/getSureTime 收货时间       传 orderID 订单id
      */
     public static String getSureTime = "action/ac_goods/getSureTime";
+    /**
+     * action/ac_login/verifyStatus          verifyCodeStatus 0关闭 1开启
+     */
+    public static String verifyStatus = "action/ac_login/verifyStatus";
 }

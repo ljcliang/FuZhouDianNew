@@ -112,7 +112,7 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
                 holder.tv_btn_delete.setVisibility(View.VISIBLE);
                 break;
             case "7":
-                holder.tv_btn_delete.setVisibility(View.VISIBLE);
+//                holder.tv_btn_delete.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

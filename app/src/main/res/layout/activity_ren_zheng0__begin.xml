@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".pages.renzheng.RenZheng0_BeginActivity">
     <TextView
+        android:id="@+id/tv_refresh"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:text="刷新"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="right"
+        android:layout_width="80dp"
+        android:layout_height="35dp"/>
+    <TextView
         android:id="@+id/tv_message"
         android:layout_marginTop="200dp"
         android:layout_gravity="center_horizontal"

@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.R;
@@ -38,6 +42,8 @@ public class XiaoShouMingXiActivity extends BaseSonicWebActivity {
     TextView mTitleTv;
     @BindView(R.id.webView)
     WebView mWebView;
+    @BindView(R.id.refresh_layout)
+    RefreshLayout refresh_layout;
     private SpImp spImp;
     private Dialog weiBoDialog;
     @Override
@@ -47,6 +53,15 @@ public class XiaoShouMingXiActivity extends BaseSonicWebActivity {
         ButterKnife.bind(this);
         initIntentSonic(getIntent().getStringExtra("url"), mWebView);
         spImp = new SpImp(this);
+        refresh_layout.setRefreshHeader(new ClassicsHeader(this));
+        refresh_layout.setEnableLoadMore(false);
+        refresh_layout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mWebView.reload();
+                refreshLayout.finishRefresh(500);
+            }
+        });
     }
 
     public static void start(Context context, String url) {

@@ -93,42 +93,6 @@
                 <TextView
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical"
-                    android:text="电子邮箱"
-                    android:textColor="@color/color_101010"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <RelativeLayout
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:lines="1"
-                        android:inputType="textEmailAddress"
-                        android:hint="在这里输入电子邮箱"
-                        android:id="@+id/edt_shop_email"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="1dp"
-                        android:textSize="14sp"
-                        android:textColor="@color/color_101010"
-                        android:background="@null"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                    <View
-                        android:layout_below="@+id/edt_shop_email"
-                        android:background="@color/color_d8d8d8"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-                <TextView
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical"
                     android:text="身份证号"
                     android:textColor="@color/color_101010"
                     android:textSize="14sp"
@@ -188,6 +152,66 @@
                         android:layout_height="wrap_content"/>
                     <View
                         android:layout_below="@+id/edt_person_name"
+                        android:background="@color/color_d8d8d8"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:id="@+id/tv_text_email"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="电子邮箱"
+                    android:textColor="@color/color_101010"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RelativeLayout
+
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_toLeftOf="@+id/ll_check_email"
+                        android:lines="1"
+                        android:inputType="textEmailAddress"
+                        android:hint="在这里输入电子邮箱"
+                        android:id="@+id/edt_shop_email"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="1dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/color_101010"
+                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <LinearLayout
+
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/ll_check_email"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/iv_email_check"
+                            android:src="@mipmap/checkbox_black_false"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"/>
+                        <TextView
+                            android:text="使用默认"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_marginRight="15dp"
+                        android:layout_below="@+id/ll_check_email"
+                        android:layout_toLeftOf="@+id/ll_check_email"
                         android:background="@color/color_d8d8d8"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"/>

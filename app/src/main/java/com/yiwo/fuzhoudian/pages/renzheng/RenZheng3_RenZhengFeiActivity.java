@@ -1,5 +1,6 @@
 package com.yiwo.fuzhoudian.pages.renzheng;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -49,6 +51,8 @@ public class RenZheng3_RenZhengFeiActivity extends BaseActivity {
     TextView btnYanzheng;
     @BindView(R.id.btn_zhifu)
     TextView btnZhifu;
+    @BindView(R.id.ll_edt)
+    LinearLayout llEdt;
     private SpImp spImp;
     private Dialog dialog;
     private IWXAPI api;
@@ -86,9 +90,34 @@ public class RenZheng3_RenZhengFeiActivity extends BaseActivity {
 
                     }
                 });
+        ViseHttp.POST(NetConfig.verifyStatus)
+                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.verifyStatus))
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject0 = new JSONObject(data);
+                            if (jsonObject0.getInt("code") == 200) {
+                                JSONObject jsonObject1 = jsonObject0.getJSONObject("obj");
+                                if (jsonObject1.getString("verifyCodeStatus").equals("1")){
+                                    llEdt.setVisibility(View.VISIBLE);
+                                }else {
+                                    llEdt.setVisibility(View.GONE);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+
+                    }
+                });
     }
 
-    public static void openActivity(Context context) {
+    public static void openActivity(Activity context) {
         Intent intent = new Intent();
         intent.setClass(context, RenZheng3_RenZhengFeiActivity.class);
         context.startActivity(intent);
@@ -100,7 +129,95 @@ public class RenZheng3_RenZhengFeiActivity extends BaseActivity {
         checkJiao();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void yanchiCheck(){
+        dialog = WeiboDialogUtils.createLoadingDialog(RenZheng3_RenZhengFeiActivity.this,"处理中...");
+        ViseHttp.POST(NetConfig.wxQuery)
+                .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.wxQuery))
+                .addParam("uid", spImp.getUID())
+                .request(new ACallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 200) {
+                                Gson gson = new Gson();
+                                RenZhengModel model = gson.fromJson(data, RenZhengModel.class);
+                                sBindStaus = model.getObj().getSign();
+                                sRenZhengFeiStaus = model.getObj().getPay();
+//                                if (sRenZhengFeiStaus.equals("1")){
+                                    if (false){
+                                    toToast(RenZheng3_RenZhengFeiActivity.this,"缴纳成功");
+                                    WeiboDialogUtils.closeDialog(dialog);
+                                    onBackPressed();
+                                }else {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Thread.sleep(10000);//延时1s
+                                                ViseHttp.POST(NetConfig.wxQuery)
+                                                        .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.wxQuery))
+                                                        .addParam("uid", spImp.getUID())
+                                                        .request(new ACallback<String>() {
+                                                            @Override
+                                                            public void onSuccess(String data) {
+                                                                try {
+                                                                    JSONObject jsonObject = new JSONObject(data);
+                                                                    if (jsonObject.getInt("code") == 200) {
+                                                                        Gson gson = new Gson();
+                                                                        RenZhengModel model = gson.fromJson(data, RenZhengModel.class);
+                                                                        sBindStaus = model.getObj().getSign();
+                                                                        sRenZhengFeiStaus = model.getObj().getPay();
+                                                                        if (sRenZhengFeiStaus.equals("1")){
+                                                                            toToast(RenZheng3_RenZhengFeiActivity.this,"缴纳成功");
+                                                                            WeiboDialogUtils.closeDialog(dialog);
+                                                                            onBackPressed();
+                                                                        }else {
+                                                                            toToast(RenZheng3_RenZhengFeiActivity.this,"支付失败，请重试");
+                                                                        }
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                    toToast(RenZheng3_RenZhengFeiActivity.this,"网络错误，请重试");
+                                                                }
+                                                                WeiboDialogUtils.closeDialog(dialog);
+                                                            }
+
+                                                            @Override
+                                                            public void onFail(int errCode, String errMsg) {
+                                                                toToast(RenZheng3_RenZhengFeiActivity.this,"网络错误，请重试");
+                                                                WeiboDialogUtils.closeDialog(dialog);
+                                                            }
+                                                        });
+                                                //do something
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            toToast(RenZheng3_RenZhengFeiActivity.this,"网络错误，请重试");
+                        }
+                    }
+
+                    @Override
+                    public void onFail(int errCode, String errMsg) {
+                        toToast(RenZheng3_RenZhengFeiActivity.this,"网络错误，请重试");
+                        WeiboDialogUtils.closeDialog(dialog);
+                    }
+                });
+
+    }
     private void checkJiao() {
+        Log.d("asdasdas","check_sad");
         ViseHttp.POST(NetConfig.wxQuery)
                 .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.wxQuery))
                 .addParam("uid", spImp.getUID())
@@ -116,20 +233,19 @@ public class RenZheng3_RenZhengFeiActivity extends BaseActivity {
                                 sRenZhengFeiStaus = model.getObj().getPay();
                                 if (sRenZhengFeiStaus.equals("1")){
                                     toToast(RenZheng3_RenZhengFeiActivity.this,"缴纳成功");
-                                    RenZheng0_BeginActivity.openActivity(RenZheng3_RenZhengFeiActivity.this);
                                     onBackPressed();
                                 }else {
-
                                 }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            toToast(RenZheng3_RenZhengFeiActivity.this,"网络错误，请重试");
                         }
                     }
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
-
+                        toToast(RenZheng3_RenZhengFeiActivity.this,"网络错误，请重试");
                     }
                 });
     }
@@ -187,12 +303,12 @@ public class RenZheng3_RenZhengFeiActivity extends BaseActivity {
                                         OrderToPayModel model1 = gson1.fromJson(data, OrderToPayModel.class);
                                         wxPay(model1.getObj());
                                         toToast(RenZheng3_RenZhengFeiActivity.this,model1.getMessage());
-                                        finish();
+                                        WeiboDialogUtils.closeDialog(dialog);
+                                        yanchiCheck();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                WeiboDialogUtils.closeDialog(dialog);
                             }
 
                             @Override
@@ -216,5 +332,11 @@ public class RenZheng3_RenZhengFeiActivity extends BaseActivity {
         req.sign = model.getSign();
         req.extData = "app data";
         api.sendReq(req);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WeiboDialogUtils.closeDialog(dialog);
     }
 }

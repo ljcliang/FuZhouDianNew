@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -114,37 +115,38 @@ public class MyVideosActivity extends BaseActivity {
 
             @Override
             public void onEditClick(final int i) {
-                EditContentDialog_L dialog_l = new EditContentDialog_L(MyVideosActivity.this, "请输入新的标题", new EditContentDialog_L.OnReturnListener() {
-                    @Override
-                    public void onReturn(final String content) {
-                        ViseHttp.POST(NetConfig.videoEdit)
-                                .addParam("app_key", getToken(NetConfig.BaseUrl+NetConfig.videoEdit))
-                                .addParam("vID",list.get(i).getVID())
-                                .addParam("userID",spImp.getUID())
-                                .addParam("vname",content)
-                                .request(new ACallback<String>() {
-                                    @Override
-                                    public void onSuccess(String data) {
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(data);
-                                            if (jsonObject.getInt("code") == 200){
-                                                toToast(MyVideosActivity.this,"修改成功");
-                                                list.get(i).setVname(content);
-                                                adapter.notifyDataSetChanged();
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFail(int errCode, String errMsg) {
-                                        toToast(MyVideosActivity.this,"修改失败");
-                                    }
-                                });
-                    }
-                });
-                dialog_l.show();
+                EditVideoTitleActivity.startEditVideoInfoActivity(MyVideosActivity.this, i ,list.get(i));
+//                EditContentDialog_L dialog_l = new EditContentDialog_L(MyVideosActivity.this, "请输入新的标题", new EditContentDialog_L.OnReturnListener() {
+//                    @Override
+//                    public void onReturn(final String content) {
+//                        ViseHttp.POST(NetConfig.videoEdit)
+//                                .addParam("app_key", getToken(NetConfig.BaseUrl+NetConfig.videoEdit))
+//                                .addParam("vID",list.get(i).getVID())
+//                                .addParam("userID",spImp.getUID())
+//                                .addParam("vname",content)
+//                                .request(new ACallback<String>() {
+//                                    @Override
+//                                    public void onSuccess(String data) {
+//                                        try {
+//                                            JSONObject jsonObject = new JSONObject(data);
+//                                            if (jsonObject.getInt("code") == 200){
+//                                                toToast(MyVideosActivity.this,"修改成功");
+//                                                list.get(i).setVname(content);
+//                                                adapter.notifyDataSetChanged();
+//                                            }
+//                                        } catch (JSONException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onFail(int errCode, String errMsg) {
+//                                        toToast(MyVideosActivity.this,"修改失败");
+//                                    }
+//                                });
+//                    }
+//                });
+//                dialog_l.show();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -254,6 +256,17 @@ public class MyVideosActivity extends BaseActivity {
                 intent.putExtra(CreateYouJiActivity.ONLY_ADD_VIDEO,true);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EditVideoTitleActivity.REQUEST_CODE && resultCode == EditVideoTitleActivity.RESULT_CODE){
+            list.remove(data.getIntExtra(EditVideoTitleActivity.RESULT_CHANGE_POSITION_KEY,-1));
+            list.add(data.getIntExtra(EditVideoTitleActivity.RESULT_CHANGE_POSITION_KEY,-1),
+                    (MyVideosModel.ObjBean)data.getSerializableExtra(EditVideoTitleActivity.RESULT_CHANGE_DATA));
+            adapter.notifyDataSetChanged();
         }
     }
 }

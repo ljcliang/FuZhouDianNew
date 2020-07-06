@@ -44,11 +44,13 @@ import com.yiwo.fuzhoudian.pages.PeiSongSettingActivity;
 import com.yiwo.fuzhoudian.pages.SetActivity;
 import com.yiwo.fuzhoudian.pages.ShopLocationActivity;
 import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
+import com.yiwo.fuzhoudian.pages.renzheng.RenZheng1_EditInfoActivity;
 import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
 import com.yiwo.fuzhoudian.pages.webpages.XiaoShouMingXiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.ShareUtils;
 import com.yiwo.fuzhoudian.utils.StringUtils;
+import com.yiwo.fuzhoudian.utils.TokenUtils;
 import com.yiwo.fuzhoudian.wangyiyunshipin.VideoUpLoadListActivity;
 
 import org.json.JSONException;
@@ -180,6 +182,7 @@ public class MineFragment extends BaseFragment {
                         });
                 break;
             case R.id.rl_share_erweima://我的二维码
+//                RenZheng1_EditInfoActivity.openActivity(getContext());
                 if (TextUtils.isEmpty(spImp.getUID()) || spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
@@ -332,7 +335,31 @@ public class MineFragment extends BaseFragment {
         super.onStart();
         if (spImp.getIfSign().equals("1")){
             llShare.setVisibility(View.VISIBLE);
-            rlYaoqingma.setVisibility(View.VISIBLE);
+            ViseHttp.POST(NetConfig.verifyStatus)
+                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.verifyStatus))
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject0 = new JSONObject(data);
+                                if (jsonObject0.getInt("code") == 200) {
+                                    JSONObject jsonObject1 = jsonObject0.getJSONObject("obj");
+                                    if (jsonObject1.getString("verifyCodeStatus").equals("1")){
+                                        rlYaoqingma.setVisibility(View.VISIBLE);
+                                    }else {
+                                        rlYaoqingma.setVisibility(View.GONE);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
         }else {
             llShare.setVisibility(View.GONE);
             rlYaoqingma.setVisibility(View.GONE);

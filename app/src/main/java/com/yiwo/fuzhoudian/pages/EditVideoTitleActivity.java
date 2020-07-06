@@ -1,5 +1,6 @@
 package com.yiwo.fuzhoudian.pages;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseActivity;
@@ -26,8 +29,12 @@ import com.yiwo.fuzhoudian.model.CityModel;
 import com.yiwo.fuzhoudian.model.GuanLianShangPinModel;
 import com.yiwo.fuzhoudian.model.MyVideosModel;
 import com.yiwo.fuzhoudian.network.ActivityConfig;
+import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.wangyiyunshipin.TakeVideoFragment_new;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,15 +56,20 @@ public class EditVideoTitleActivity extends BaseActivity {
     private String yourChoiceActiveId = "";
     private String yourChoiceActiveName = "";
 
-    private MyVideosModel videoItem;
+    private MyVideosModel.ObjBean videoItem;
     private SpImp spImp;
+
+    public static final int RESULT_CODE =  1001;
+    public static final int REQUEST_CODE =  1;
+    public static final String RESULT_CHANGE_POSITION_KEY = "videoItem_posion";
+    public int RESULT_CHANGE_POSITION = -1;
+    public static final String RESULT_CHANGE_DATA = "videoItem";
 //    private Dialog dialog;
-    private ProgressDialog progressDialog;
-    private PopupWindow popupWindow;
-    public  static void startEditVideoInfoActivity(Context context, MyVideosModel.ObjBean videos){
+    public  static void startEditVideoInfoActivity(Activity context, int posion, MyVideosModel.ObjBean videos){
         Intent intent = new Intent(context, EditVideoTitleActivity.class);
         intent.putExtra(TakeVideoFragment_new.EXTRA_VIDEO_ITEM,videos);
-        context.startActivity(intent);
+        intent.putExtra(RESULT_CHANGE_POSITION_KEY,posion);
+        context.startActivityForResult(intent,REQUEST_CODE);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +77,18 @@ public class EditVideoTitleActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_video_info);
         ScreenAdapterTools.getInstance().loadView(getWindow().getDecorView());
         ButterKnife.bind(this);
-        progressDialog = new ProgressDialog(EditVideoTitleActivity.this);
         spImp = new SpImp(EditVideoTitleActivity.this);
-        if (!TextUtils.isEmpty(spImp.getLastCreateVideoAddress())){
-            tvCity.setText(spImp.getLastCreateVideoAddress());
-        }else {
-            tvCity.setText(spImp.getUserName());
-        }
         editText.addTextChangedListener(textTitleWatcher);
-        videoItem = (MyVideosModel) getIntent().getSerializableExtra(TakeVideoFragment_new.EXTRA_VIDEO_ITEM);
+        videoItem = (MyVideosModel.ObjBean) getIntent().getSerializableExtra(TakeVideoFragment_new.EXTRA_VIDEO_ITEM);
+        RESULT_CHANGE_POSITION = getIntent().getIntExtra(RESULT_CHANGE_POSITION_KEY,-1);
+        editText.setText(videoItem.getVname());
+        tvCity.setText(videoItem.getAddress());
+        tvAboutGoods.setText(videoItem.getGname());
+        yourChoiceActiveName = videoItem.getGname();
+        yourChoiceActiveId = videoItem.getVID();
     }
     @OnClick({R.id.rl_back,R.id.activity_up_load_video_rl_complete,R.id.rl_choose_address,R.id.activity_create_friend_remember_rl_active_title})
-     public void onClick(View view){
+     public void onClick(final View view){
         switch (view.getId()){
             case R.id.rl_back:
                 onBackPressed();
@@ -92,7 +104,40 @@ public class EditVideoTitleActivity extends BaseActivity {
                 startActivityForResult(it_suoshu, REQUEST_CODE_SUO_SHU_HUO_DONG);
                 break;
             case R.id.activity_up_load_video_rl_complete:
+                ViseHttp.POST(NetConfig.videoEdit)
+                        .addParam("app_key", getToken(NetConfig.BaseUrl+NetConfig.videoEdit))
+                        .addParam("vID",videoItem.getVID())
+                        .addParam("userID",spImp.getUID())
+                        .addParam("vname",editText.getText().toString())
+                        .addParam("about_good",yourChoiceActiveId)
+                        .addParam("address",tvCity.getText().toString())
+                        .request(new ACallback<String>() {
+                            @Override
+                            public void onSuccess(String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.getInt("code") == 200){
+                                        toToast(EditVideoTitleActivity.this,"修改成功");
+                                        Intent intent = new Intent();
+                                        videoItem.setVname(editText.getText().toString());
+                                        videoItem.setAddress(tvCity.getText().toString());
+                                        videoItem.setGid(yourChoiceActiveId);
+                                        videoItem.setGname(yourChoiceActiveName);
+                                        intent.putExtra(RESULT_CHANGE_DATA,videoItem);
+                                        intent.putExtra(RESULT_CHANGE_POSITION_KEY,RESULT_CHANGE_POSITION);
+                                        setResult(RESULT_CODE,intent);
+                                        finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
+                            @Override
+                            public void onFail(int errCode, String errMsg) {
+                                toToast(EditVideoTitleActivity.this,"修改失败");
+                            }
+                        });
                 break;
         }
     }

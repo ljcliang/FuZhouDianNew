@@ -44,8 +44,8 @@ public class RenZheng0_BeginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         ViseHttp.POST(NetConfig.wxQuery)
                 .addParam("app_key", getToken(NetConfig.BaseUrl + NetConfig.wxQuery))
                 .addParam("uid", spImp.getUID())
@@ -70,7 +70,7 @@ public class RenZheng0_BeginActivity extends BaseActivity {
                                         break;
                                     case "1":
                                         if (sRenZhengFeiStaus.equals("0")){
-                                            tvMessage.setText("未缴纳微信认证费");
+                                            tvMessage.setText("缴纳微信商户认证费");
                                             tvNext.setText("去缴纳");
                                             tvNext.setVisibility(View.VISIBLE);
                                         }else if (sRenZhengFeiStaus.equals("1")||sRenZhengFeiStaus.equals("2")){
@@ -80,7 +80,7 @@ public class RenZheng0_BeginActivity extends BaseActivity {
                                         break;
                                     case "2":
                                         if (sRenZhengFeiStaus.equals("0")){
-                                            tvMessage.setText("未缴纳微信认证费");
+                                            tvMessage.setText("缴纳微信商户认证费");
                                             tvNext.setText("去缴纳");
                                             tvNext.setVisibility(View.VISIBLE);
                                         }else if (sRenZhengFeiStaus.equals("1")||sRenZhengFeiStaus.equals("2")){
@@ -91,7 +91,7 @@ public class RenZheng0_BeginActivity extends BaseActivity {
                                         break;
                                     case "3":
                                         if (sRenZhengFeiStaus.equals("0")){
-                                            tvMessage.setText("未缴纳微信认证费");
+                                            tvMessage.setText("缴纳微信商户认证费");
                                             tvNext.setText("去缴纳");
                                             tvNext.setVisibility(View.VISIBLE);
                                         }else if (sRenZhengFeiStaus.equals("1")||sRenZhengFeiStaus.equals("2")){
@@ -122,6 +122,12 @@ public class RenZheng0_BeginActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     public static void openActivity(Context context) {

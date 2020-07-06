@@ -32,6 +32,8 @@
             android:layout_height="wrap_content"/>
     </RelativeLayout>
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_edt"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"

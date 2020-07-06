@@ -84,7 +84,10 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
     EditText edtPersonName;
     @BindView(R.id.edt_shop_email)
     EditText edtShopEmail;
-
+    @BindView(R.id.iv_email_check)
+    ImageView iv_email_check;
+    @BindView(R.id.tv_text_email)
+    TextView tv_text_email;
     private String yingyezhizhao = "";
 //    private String dianmianzhaopian = "";
     private String shenfenzheng_renxiang = "";
@@ -98,6 +101,8 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
     private Dialog dialog;
     private SpImp spImp;
 
+    private boolean useDefault = false;
+    private String edtEmailStr = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +120,7 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.rl_up_yingyezhizhao, R.id.rl_up_dianmianzhaopian, R.id.rl_up_shenfenzheng_renxiang, R.id.rl_up_shenfenzheng_guohui, R.id.tv_next})
+    @OnClick({R.id.rl_up_yingyezhizhao, R.id.rl_up_dianmianzhaopian, R.id.rl_up_shenfenzheng_renxiang, R.id.rl_up_shenfenzheng_guohui, R.id.tv_next,R.id.ll_check_email})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_up_yingyezhizhao:
@@ -123,6 +128,27 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
                         .useCamera(true) // 设置是否使用拍照
                         .setSingle(true)  //设置是否单选
                         .start(this, REQUEST_CODE_YINGYEZHIZHAO); // 打开相册
+                break;
+            case R.id.ll_check_email:
+                useDefault = !useDefault;
+                if (useDefault){
+                    edtShopEmail.setEnabled(false);
+                    tv_text_email.setEnabled(false);
+                    edtEmailStr = edtShopEmail.getText().toString();
+                    edtShopEmail.setText("");
+                    edtShopEmail.setHint("使用默认电子邮箱");
+                    iv_email_check.setImageResource(R.mipmap.checkbox_black_true);
+                }else {
+                    edtShopEmail.setEnabled(true);
+                    tv_text_email.setEnabled(true);
+                    if (TextUtils.isEmpty(edtEmailStr)){
+                        edtShopEmail.setHint("在这里输入电子邮箱");
+                    }else {
+                        edtShopEmail.setText(edtEmailStr);
+                    }
+                    iv_email_check.setImageResource(R.mipmap.checkbox_black_false);
+                }
+
                 break;
 //            case R.id.rl_up_dianmianzhaopian:
 //                ImageSelector.builder()
@@ -181,13 +207,17 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
             toToast(this, "请输入身份证号");
             return;
         }
-        if (!StringUtils.isEmail(edtShopEmail.getText().toString())) {
-            toToast(this, "电子邮箱格式不对");
-            return;
-        }
-        if (TextUtils.isEmpty(edtPersonNum.getText().toString())) {
-            toToast(this, "请输入店铺简称");
-            return;
+        if (!useDefault){
+            if (!StringUtils.isEmail(edtShopEmail.getText().toString())) {
+                toToast(this, "电子邮箱格式不对");
+                return;
+            }else {
+//                toToast(this, "电子邮箱格式正确");
+//                return;
+            }
+        }else {
+//            toToast(this, "使用默认电子邮箱");
+//            return;
         }
         upDataInfo();
     }
@@ -270,6 +300,7 @@ public class RenZheng1_EditInfoActivity extends BaseActivity {
                                     }
                                     if (jsonObject.getInt("code") == 200) {
                                         toToast(RenZheng1_EditInfoActivity.this, "已提交审核");
+                                        onBackPressed();
                                         RenZheng0_BeginActivity.openActivity(RenZheng1_EditInfoActivity.this);
                                     } else if (jsonObject.getInt("code") == 400) {
                                         toToast(RenZheng1_EditInfoActivity.this, jsonObject.getString("message"));
