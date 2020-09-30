@@ -154,7 +154,10 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             if (oneIsKeFu(sessionId,NimUIKit.getAccount())){
                 ll_bottom.setVisibility(View.VISIBLE);
                 rl_bottom_notfriend.setVisibility(View.GONE);
-            }else if (oneIsTongBanZhuShou(sessionId,NimUIKit.getAccount())){
+            }else if (fromTongBan(sessionId)){
+                ll_bottom.setVisibility(View.VISIBLE);
+                rl_bottom_notfriend.setVisibility(View.GONE);
+            }else if (oneIsFZDZhuShou(sessionId,NimUIKit.getAccount())){
                 ll_bottom.setVisibility(View.GONE);
                 rl_bottom_notfriend.setVisibility(View.GONE);
             }else {
@@ -416,7 +419,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         List<BaseAction> actions = new ArrayList<>();
         actions.add(new ImageAction());
         actions.add(new VideoAction());
-        actions.add(new LocationAction());
+//        actions.add(new LocationAction());
 
         if (customization != null && customization.actions != null) {
             actions.addAll(customization.actions);
@@ -445,8 +448,15 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             return false;
         }
     }
-    private boolean oneIsTongBanZhuShou(String accID0,String accID1){
+    private boolean oneIsFZDZhuShou(String accID0,String accID1){
         if (accID0.equals("fzddianjiaxiaozhushou")||accID1.equals("fzddianjiaxiaozhushou")){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    private boolean fromTongBan(String accID0){
+        if (accID0.indexOf("tongban")!= -1){
             return true;
         }else {
             return false;

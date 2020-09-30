@@ -108,6 +108,9 @@ public class RenZheng0_BeginActivity extends BaseActivity {
                                         break;
                                 }
                             }else {
+                                tvMessage.setText("认证失败，请重新上传资料！");
+                                tvNext.setVisibility(View.VISIBLE);
+                                tvNext.setText("重新认证");
 //                                tvMessage.setText("店铺信息和身份信息未完善");
 //                                tvNext.setText("去完善");
 //                                bindStatus = 400 ;

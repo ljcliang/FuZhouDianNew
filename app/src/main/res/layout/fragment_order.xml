@@ -15,12 +15,11 @@
         android:id="@+id/activity_my_order_rl_top"
         style="@style/TopBarStyle">
         <RelativeLayout
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/rl_saoyisao"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/bg_white_18dp"
-            android:layout_centerInParent="true"
-            android:layout_toLeftOf="@+id/rl_fabu"
-            android:layout_toRightOf="@+id/rl_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <EditText
@@ -59,7 +58,17 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </RelativeLayout>
-
+        <RelativeLayout
+            android:id="@+id/rl_saoyisao"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:src="@mipmap/saoyisao"
+                android:layout_width="28dp"
+                android:layout_height="28dp"/>
+        </RelativeLayout>
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout

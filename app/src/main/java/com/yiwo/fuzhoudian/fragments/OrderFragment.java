@@ -12,12 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.yatoooon.screenadaptation.ScreenAdapterTools;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.adapter.OrderPagerAdapter;
 import com.yiwo.fuzhoudian.base.BaseFragment;
 import com.yiwo.fuzhoudian.fragments.order.AllOrderFragment;
+import com.yiwo.fuzhoudian.pages.SAOYISAOActivity;
+import com.yiwo.fuzhoudian.pages.webpages.OrderInfoWebActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +43,10 @@ public class OrderFragment extends BaseFragment {
     ViewPager mVp;
     @BindView(R.id.edt_search)
     EditText editSearch;
+    @BindView(R.id.rl_saoyisao)
+    RelativeLayout rl_saoyisao;
     private List<Fragment> mFragmentList;
+    public static final int ER_WEI_MA_REQUEST_CODE = 1;
     private AllOrderFragment allOrderFragment,allOrderFragment1,allOrderFragment2,allOrderFragment3,allOrderFragment4;
     private void initFragment() {
         mFragmentList = new ArrayList<>();
@@ -174,13 +182,38 @@ public class OrderFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_btn_serch})
+    @OnClick({R.id.ll_btn_serch,R.id.rl_saoyisao})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.ll_btn_serch:
                 mVp.setCurrentItem(0);
                 allOrderFragment.refresh(editSearch.getText().toString());
                 break;
+            case R.id.rl_saoyisao:
+                Intent intent = new Intent(getContext(), SAOYISAOActivity.class);
+                startActivityForResult(intent, ER_WEI_MA_REQUEST_CODE);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ER_WEI_MA_REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    OrderInfoWebActivity.start(getContext(),result);
+                    Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(getContext(), "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }

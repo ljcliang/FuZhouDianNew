@@ -389,7 +389,7 @@ public class VideoActivity extends FragmentActivity {
             @Override
             public void onCommitListen(String string) {
                 if (TextUtils.isEmpty(string)) {
-                    toToast(VideoActivity.this, "请输入评论...");
+                    toToast(VideoActivity.this, "请输入内容");
                 } else {
                     if (isComment){
                         toComment(string);
@@ -582,6 +582,7 @@ public class VideoActivity extends FragmentActivity {
                                 toToast(VideoActivity.this, "回复失败");
                             }
                         } catch (JSONException e) {
+                            isComment = true;
                             toToast(VideoActivity.this, "回复失败");
                             e.printStackTrace();
                         }

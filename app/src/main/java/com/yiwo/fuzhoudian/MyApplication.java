@@ -25,6 +25,7 @@ import com.netease.nimlib.sdk.util.NIMUtil;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.vise.xsnow.http.ViseHttp;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.network.NetConfig;
@@ -79,7 +80,7 @@ public class MyApplication extends Application {
             // 初始化
             NimUIKit.init(this);
             // 注册定位信息提供者类（可选）,如果需要发送地理位置消息，必须提供。
-            // demo中使用高德地图实现了该提供者，开发者可以根据自身需求，选用高德，百度，google等任意第三方地图和定位SDK。
+//             demo中使用高德地图实现了该提供者，开发者可以根据自身需求，选用高德，百度，google等任意第三方地图和定位SDK。
 //            NimUIKit.setLocationProvider(new NimDemoLocationProvider());
 
             //关闭消息提醒。
@@ -107,6 +108,7 @@ public class MyApplication extends Application {
         {
             PlatformConfig.setWeixin(UMConfig.WECHAT_APPID, UMConfig.WECHAT_APPSECRET);
         }
+        ZXingLibrary.initDisplayOpinion(this);
     }
 //    / 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
     private LoginInfo loginInfo() {

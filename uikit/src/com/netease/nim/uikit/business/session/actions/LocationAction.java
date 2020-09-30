@@ -19,7 +19,7 @@ public class LocationAction extends BaseAction {
     }
 
     @Override
-    public void onClick() {
+    public void onClick() {Log.d(TAG,"isNUll");
         if (NimUIKitImpl.getLocationProvider() != null) {
             Log.d(TAG,"notNUll");
             NimUIKitImpl.getLocationProvider().requestLocation(getActivity(), new LocationProvider.Callback() {

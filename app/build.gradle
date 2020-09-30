@@ -5,8 +5,8 @@ android {
         applicationId "com.yiwo.fuzhoudian"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -142,6 +142,7 @@ dependencies {
     implementation 'com.umeng.umsdk:share-board:6.9.6'
     implementation 'com.umeng.umsdk:share-wx:6.9.6'
 
-    implementation 'com.google.zxing:core:3.3.0'
+//    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
 
 }

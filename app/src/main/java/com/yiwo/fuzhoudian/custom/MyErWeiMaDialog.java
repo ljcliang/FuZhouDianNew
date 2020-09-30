@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.utils.AndTools;
@@ -64,7 +65,8 @@ public class MyErWeiMaDialog extends Dialog {
         //一定要在setContentView之后调用，否则无效
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Button btn = view.findViewById(R.id.btn);
-        bitmap = QRCodeUtil.createQRCodeBitmap(url,420,420);
+        bitmap = CodeUtils.createImage(url, 420, 420, null);
+
         ImageView iv = view.findViewById(R.id.iv);
         iv.setImageBitmap(bitmap);
         LinearLayout ll = view.findViewById(R.id.ll);

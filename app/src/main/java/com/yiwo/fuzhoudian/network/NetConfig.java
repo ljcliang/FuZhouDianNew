@@ -9,10 +9,8 @@ public class NetConfig {
     //测试服务器
 //    public static String BaseUrl = "http://www.91yiwo.com/ylyy/index.php/";
 //    正式服务器
-//    public static String BaseUrl = "http://www.tongbanapp.com/index.php/";
     public static String BaseUrl = "https://fzd.91yiwo.com/index.php/";
-//    public static String BaseUrl = "http://www.youlaiyouyue.com/";
-//    public static String BaseUrl = "http://47.92.136.19/index.php/";
+//    public static String BaseUrl = "http://fzd.tongbanapp.com/index.php/";
     //首页店铺URl
     public static String ShopHomeUrl = BaseUrl+"action/ac_goods/goodsList?uid="; //后面加 店铺的id
     //管理店铺 URL

@@ -42,6 +42,8 @@ public class XiuGaiShangPinModel {
         /**
          * goodsName : 测试编辑商品
          * goodsInfo : 这是一个测试编辑商品
+         * "useType": "0",
+         * if_fx": "0",
          * spec : [{"specID":"29","oldPrice":"100.00","nowPrice":"99.00","spec":"个","allNum":"3"}]
          * service : [{"id":"1","name":"七天包退","info":"未满七天就给退货"},{"id":"3","name":"永久维修","info":"终身维修"}]
          * tag : [{"id":"1","name":"食品"},{"id":"2","name":"果蔬"},{"id":"3","name":"玩具"}]
@@ -50,6 +52,8 @@ public class XiuGaiShangPinModel {
 
         private String goodsName;
         private String goodsInfo;
+        private String useType;
+        private String if_fx;
         private List<ShangPinUpLoadModel.SpecBean> spec;
         private List<ShangPinServiceModel.ObjBean> service;
         private List<ShangPinLabelModel.ObjBean> tag;
@@ -102,6 +106,23 @@ public class XiuGaiShangPinModel {
         public void setPicList(List<PicListBean> picList) {
             this.picList = picList;
         }
+
+        public String getUseType() {
+            return useType;
+        }
+
+        public void setUseType(String useType) {
+            this.useType = useType;
+        }
+
+        public String getIf_fx() {
+            return if_fx;
+        }
+
+        public void setIf_fx(String if_fx) {
+            this.if_fx = if_fx;
+        }
+
         public static class PicListBean {
             /**
              * picID : 30

@@ -15,6 +15,8 @@ public class ShangPinUpLoadModel {
     private String goodsName;
     private String goodsInfo;
     private String service;
+    private String if_fx;//是否是分销商品 0否 1是
+    private String useType;//0正常物流 1到店使用
     private String tag;
     private List<SpecBean> spec;
 
@@ -58,6 +60,22 @@ public class ShangPinUpLoadModel {
         this.spec = spec;
     }
 
+    public String getIf_fx() {
+        return if_fx;
+    }
+
+    public void setIf_fx(String if_fx) {
+        this.if_fx = if_fx;
+    }
+
+    public String getUseType() {
+        return useType;
+    }
+
+    public void setUseType(String useType) {
+        this.useType = useType;
+    }
+
     public static class SpecBean {
         /**
          * oldPrice : 20
@@ -65,6 +83,7 @@ public class ShangPinUpLoadModel {
          * spec : 横撑黄绿蓝靛紫
          * allNum : 100
          * "specID": "29",
+         * fx_bonus ：
          */
 
         private String oldPrice = "";
@@ -72,6 +91,7 @@ public class ShangPinUpLoadModel {
         private String spec = "";
         private String allNum = "";
         private String specID =  "0";
+        private String fx_bonus = "";//提成 默认为0
         public String getOldPrice() {
             return oldPrice;
         }
@@ -110,6 +130,14 @@ public class ShangPinUpLoadModel {
 
         public void setSpecID(String specID) {
             this.specID = specID;
+        }
+
+        public String getFx_bonus() {
+            return fx_bonus;
+        }
+
+        public void setFx_bonus(String fx_bonus) {
+            this.fx_bonus = fx_bonus;
         }
     }
 }

@@ -63,6 +63,7 @@ public class FaBuShangPinJiaGeAdapter extends RecyclerView.Adapter<FaBuShangPinJ
         holder.edt_yuan_jiage.setText(data.get(position).getOldPrice());
         holder.edt_guige.setText(data.get(position).getSpec());
         holder.edt_kucun.setText(data.get(position).getAllNum());
+        holder.edt_fenxiaoticheng.setText(data.get(position).getFx_bonus());
         if (position == 0){
             holder.iv_jiage_tishi.setVisibility(View.VISIBLE);
         }else {
@@ -158,6 +159,22 @@ public class FaBuShangPinJiaGeAdapter extends RecyclerView.Adapter<FaBuShangPinJ
                 data.get(position).setAllNum(s.toString());
             }
         });
+        holder.edt_fenxiaoticheng.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                data.get(position).setFx_bonus(editable.toString());
+            }
+        });
     }
 
     @Override
@@ -166,7 +183,7 @@ public class FaBuShangPinJiaGeAdapter extends RecyclerView.Adapter<FaBuShangPinJ
     }
     class ViewHolder extends RecyclerView.ViewHolder{
         RelativeLayout rl_btn_delete;
-        EditText edt_jiage,edt_guige,edt_kucun,edt_yuan_jiage;
+        EditText edt_jiage,edt_guige,edt_kucun,edt_yuan_jiage,edt_fenxiaoticheng;
         ImageView iv_jiage_tishi;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -176,6 +193,7 @@ public class FaBuShangPinJiaGeAdapter extends RecyclerView.Adapter<FaBuShangPinJ
             edt_kucun = itemView.findViewById(R.id.edt_kucun);
             edt_yuan_jiage = itemView.findViewById(R.id.edt_yuan_jiage);
             iv_jiage_tishi = itemView.findViewById(R.id.iv_jiage_tishi);
+            edt_fenxiaoticheng = itemView.findViewById(R.id.edt_fenxiaoticheng);
         }
     }
     public interface DeleteItemListenner{

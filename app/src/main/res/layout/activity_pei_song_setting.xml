@@ -23,6 +23,7 @@
 
     </RelativeLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_daodianziti"
         android:layout_marginTop="20dp"
         android:paddingTop="5dp"
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_peisongdaojia"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"

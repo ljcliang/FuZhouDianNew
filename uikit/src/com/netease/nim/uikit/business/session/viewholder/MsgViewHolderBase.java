@@ -382,10 +382,10 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         } else {
             if (isReceivedMessage()) {
                 setGravity(bodyContainer, Gravity.LEFT);
-                contentContainer.setBackgroundResource(leftBackground());
+//                contentContainer.setBackgroundResource(leftBackground());
             } else {
                 setGravity(bodyContainer, Gravity.RIGHT);
-                contentContainer.setBackgroundResource(rightBackground());
+//                contentContainer.setBackgroundResource(rightBackground());
             }
         }
     }
