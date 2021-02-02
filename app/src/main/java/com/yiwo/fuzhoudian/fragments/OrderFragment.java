@@ -209,7 +209,7 @@ public class OrderFragment extends BaseFragment {
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     OrderInfoWebActivity.start(getContext(),result);
-                    Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "解析结果:" + result, Toast.LENGTH_LONG).show();
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(getContext(), "解析二维码失败", Toast.LENGTH_LONG).show();
                 }

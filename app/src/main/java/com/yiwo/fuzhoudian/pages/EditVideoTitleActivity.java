@@ -181,11 +181,17 @@ public class EditVideoTitleActivity extends BaseActivity {
             String city = data.getStringExtra("city");
             tvCity.setText(city);
         }
-        if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
-            GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
-            yourChoiceActiveName = bean.getGoodsName();
-            yourChoiceActiveId = bean.getGid();
-            tvAboutGoods.setText(yourChoiceActiveName);
+        if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG){
+            if (resultCode == 1){
+                GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
+                yourChoiceActiveName = bean.getGoodsName();
+                yourChoiceActiveId = bean.getGid();
+                tvAboutGoods.setText(yourChoiceActiveName);
+            }else if (resultCode == 2){
+                yourChoiceActiveName = "";
+                yourChoiceActiveId = "";
+                tvAboutGoods.setText(yourChoiceActiveName);
+            }
         }
     }
 }

@@ -36,10 +36,11 @@ public class GuanLianShangPinActivity extends BaseActivity {
     EditText editText;
     @BindView(R.id.tv_sousuo)
     TextView btn_sousuo;
-    private  List<GuanLianShangPinModel.ObjBean> dataList = new ArrayList<>();
+    private List<GuanLianShangPinModel.ObjBean> dataList = new ArrayList<>();
 
     GuanLianShangPinListAdapter adapter;
-    SpImp spImp ;
+    SpImp spImp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,19 +53,23 @@ public class GuanLianShangPinActivity extends BaseActivity {
 
     private void initData() {
         ViseHttp.POST(NetConfig.shopAboutGoods)
-                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl+NetConfig.shopAboutGoods))
-                .addParam("searchword",editText.getText().toString())
+                .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.shopAboutGoods))
+                .addParam("searchword", editText.getText().toString())
                 .addParam("uid", spImp.getUID())
                 .request(new ACallback<String>() {
                     @Override
                     public void onSuccess(String data) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if(jsonObject.getInt("code") == 200){
+                            if (jsonObject.getInt("code") == 200) {
                                 Gson gson = new Gson();
                                 GuanLianShangPinModel model = gson.fromJson(data, GuanLianShangPinModel.class);
                                 dataList.clear();
                                 dataList.addAll(model.getObj());
+                                GuanLianShangPinModel.ObjBean bean = new GuanLianShangPinModel.ObjBean();
+                                bean.setGid("-1");
+                                bean.setGoodsName("不选择商品");
+                                dataList.add(0,bean);
                                 adapter.notifyDataSetChanged();
                             }
                         } catch (JSONException e) {
@@ -87,23 +92,32 @@ public class GuanLianShangPinActivity extends BaseActivity {
         adapter.setListionner(new GuanLianShangPinListAdapter.ItemClickListionner() {
             @Override
             public void onClick(int postion) {
-                Intent intent = new Intent();
-                intent.putExtra("suoshuhuodong",dataList.get(postion));
-                setResult(1,intent);
-                finish();
+                if (dataList.get(postion).getGid().equals("-1")){
+                    setResult(2);
+                    finish();
+                }else {
+                    Intent intent = new Intent();
+                    intent.putExtra("suoshuhuodong", dataList.get(postion));
+                    setResult(1, intent);
+                    finish();
+                }
             }
         });
         rv.setAdapter(adapter);
     }
 
-    @OnClick({R.id.rl_back,R.id.tv_sousuo})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.rl_back, R.id.tv_sousuo,R.id.rl_buxuanze})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.tv_sousuo:
                 initData();
+                break;
+            case R.id.rl_buxuanze:
+                setResult(2);
+                finish();
                 break;
         }
     }

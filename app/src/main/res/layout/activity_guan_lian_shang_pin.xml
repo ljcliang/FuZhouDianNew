@@ -20,7 +20,14 @@
             <ImageView style="@style/TopBarStyle_IvBackWhite" />
 
         </RelativeLayout>
-
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_buxuanze"
+            style="@style/TopBarStyle_RlRight">
+            <TextView
+                android:text="不选择"
+                style="@style/TopBarStyle_TVRight"/>
+        </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
         android:background="@drawable/bg_d8d8d8_border_20dp"

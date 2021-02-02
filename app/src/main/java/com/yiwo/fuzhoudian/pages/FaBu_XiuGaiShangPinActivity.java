@@ -648,6 +648,10 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                     Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "分销商品分销提成不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (if_fx==1 && Double.parseDouble(bean.getFx_bonus()) == 0 ){
+                    Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "提示分销提成最少1%，最大30%", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         } else {
             Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "请填写商品价格和规格", Toast.LENGTH_SHORT).show();

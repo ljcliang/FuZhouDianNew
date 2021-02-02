@@ -127,19 +127,20 @@ public class FragmentAllOrderAdapter extends RecyclerView.Adapter<FragmentAllOrd
         holder.tv_btn_chudan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("确定出单？")
-                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                btnsOnCLickListenner.onChuLiDan(position,1,"");
-                            }
-                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).show();
+                OrderInfoWebActivity.start(context,data.get(position).getOrderMes());
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setMessage("确定出单？")
+//                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                btnsOnCLickListenner.onChuLiDan(position,1,"");
+//                            }
+//                        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                }).show();
             }
         });
         holder.tv_btn_jujuejiedan.setOnClickListener(new View.OnClickListener() {

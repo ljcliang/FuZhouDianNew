@@ -477,10 +477,16 @@ public class CreateYouJiAddInfoActivity extends TakePhotoActivity {
             tvCity.setText(city);
         }
         if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
-            GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
-            yourChoiceActiveName = bean.getGoodsName();
-            yourChoiceActiveId = bean.getGid();
-            tvActiveTitle.setText(yourChoiceActiveName);
+            if (resultCode == 1){
+                GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
+                yourChoiceActiveName = bean.getGoodsName();
+                yourChoiceActiveId = bean.getGid();
+                tvActiveTitle.setText(yourChoiceActiveName);
+            }else if (resultCode == 2){
+                yourChoiceActiveName = "";
+                yourChoiceActiveId = "";
+                tvActiveTitle.setText(yourChoiceActiveName);
+            }
         }
     }
     @Override

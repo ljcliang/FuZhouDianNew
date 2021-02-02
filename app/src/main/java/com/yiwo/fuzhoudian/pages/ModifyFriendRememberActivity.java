@@ -364,11 +364,17 @@ public class ModifyFriendRememberActivity extends TakePhotoActivity {
             }
             adapter.notifyDataSetChanged();
         }
-        if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG && resultCode == 1){
-            GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
-            yourChoiceActiveName = bean.getGoodsName();
-            yourChoiceActiveId = bean.getGid();
-            tvActiveTitle.setText(yourChoiceActiveName);
+        if (requestCode == REQUEST_CODE_SUO_SHU_HUO_DONG){
+            if (resultCode == 1){
+                GuanLianShangPinModel.ObjBean bean = (GuanLianShangPinModel.ObjBean) data.getSerializableExtra("suoshuhuodong");
+                yourChoiceActiveName = bean.getGoodsName();
+                yourChoiceActiveId = bean.getGid();
+                tvActiveTitle.setText(yourChoiceActiveName);
+            }else if (resultCode == 2){
+                yourChoiceActiveName = "";
+                yourChoiceActiveId = "";
+                tvActiveTitle.setText(yourChoiceActiveName);
+            }
         }
         if (requestCode == REQUEST_CODE_GET_CITY && data != null && resultCode == 1) {//选择城市
             CityModel model = (CityModel) data.getSerializableExtra(ActivityConfig.CITY);
