@@ -18,6 +18,7 @@ public class ShangPinUpLoadModel {
     private String if_fx;//是否是分销商品 0否 1是
     private String useType;//0正常物流 1到店使用
     private String tag;
+    private String ad;//0不推广 1推广。
     private List<SpecBean> spec;
 
     public String getGoodsName() {
@@ -74,6 +75,14 @@ public class ShangPinUpLoadModel {
 
     public void setUseType(String useType) {
         this.useType = useType;
+    }
+
+    public String getAd() {
+        return ad;
+    }
+
+    public void setAd(String ad) {
+        this.ad = ad;
     }
 
     public static class SpecBean {

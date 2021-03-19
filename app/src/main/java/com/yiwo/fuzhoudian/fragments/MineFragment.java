@@ -46,6 +46,7 @@ import com.yiwo.fuzhoudian.pages.ShopLocationActivity;
 import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
 import com.yiwo.fuzhoudian.pages.renzheng.RenZheng1_EditInfoActivity;
 import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
+import com.yiwo.fuzhoudian.pages.webpages.GuangGaoTuiGuangWebActivity;
 import com.yiwo.fuzhoudian.pages.webpages.XiaoShouMingXiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.ShareUtils;
@@ -127,7 +128,7 @@ public class MineFragment extends BaseFragment {
     @OnClick({R.id.iv_head, R.id.tv_level, R.id.rl_wenzhang, R.id.rl_ShiPin, R.id.rl_shangpin, R.id.rl_kehu,
             R.id.rl_yaoqingma, R.id.rl_share_erweima, R.id.rl_share_url,
             R.id.ll_daichuli, R.id.ll_yichuli, R.id.ll_yiwancheng, R.id.ll_tuikuan, R.id.tv_name, R.id.tv_kinds,
-            R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7})
+            R.id.rl_bottom_1, R.id.rl_bottom_2, R.id.rl_bottom_3, R.id.rl_bottom_4, R.id.rl_bottom_5, R.id.rl_bottom_6, R.id.rl_bottom_7,R.id.rl_bottom_8})
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
@@ -322,6 +323,14 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
                     intent.setClass(getContext(), SetActivity.class);
                     startActivity(intent);
+                } else {
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.rl_bottom_8://广告推广
+                if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
+                    GuangGaoTuiGuangWebActivity.open(getContext());
                 } else {
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);

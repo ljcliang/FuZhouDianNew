@@ -588,6 +588,39 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/rl_bottom_8"
+                    android:background="@drawable/selector_fragment_my_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp">
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/iv8"
+                        android:src="@mipmap/mine_1guanggaotuiguang"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_toRightOf="@+id/iv8"
+                        android:text="广告推广"
+                        android:textColor="@color/color_101010"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_marginRight="13dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/right"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/rl_bottom_7"
                     android:background="@drawable/selector_fragment_my_bg"
                     android:layout_width="match_parent"

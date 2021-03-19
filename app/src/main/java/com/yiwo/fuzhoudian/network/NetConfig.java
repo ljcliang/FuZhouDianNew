@@ -580,4 +580,8 @@ public class NetConfig {
      * action/ac_login/verifyStatus          verifyCodeStatus 0关闭 1开启
      */
     public static String verifyStatus = "action/ac_login/verifyStatus";
+    /**
+     * 传uid用户id   paytype支付方式   money支付金额
+     */
+    public static String adOrder = "action/ac_ad/ad_order";
 }

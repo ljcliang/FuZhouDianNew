@@ -54,6 +54,7 @@ public class XiuGaiShangPinModel {
         private String goodsInfo;
         private String useType;
         private String if_fx;
+        private String ad;
         private List<ShangPinUpLoadModel.SpecBean> spec;
         private List<ShangPinServiceModel.ObjBean> service;
         private List<ShangPinLabelModel.ObjBean> tag;
@@ -121,6 +122,14 @@ public class XiuGaiShangPinModel {
 
         public void setIf_fx(String if_fx) {
             this.if_fx = if_fx;
+        }
+
+        public String getAd() {
+            return ad;
+        }
+
+        public void setAd(String ad) {
+            this.ad = ad;
         }
 
         public static class PicListBean {

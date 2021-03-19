@@ -41,7 +41,6 @@ import com.yiwo.fuzhoudian.model.UpLoadShangPinImgIntercalationPicModel;
 import com.yiwo.fuzhoudian.model.XiuGaiShangPinModel;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.sp.SpImp;
-import com.yiwo.fuzhoudian.utils.TokenUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,6 +94,10 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
     ImageView iv_check_fenxiao;
     @BindView(R.id.ll_daodianhexiao)
     LinearLayout llDaodianhexiao;
+    @BindView(R.id.iv_check_guanggao)
+    ImageView ivCheckGuanggao;
+    @BindView(R.id.ll_guanggao)
+    LinearLayout llGuanggao;
     private FaBuShangPinJiaGeAdapter adapterPrice;
     private List<ShangPinUpLoadModel.SpecBean> listPrices = new ArrayList<>();
     private FaBuShangPinJiaGeAdapter.DeleteItemListenner shangpinjiageDeleteItemLisner;
@@ -143,7 +146,7 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
 
     private int typeXiaoShou = 0;//0为物流配送、1到店核销
     private int if_fx = 0;//0不为分销商品、1为分销商品
-
+    private int if_guanggao = 0;////0不推广 1推广。
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,19 +169,27 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
     }
 
     private void initXiaoShouType() {
-        if (typeXiaoShou == 0){
+        if (typeXiaoShou == 0) {
             ivCheckWuliupeisong.setImageResource(R.mipmap.checkbox_black_true);
             ivCheckDaodianhexiao.setImageResource(R.mipmap.checkbox_black_false);
-        }else {
+        } else {
             ivCheckWuliupeisong.setImageResource(R.mipmap.checkbox_black_false);
             ivCheckDaodianhexiao.setImageResource(R.mipmap.checkbox_black_true);
         }
     }
+
     private void initFenXiaoShangPin() {
-        if (if_fx == 0){
+        if (if_fx == 0) {
             iv_check_fenxiao.setImageResource(R.mipmap.checkbox_black_false);
-        }else {
+        } else {
             iv_check_fenxiao.setImageResource(R.mipmap.checkbox_black_true);
+        }
+    }
+    private void initGuangGao() {
+        if (if_guanggao == 0) {
+            ivCheckGuanggao.setImageResource(R.mipmap.checkbox_black_false);
+        } else {
+            ivCheckGuanggao.setImageResource(R.mipmap.checkbox_black_true);
         }
     }
     private void callTishi() {
@@ -239,7 +250,12 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                                 //是否为分销
                                 if_fx = Integer.parseInt(model.getObj().getIf_fx());
                                 initFenXiaoShangPin();
-
+                                if (model.getObj().getAd() !=null){
+                                    if_guanggao = Integer.parseInt(model.getObj().getAd());
+                                }else {
+                                    if_guanggao = 0;
+                                }
+                                initGuangGao();
                                 //价格
                                 listPrices.clear();
                                 listPrices.addAll(bean.getSpec());
@@ -521,8 +537,8 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
         });
     }
 
-    @OnClick({R.id.rl_back, R.id.rl_btn_add_price, R.id.rl_btn_add_service, R.id.rl_save, R.id.iv_label_tishi,
-            R.id.iv_service_tishi, R.id.rl_btn_add_label,R.id.ll_wuliupeisong, R.id.ll_daodianhexiao,R.id.ll_fenxiao})
+    @OnClick({R.id.rl_back, R.id.rl_btn_add_price, R.id.rl_btn_add_service, R.id.rl_save, R.id.iv_label_tishi,R.id.ll_guanggao,
+            R.id.iv_service_tishi, R.id.rl_btn_add_label, R.id.ll_wuliupeisong, R.id.ll_daodianhexiao, R.id.ll_fenxiao})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_back:
@@ -581,9 +597,14 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                 initXiaoShouType();
                 break;
             case R.id.ll_fenxiao:
-                if_fx = if_fx == 0 ?1:0;
+                if_fx = if_fx == 0 ? 1 : 0;
                 initFenXiaoShangPin();
                 break;
+            case R.id.ll_guanggao:
+                if_guanggao = if_guanggao == 0 ? 1 : 0;
+                initGuangGao();
+                break;
+
         }
     }
 
@@ -620,8 +641,9 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
             return;
         }
         model.setTag(strLabelsIdChoose);
-        model.setIf_fx(if_fx+"");
-        model.setUseType(typeXiaoShou+"");
+        model.setIf_fx(if_fx + "");
+        model.setAd(if_guanggao + "");
+        model.setUseType(typeXiaoShou + "");
         List<ShangPinUpLoadModel.SpecBean> listUp = new ArrayList<>();
         for (ShangPinUpLoadModel.SpecBean bean : listPrices) {//过滤没有填写任何信息的价格
             if (bean.getSpec().equals("") && bean.getOldPrice().equals("") && bean.getNowPrice().equals("") && bean.getAllNum().equals("")) {
@@ -644,11 +666,11 @@ public class FaBu_XiuGaiShangPinActivity extends TakePhotoActivity {
                     Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "商品库存不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (if_fx==1 && TextUtils.isEmpty(bean.getFx_bonus()) ){
+                if (if_fx == 1 && TextUtils.isEmpty(bean.getFx_bonus())) {
                     Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "分销商品分销提成不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (if_fx==1 && Double.parseDouble(bean.getFx_bonus()) == 0 ){
+                if (if_fx == 1 && Double.parseDouble(bean.getFx_bonus()) == 0) {
                     Toast.makeText(FaBu_XiuGaiShangPinActivity.this, "提示分销提成最少1%，最大30%", Toast.LENGTH_SHORT).show();
                     return;
                 }
