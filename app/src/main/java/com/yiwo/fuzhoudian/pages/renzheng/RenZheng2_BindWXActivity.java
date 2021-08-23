@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -79,8 +80,10 @@ public class RenZheng2_BindWXActivity extends BaseActivity {
                                 sBindStaus = model.getObj().getSign();
                                 sRenZhengFeiStaus = model.getObj().getPay();
                                 renzhengUrl = model.getObj().getUrl();
-                                bitmapEWM = QRCodeUtil.createQRCodeBitmap(renzhengUrl,320,320);
-                                Glide.with(RenZheng2_BindWXActivity.this).load(bitmapEWM).into(iv_erweima);
+                                if (renzhengUrl!=null&& !TextUtils.isEmpty(renzhengUrl)){
+                                    bitmapEWM = QRCodeUtil.createQRCodeBitmap(renzhengUrl,320,320);
+                                    Glide.with(RenZheng2_BindWXActivity.this).load(bitmapEWM).into(iv_erweima);
+                                }
                                 switch (sBindStaus) {
                                     case "0":
 //                                    tvMessage.setText("您还没有通过认证\\n认证之后开通店铺");

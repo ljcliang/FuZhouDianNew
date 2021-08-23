@@ -6,7 +6,7 @@
     <View
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="17dp"/>
+        android:layout_height="25dp"/>
     <RelativeLayout
         style="@style/TopBarStyle"
         >

@@ -92,41 +92,108 @@ public class MyApplication extends Application {
                 .baseUrl(NetConfig.BaseUrl);
         timecount = new TimeCount(60000, 1000);
         ftptimecount = new FTPTimeCount(60000, 1000);
-        //------------百度地图------------------------------------
-        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
-        SDKInitializer.initialize(this);
-        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
-        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
-        SDKInitializer.setCoordType(CoordType.BD09LL);
-
-        //----------------------友盟--------------------
-        //初始化组件化基础库, 所有友盟业务SDK都必须调用此初始化接口。
-        //建议在宿主App的Application.onCreate函数中调用基础组件库初始化函数。
-        UMShareAPI.get(this);
-        UMConfigure.setLogEnabled(true);
-        UMConfigure.init(this, "5ed5e8e1dbc2ec08279bd8eb", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-        {
-            PlatformConfig.setWeixin(UMConfig.WECHAT_APPID, UMConfig.WECHAT_APPSECRET);
-        }
+//        //------------百度地图------------------------------------
+//        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+//        SDKInitializer.initialize(this);
+//        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
+//        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
+//        SDKInitializer.setCoordType(CoordType.BD09LL);
+//
+//        //----------------------友盟--------------------
+//        //初始化组件化基础库, 所有友盟业务SDK都必须调用此初始化接口。
+//        //建议在宿主App的Application.onCreate函数中调用基础组件库初始化函数。
+//        UMShareAPI.get(this);
+//        UMConfigure.setLogEnabled(true);
+//        UMConfigure.init(this, "5ed5e8e1dbc2ec08279bd8eb", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+//        {
+//            PlatformConfig.setWeixin(UMConfig.WECHAT_APPID, UMConfig.WECHAT_APPSECRET);
+//        }
         ZXingLibrary.initDisplayOpinion(this);
     }
+////    / 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
+//    private LoginInfo loginInfo() {
+//        Log.d("getgetwangyitoken", "aaaa|||" + spImp.getYXID() + "|||" + spImp.getYXTOKEN());
+////         从本地读取上次登录成功时保存的用户登录信息
+//        String account = spImp.getYXID();
+//        String token = spImp.getYXTOKEN();
+////        String account = null;
+////        String token = null;
+//
+//        if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
+////            DemoCache.setAccount(account.toLowerCase());
+//            DemoCache.setAccount(account);
+//            return new LoginInfo(account, token);
+//        } else {
+//            return null;
+//        }
+//    }
+//    // 如果返回值为 null，则全部使用默认参数。xn_config为小米
+//    private SDKOptions options(MixPushConfig xm_config) {
+//        SDKOptions options = new SDKOptions();
+//
+//        // 如果将新消息通知提醒托管给 SDK 完成，需要添加以下配置。否则无需设置。
+//        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
+//        config.notificationEntrance = MainActivity.class; // 点击通知栏跳转到该Activity
+////        config.notificationSmallIconId = R.mipmap.logo_gray;
+//        // 呼吸灯配置
+//        config.ledARGB = Color.GREEN;
+//        config.ledOnMs = 1000;
+//        config.ledOffMs = 1500;
+//        // 通知铃声的uri字符串
+//        config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
+//        options.statusBarNotificationConfig = config;
+//        options.mixPushConfig = xm_config;
+//        // 配置保存图片，文件，log 等数据的目录
+//        // 如果 options 中没有设置这个值，SDK 会使用采用默认路径作为 SDK 的数据目录。
+//        // 该目录目前包含 log, file, image, audio, video, thumb 这6个目录。
+////        String sdkPath = getAppCacheDir(context) + "/nim"; // 可以不设置，那么将采用默认路径
+//        // 如果第三方 APP 需要缓存清理功能， 清理这个目录下面个子目录的内容即可。
+////        options.sdkStorageRootPath = sdkPath;
+//
+//        // 配置是否需要预下载附件缩略图，默认为 true
+//        options.preloadAttach = true;
+//
+//        // 配置附件缩略图的尺寸大小。表示向服务器请求缩略图文件的大小
+//        // 该值一般应根据屏幕尺寸来确定， 默认值为 Screen.width / 2
+////        options.thumbnailSize = ${Screen.width} / 2;
+//
+//        // 用户资料提供者, 目前主要用于提供用户资料，用于新消息通知栏中显示消息来源的头像和昵称
+//        options.userInfoProvider = new UserInfoProvider() {
+//            @Override
+//            public UserInfo getUserInfo(String account) {
+//                return null;
+//            }
+//
+//            @Override
+//            public String getDisplayNameForMessageNotifier(String account, String sessionId,
+//                                                           SessionTypeEnum sessionType) {
+//                return null;
+//            }
+//
+//            @Override
+//            public Bitmap getAvatarForMessageNotifier(SessionTypeEnum sessionTypeEnum, String s) {
+//                return null;
+//            }
+//        };
+//        return options;
+//    }
 //    / 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
-    private LoginInfo loginInfo() {
-        Log.d("getgetwangyitoken", "aaaa|||" + spImp.getYXID() + "|||" + spImp.getYXTOKEN());
+private LoginInfo loginInfo() {
+    Log.d("getgetwangyitoken", "aaaa|||" + spImp.getYXID() + "|||" + spImp.getYXTOKEN());
 //         从本地读取上次登录成功时保存的用户登录信息
-        String account = spImp.getYXID();
-        String token = spImp.getYXTOKEN();
+    String account = spImp.getYXID();
+    String token = spImp.getYXTOKEN();
 //        String account = null;
 //        String token = null;
 
-        if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
+    if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
 //            DemoCache.setAccount(account.toLowerCase());
-            DemoCache.setAccount(account);
-            return new LoginInfo(account, token);
-        } else {
-            return null;
-        }
+        DemoCache.setAccount(account);
+        return new LoginInfo(account, token);
+    } else {
+        return null;
     }
+}
     // 如果返回值为 null，则全部使用默认参数。xn_config为小米
     private SDKOptions options(MixPushConfig xm_config) {
         SDKOptions options = new SDKOptions();

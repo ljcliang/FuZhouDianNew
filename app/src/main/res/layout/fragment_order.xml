@@ -10,7 +10,7 @@
     <View
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="25dp"/>
+        android:layout_height="35dp"/>
     <RelativeLayout
         android:id="@+id/activity_my_order_rl_top"
         style="@style/TopBarStyle">

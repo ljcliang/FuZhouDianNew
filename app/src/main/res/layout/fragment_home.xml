@@ -7,7 +7,7 @@
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="102dp">
