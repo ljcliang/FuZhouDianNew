@@ -161,13 +161,15 @@ public class MessageFragment extends TFragment implements ModuleProxy {
                 ll_bottom.setVisibility(View.GONE);
                 rl_bottom_notfriend.setVisibility(View.GONE);
             }else {
-                if (!(NIMClient.getService(FriendService.class).isMyFriend(sessionId))){
-                    ll_bottom.setVisibility(View.GONE);
-                    rl_bottom_notfriend.setVisibility(View.VISIBLE);
-                }else {
-                    ll_bottom.setVisibility(View.VISIBLE);
-                    rl_bottom_notfriend.setVisibility(View.GONE);
-                }
+                ll_bottom.setVisibility(View.VISIBLE);
+                rl_bottom_notfriend.setVisibility(View.GONE);
+//                if (!(NIMClient.getService(FriendService.class).isMyFriend(sessionId))){
+//                    ll_bottom.setVisibility(View.GONE);
+//                    rl_bottom_notfriend.setVisibility(View.VISIBLE);
+//                }else {
+//                    ll_bottom.setVisibility(View.VISIBLE);
+//                    rl_bottom_notfriend.setVisibility(View.GONE);
+//                }
             }
         }else {
             ll_bottom.setVisibility(View.VISIBLE);

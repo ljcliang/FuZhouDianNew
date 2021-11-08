@@ -73,6 +73,8 @@ public class MineFragment extends BaseFragment {
     TextView mTvLevel;
     @BindView(R.id.rl_shangpin)
     RelativeLayout mRlShangpin;
+    @BindView(R.id.rl_kehu)
+    RelativeLayout rl_kehu;
     @BindView(R.id.ll_daichuli)
     LinearLayout mLlDaichuli;
     @BindView(R.id.ll_yichuli)
@@ -83,6 +85,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout mLlTuikuan;
     @BindView(R.id.rl_bottom_1)
     RelativeLayout mRlBottom1;
+    @BindView(R.id.rl_bottom_2)
+    RelativeLayout mRlBottom2;
     @BindView(R.id.rl_bottom_3)
     RelativeLayout mRlBottom3;
     @BindView(R.id.rl_bottom_4)
@@ -93,6 +97,8 @@ public class MineFragment extends BaseFragment {
     RelativeLayout mRlBottom6;
     @BindView(R.id.rl_bottom_7)
     RelativeLayout mRlBottom7;
+    @BindView(R.id.rl_bottom_8)
+    RelativeLayout mRlBottom8;
     @BindView(R.id.tv_name)
     TextView mTvName;
     @BindView(R.id.tv_kinds)
@@ -342,37 +348,6 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (spImp.getIfSign().equals("1")){
-            llShare.setVisibility(View.VISIBLE);
-            ViseHttp.POST(NetConfig.verifyStatus)
-                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.verifyStatus))
-                    .request(new ACallback<String>() {
-                        @Override
-                        public void onSuccess(String data) {
-                            try {
-                                JSONObject jsonObject0 = new JSONObject(data);
-                                if (jsonObject0.getInt("code") == 200) {
-                                    JSONObject jsonObject1 = jsonObject0.getJSONObject("obj");
-                                    if (jsonObject1.getString("verifyCodeStatus").equals("1")){
-                                        rlYaoqingma.setVisibility(View.VISIBLE);
-                                    }else {
-                                        rlYaoqingma.setVisibility(View.GONE);
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(int errCode, String errMsg) {
-
-                        }
-                    });
-        }else {
-            llShare.setVisibility(View.GONE);
-            rlYaoqingma.setVisibility(View.GONE);
-        }
         if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
 //            tvNotLogin.setVisibility(View.GONE);
 //            rlContent.setVisibility(View.VISIBLE);
@@ -404,8 +379,13 @@ public class MineFragment extends BaseFragment {
                                     }
                                     mTvNum1.setText(userModel.getObj().getFm_num() + "");
                                     mTvNum2.setText(userModel.getObj().getVideo_num() + "");
-                                    mTvNum3.setText(userModel.getObj().getGoods_num() + "");
-                                    mTvNum4.setText(userModel.getObj().getLike_num() + "");
+                                    if (spImp.getIfSign().equals("1")){
+                                        mTvNum3.setText(userModel.getObj().getGoods_num() + "");
+                                        mTvNum4.setText(userModel.getObj().getLike_num() + "");
+                                    }else {
+                                        mTvNum3.setText("- -");
+                                        mTvNum4.setText("- -");
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -421,6 +401,50 @@ public class MineFragment extends BaseFragment {
 //            tvNotLogin.setVisibility(View.VISIBLE);
 //            rlContent.setVisibility(View.GONE);
 //            Glide.with(getContext()).load("null").into(mIvHead);
+        }
+        if (spImp.getIfSign().equals("1")){
+            llShare.setVisibility(View.VISIBLE);
+            mRlBottom1.setVisibility(View.VISIBLE);
+            mRlBottom2.setVisibility(View.VISIBLE);
+            mRlBottom3.setVisibility(View.VISIBLE);
+            mRlBottom8.setVisibility(View.VISIBLE);
+
+            mRlShangpin.setEnabled(true);
+            rl_kehu.setEnabled(true);
+            ViseHttp.POST(NetConfig.verifyStatus)
+                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.verifyStatus))
+                    .request(new ACallback<String>() {
+                        @Override
+                        public void onSuccess(String data) {
+                            try {
+                                JSONObject jsonObject0 = new JSONObject(data);
+                                if (jsonObject0.getInt("code") == 200) {
+                                    JSONObject jsonObject1 = jsonObject0.getJSONObject("obj");
+                                    if (jsonObject1.getString("verifyCodeStatus").equals("1")){
+                                        rlYaoqingma.setVisibility(View.VISIBLE);
+                                    }else {
+                                        rlYaoqingma.setVisibility(View.GONE);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
+        }else {
+            llShare.setVisibility(View.GONE);
+            rlYaoqingma.setVisibility(View.GONE);
+            mRlBottom1.setVisibility(View.GONE);
+            mRlBottom2.setVisibility(View.GONE);
+            mRlBottom3.setVisibility(View.GONE);
+            mRlBottom8.setVisibility(View.GONE);
+            mRlShangpin.setEnabled(false);
+            rl_kehu.setEnabled(false);
         }
     }
 

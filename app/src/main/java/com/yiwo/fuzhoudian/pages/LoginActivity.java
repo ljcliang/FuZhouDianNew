@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import com.vise.xsnow.http.callback.ACallback;
 import com.yatoooon.screenadaptation.ScreenAdapterTools;
 import com.yiwo.fuzhoudian.R;
 import com.yiwo.fuzhoudian.base.BaseActivity;
+import com.yiwo.fuzhoudian.custom.TitleMessageOkDialog;
 import com.yiwo.fuzhoudian.custom.WeiboDialogUtils;
 import com.yiwo.fuzhoudian.fragments.webfragment.HomeDianPuGuanLiFragment;
 import com.yiwo.fuzhoudian.network.NetConfig;
@@ -142,7 +144,20 @@ public class LoginActivity extends BaseActivity {
 //        if (false) {
             toToast(this, "请输入正确的手机号");
         }else if (!isAgree){
-            toToast(this, "请阅读并同意用户协议和隐私政策后使用");
+            TitleMessageOkDialog titleMessageOkDialog = new TitleMessageOkDialog(LoginActivity.this,
+                    "提示","请阅读并同意下方用户协议和隐私政策后使用"
+                    ,"知道了",new TitleMessageOkDialog.OnBtnClickListenner(){
+                        @Override
+                        public void onclick(Dialog dialog) {
+                            InputMethodManager manager = ((InputMethodManager)LoginActivity.this.
+                                    getSystemService(Context.INPUT_METHOD_SERVICE));
+                            if (manager != null)
+                                manager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                                dialog.dismiss();
+                        }
+                    });
+            titleMessageOkDialog.show();
+//            toToast(this, "请阅读并同意用户协议和隐私政策后使用");
         } else {
             dialog = WeiboDialogUtils.createLoadingDialog(LoginActivity.this,"登录中。。。");
             String token = getToken(NetConfig.BaseUrl + NetConfig.loginUrl);

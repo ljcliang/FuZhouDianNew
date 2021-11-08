@@ -68,7 +68,7 @@
                     android:layout_marginLeft="35px"
                     android:textSize="30px"
                     android:textColor="@color/color_101010"
-                    android:text="店面图片"
+                    android:text="展示图片"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -163,7 +163,7 @@
                     android:layout_marginLeft="35px"
                     android:textSize="30px"
                     android:textColor="@color/color_101010"
-                    android:text="店铺名称"
+                    android:text="我的名称"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -238,7 +238,7 @@
                     android:layout_marginLeft="35px"
                     android:textSize="30px"
                     android:textColor="@color/color_101010"
-                    android:text="主营项目"
+                    android:text="我的简介"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

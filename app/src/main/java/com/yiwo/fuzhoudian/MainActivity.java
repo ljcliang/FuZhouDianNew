@@ -37,17 +37,15 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yiwo.fuzhoudian.base.BaseActivity;
-import com.yiwo.fuzhoudian.custom.XieYiDialog;
 import com.yiwo.fuzhoudian.fragments.MessageFragment;
 import com.yiwo.fuzhoudian.fragments.MineFragment;
 import com.yiwo.fuzhoudian.fragments.OrderFragment;
 import com.yiwo.fuzhoudian.fragments.webfragment.HomeDianPuGuanLiFragment;
 import com.yiwo.fuzhoudian.network.NetConfig;
 import com.yiwo.fuzhoudian.pages.LoginActivity;
-import com.yiwo.fuzhoudian.pages.UserAgreementActivity;
 import com.yiwo.fuzhoudian.pages.creatyouji.CreateYouJiActivity;
 import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
-import com.yiwo.fuzhoudian.pages.webpages.GuanLiGoodsWebActivity;
+import com.yiwo.fuzhoudian.pages.webpages.WeiRenZhengOrderWebActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.StatusBarUtils;
 import com.yiwo.fuzhoudian.wangyiyunshipin.upload.constant.UploadType;
@@ -312,9 +310,11 @@ public class MainActivity extends BaseActivity {
 
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
                     switchFragment(0);
-                    if (!spImp.getIfSign().equals("1")){//还没有完成认证
-                        RenZheng0_BeginActivity.openActivity(MainActivity.this);
-                    }
+//                    if (!spImp.getIfSign().equals("1")){//还没有完成认证
+//                        RenZheng0_BeginActivity.openActivity(MainActivity.this);
+//                    }else {
+//
+//                    }
                 } else {
                     intent.setClass(this, LoginActivity.class);
                     startActivity(intent);
@@ -322,7 +322,11 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.ll_btn_2:
                 if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-                    switchFragment(1);
+                    if (!spImp.getIfSign().equals("1")){//还没有完成认证
+                        WeiRenZhengOrderWebActivity.start(MainActivity.this,NetConfig.LwOrderList+spImp.getUID());
+                    }else {
+                        switchFragment(1);
+                    }
                 } else {
                     intent.setClass(this, LoginActivity.class);
                     startActivity(intent);

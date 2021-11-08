@@ -22,6 +22,9 @@ public class NetConfig {
     //店铺文章评论URL：
     public static String ArticleCommentUrl = BaseUrl+"action/ac_goods/articleComment?uid="; // +店铺id
 
+    //未登录 订单列表 https://fzd.91yiwo.com/action/ac_order/lwOrderList?uid=用户id
+    public static String LwOrderList = BaseUrl+"action/ac_order/lwOrderList?uid="; // +店铺id
+
     //检测版本号 返回 an_version 安卓版本号  an_download下载地址
     public static String checkVersion = "action/ac_public/check_version";
     //登录
@@ -584,4 +587,26 @@ public class NetConfig {
      * 传uid用户id   paytype支付方式   money支付金额
      */
     public static String adOrder = "action/ac_ad/ad_order";
+
+    /**
+     * username 姓名
+     *  uid  登陆用户id
+     *  sfz  身份证号码
+     *  tel 联系电话
+     *  sex 性别 0男 1 女
+     *  work_year 工作经验
+     *  job 专业名( 从 接口 action/ac_user/attestationJob  获取所有专业名称 选择一个 把汉字传过来 不传数字)
+     *  user_files 图片
+     */
+    public static String lwAttestation = "action/ac_user/lwAttestation";
+
+    /**
+     * 获取专业名称接口 ：action/ac_user/attestationJob   返回 jobname 专业名称
+     */
+    public static String attestationJob = "action/ac_user/attestationJob";
+    /**
+     * action/ac_user/lwStatus
+     * action/ac_user/lwStatus   获取劳务状态接口   传uid 用户id     返回 status 0未认证 1已认证
+     */
+    public static String lwStatus = "action/ac_user/lwStatus";
 }

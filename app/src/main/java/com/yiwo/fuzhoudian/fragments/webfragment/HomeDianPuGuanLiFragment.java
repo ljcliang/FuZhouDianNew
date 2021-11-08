@@ -25,6 +25,8 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.vise.xsnow.http.ViseHttp;
+import com.vise.xsnow.http.callback.ACallback;
 import com.yiwo.fuzhoudian.MainActivity;
 import com.yiwo.fuzhoudian.MyApplication;
 import com.yiwo.fuzhoudian.R;
@@ -38,6 +40,10 @@ import com.yiwo.fuzhoudian.pages.renzheng.RenZheng0_BeginActivity;
 import com.yiwo.fuzhoudian.pages.renzheng.RenZheng3_RenZhengFeiActivity;
 import com.yiwo.fuzhoudian.sp.SpImp;
 import com.yiwo.fuzhoudian.utils.ShareUtils;
+import com.yiwo.fuzhoudian.utils.TokenUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,14 +99,41 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
             btn.setVisibility(View.VISIBLE);
             mWv.setVisibility(View.GONE);
         }else {
-            if (!spImp.getIfSign().equals("1")){
-                btn.setText("去认证");
-                btn.setVisibility(View.VISIBLE);
-                mWv.setVisibility(View.GONE);
-            }else {
-                btn.setVisibility(View.GONE);
-                mWv.setVisibility(View.VISIBLE);
-            }
+            ViseHttp.POST(NetConfig.lwStatus)
+                    .addParam("app_key", TokenUtils.getToken(NetConfig.BaseUrl + NetConfig.lwStatus))
+                    .request(new ACallback<String>() {
+
+                        @Override
+                        public void onSuccess(String data) {
+                            Log.e("attestationJob", data);
+                            try {
+                                JSONObject jsonObject0 = new JSONObject(data);
+                                if (jsonObject0.getInt("code") == 200) {
+                                    JSONObject jsonObject1 = jsonObject0.getJSONObject("obj");
+                                    if (jsonObject1.getString("status").equals("0")){// 没有劳务认证
+                                        if (!spImp.getIfSign().equals("1")){
+                                            btn.setText("去认证");
+                                            btn.setVisibility(View.VISIBLE);
+                                            mWv.setVisibility(View.GONE);
+                                        }else {
+                                            btn.setVisibility(View.GONE);
+                                            mWv.setVisibility(View.VISIBLE);
+                                        }
+                                    }else {//已经劳务认证
+                                        btn.setVisibility(View.GONE);
+                                        mWv.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(int errCode, String errMsg) {
+
+                        }
+                    });
         }
     }
 
@@ -121,55 +154,6 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
         refreshLayout.setEnableLoadMore(false);
     }
 
-//    private void showAgreeDialog() {
-//        XieYiDialog dialog = new XieYiDialog(getContext(), new XieYiDialog.XieYiDialogListener() {
-//            @Override
-//            public void agreeBtnListen() {
-//                spImp.setIsAgreeXieYi(true);
-//                url = NetConfig.ShopHomeUrl + "" + spImp.getUID();
-//                if (url != null) {
-//                    if (!TextUtils.isEmpty(spImp.getUID()) && !spImp.getUID().equals("0")) {
-//                        url = getArguments().getString("url");
-//                        if (url != null) {
-//                            initIntentSonic(url, mWv);
-//                            mWv.addJavascriptInterface(new AndroidInterface(),"android");//交互
-//                        }
-//                    }else {
-//                        Intent intent = new Intent();
-//                        intent.setClass(getContext(), LoginActivity.class);
-//                        Log.d("sadasda","sdasdasd");
-//                        startActivity(intent);
-//                    }
-//                }
-////                initAsset();
-////                initData();
-//            }
-//
-//            @Override
-//            public void disAgreeBtnListen() {
-//                spImp.setIsAgreeXieYi(false);
-//                MyApplication.getInstance().exit();
-//            }
-//
-//            @Override
-//            public void xieYiTextClickListen() {
-//                Intent itA = new Intent(getContext(), UserAgreementActivity.class);
-//                itA.putExtra("title", "用户协议");
-//                itA.putExtra("url", NetConfig.userAgreementUrl);
-//                startActivity(itA);
-//            }
-//
-//            @Override
-//            public void zhengCeTextClickListen() {
-//                Intent itTk = new Intent(getActivity(), UserAgreementActivity.class);
-//                itTk.putExtra("title", "隐私政策");
-//                itTk.putExtra("url", NetConfig.userAgreementUrl1);
-//                startActivity(itTk);
-//            }
-//        });
-//        dialog.setCancelable(false);
-//        dialog.show();
-//    }
     public static HomeDianPuGuanLiFragment newInstance(String url) {
         HomeDianPuGuanLiFragment f = new HomeDianPuGuanLiFragment();
         Bundle args = new Bundle();
@@ -208,9 +192,7 @@ public class HomeDianPuGuanLiFragment extends BaseWebFragment implements View.On
                     intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
                 }else {
-                    if (!spImp.getIfSign().equals("1")){
-                        RenZheng0_BeginActivity.openActivity(getContext());
-                    }
+                    RenZheng0_BeginActivity.openActivity(getContext());
                 }
                 break;
         }

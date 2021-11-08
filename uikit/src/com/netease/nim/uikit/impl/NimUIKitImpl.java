@@ -2,6 +2,7 @@ package com.netease.nim.uikit.impl;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -174,6 +175,11 @@ public final class NimUIKitImpl {
         NimUIKitImpl.context = context.getApplicationContext();
         NimUIKitImpl.options = options;
         // init tools
+        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//SD卡已挂载
+            options.appCacheDir = context.getFilesDir().getAbsolutePath().toString() + "/";
+        } else {
+            options.appCacheDir = context.getCacheDir().getAbsolutePath() + "/";
+        }
         StorageUtil.init(context, options.appCacheDir);
         ScreenUtil.init(context);
 
